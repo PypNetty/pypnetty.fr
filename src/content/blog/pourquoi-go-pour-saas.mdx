@@ -1,0 +1,140 @@
+---
+title: "Pourquoi je construis mes SaaS en Go"
+description: "Retour d'expérience sur le choix de Go pour développer des produits SaaS cloud-native."
+pubDate: 2024-12-28
+tags: ["go", "saas", "cloud-native"]
+readingTime: "6 min"
+---
+
+Après avoir exploré différentes technologies pour construire des SaaS, j'ai choisi Go. Pas par effet de mode, mais pour des raisons pragmatiques qui correspondent à mes contraintes d'indie hacker.
+
+## Performance : Le coût cloud compte
+
+Un SaaS, c'est des coûts d'infrastructure récurrents. Go consomme **10 à 20 fois moins de mémoire** qu'un runtime Node.js ou Python pour des performances équivalentes.
+
+### Exemple concret
+
+Sur Kytena, mon orchestrateur de sécurité Kubernetes :
+
+- **Node.js** : ~200 MB RAM au repos
+- **Go** : ~15 MB RAM au repos
+
+À l'échelle de centaines d'instances, l'économie est substantielle.
+
+## Single binary : Le déploiement simplifié
+
+Go compile en un **binaire unique** sans dépendances externes. Pas de `node_modules`, pas de virtualenv, pas de runtime à installer.
+
+```dockerfile
+FROM scratch
+COPY --from=builder /app/server /server
+ENTRYPOINT ["/server"]
+```
+
+Un conteneur de **5 MB** qui fonctionne. C'est tout.
+
+### Avantages opérationnels
+
+- **CI/CD rapide** : build en secondes, pas de cache npm à gérer
+- **Déploiement prévisible** : le binaire fonctionne partout
+- **Debug simplifié** : pas de versions de runtime à synchroniser
+
+## Écosystème cloud-native
+
+L'écosystème Kubernetes est écrit en Go. Quand on construit pour le cloud, utiliser le même langage que l'infrastructure est un avantage.
+
+### Bibliothèques officielles
+
+- `client-go` pour interagir avec l'API Kubernetes
+- `controller-runtime` pour les opérateurs
+- `grpc-go` pour les microservices
+
+Pas de wrapper tiers, pas de retard sur les nouvelles features. L'écosystème Go **est** l'écosystème cloud-native.
+
+## Type safety : Attraper les bugs tôt
+
+Go est typé statiquement. Les erreurs de type sont détectées à la compilation, pas en production.
+
+```go
+// Cette fonction ne compile pas si on oublie de gérer l'erreur
+func CreateUser(name string) (*User, error) {
+    if name == "" {
+        return nil, errors.New("name required")
+    }
+    return &User{Name: name}, nil
+}
+
+// Impossible d'ignorer l'erreur
+user, err := CreateUser("John")
+if err != nil {
+    // On doit gérer le cas d'erreur
+}
+```
+
+En SaaS, un bug en production coûte cher : perte de données, churn, réputation. Le compilateur Go est un filet de sécurité.
+
+## Concurrence : Built-in et simple
+
+Les goroutines rendent la concurrence accessible. Pas besoin de librairies externes, pas de callback hell.
+
+```go
+// Traiter 1000 requêtes en parallèle
+for i := 0; i < 1000; i++ {
+    go processRequest(i)
+}
+```
+
+Pour un SaaS qui doit gérer plusieurs tenants simultanément, c'est crucial.
+
+## Tooling : Batteries included
+
+Go embarque tout ce dont on a besoin :
+
+- `go fmt` : formatage automatique
+- `go test` : tests et benchmarks
+- `go mod` : gestion des dépendances
+- `go vet` : analyse statique
+
+Pas de débat sur Prettier vs Biome, pas de config ESLint interminable. **Un outil, une façon de faire.**
+
+## Les compromis
+
+Go n'est pas parfait pour tout :
+
+### Gestion d'erreurs verbeuse
+
+```go
+result, err := doSomething()
+if err != nil {
+    return err
+}
+```
+
+Ce pattern se répète. C'est verbeux mais explicite. Je préfère ça aux exceptions silencieuses.
+
+### Pas idéal pour le prototypage rapide
+
+Python ou JavaScript sont plus rapides pour tester une idée. Mais une fois le concept validé, migrer vers Go apporte stabilité et performance.
+
+### Écosystème web moins riche
+
+Pas d'équivalent Next.js ou Django. Mais pour un backend SaaS avec API REST/gRPC, Go brille.
+
+## Mon workflow SaaS
+
+1. **Prototype** en Python/Node.js pour valider l'idée
+2. **Backend en Go** dès que le concept est validé
+3. **Frontend en React/Astro** (ce portfolio est en Astro)
+4. **Infrastructure as Code** en Go (avec Pulumi)
+
+## Conclusion
+
+Go est mon choix par défaut pour les SaaS backend parce qu'il optimise :
+
+- **Les coûts** : performance et efficacité mémoire
+- **La vélocité** : single binary, tooling intégré
+- **La fiabilité** : type safety, gestion d'erreurs explicite
+
+Si vous construisez un produit cloud-native avec des contraintes de coûts, regardez Go. Le langage a 15 ans, l'écosystème est mature, et la communauté est solide.
+
+Je documente la construction de **CloudCost CLI** en Go sur ce blog. Si ça vous intéresse, abonnez-vous pour suivre le parcours.

@@ -1,0 +1,62 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../../utils/formatDate';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title="Blog - PypNetty" description="Articles sur DevOps, Go, Kubernetes et la création de SaaS">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Back link -->
+    <div class="mb-8">
+      <a href="/" class="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Retour à l'accueil
+      </a>
+    </div>
+    
+    <div class="mb-12">
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Blog</h1>
+      <p class="text-xl text-zinc-400">
+        Articles techniques, retours d'expérience et documentation du processus de création de produits SaaS.
+      </p>
+    </div>
+
+    <div class="space-y-8">
+      {posts.map((post) => (
+        <article class="border-b border-zinc-800 pb-8 last:border-0">
+          <div class="flex flex-wrap gap-2 mb-3">
+            {post.data.tags.map((tag) => (
+              <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-zinc-400">
+                {tag}
+              </span>
+            ))}
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-bold mb-2">
+            <a href={`/blog/${post.slug}`} class="hover:text-accent transition-colors">
+              {post.data.title}
+            </a>
+          </h2>
+          <p class="text-zinc-400 mb-3 text-lg">
+            {post.data.description}
+          </p>
+          <div class="flex items-center gap-3 text-sm text-zinc-500">
+            <time datetime={post.data.pubDate.toISOString()}>
+              {formatDate(post.data.pubDate)}
+            </time>
+            {post.data.readingTime && (
+              <>
+                <span>•</span>
+                <span>{post.data.readingTime}</span>
+              </>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>

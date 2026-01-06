@@ -1,0 +1,83 @@
+---
+import Layout from './Layout.astro';
+import { formatDate } from '../utils/formatDate';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  tags: string[];
+  readingTime?: string;
+}
+
+const { title, description, pubDate, updatedDate, tags, readingTime } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Back link at top -->
+    <div class="mb-8">
+      <a href="/blog" class="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Retour au blog
+      </a>
+    </div>
+
+    <!-- Tags -->
+    <div class="flex flex-wrap gap-2 mb-4">
+      {tags.map((tag) => (
+        <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-zinc-400 border border-zinc-800">
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
+      {title}
+    </h1>
+
+    <!-- Meta -->
+    <div class="flex items-center gap-3 text-sm text-zinc-400 mb-8 pb-8 border-b border-zinc-800">
+      <time datetime={pubDate.toISOString()}>
+        {formatDate(pubDate)}
+      </time>
+      {readingTime && (
+        <>
+          <span>•</span>
+          <span>{readingTime}</span>
+        </>
+      )}
+      {updatedDate && (
+        <>
+          <span>•</span>
+          <span>Mis à jour le {formatDate(updatedDate)}</span>
+        </>
+      )}
+    </div>
+
+    <!-- Content -->
+    <div class="prose prose-invert prose-zinc prose-lg max-w-none
+      prose-headings:font-bold prose-headings:text-zinc-100
+      prose-a:text-accent prose-a:no-underline hover:prose-a:underline
+      prose-code:text-accent prose-code:bg-zinc-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+      prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-800
+      prose-img:rounded-lg
+      prose-strong:text-zinc-100">
+      <slot />
+    </div>
+
+    <!-- Back link -->
+    <div class="mt-12 pt-8 border-t border-zinc-800">
+      <a href="/blog" class="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Retour au blog
+      </a>
+    </div>
+  </article>
+</Layout>

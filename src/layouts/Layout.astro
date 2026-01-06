@@ -1,0 +1,94 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Ingénieur DevOps et créateur de SaaS" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-zinc-950 text-zinc-100 font-sans antialiased">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/0 backdrop-blur-sm border-b border-transparent transition-all duration-300">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <a href="/" class="text-xl font-bold hover:opacity-80 transition-opacity" style="color: #10B981;">
+            PypNetty
+          </a>
+          <div class="flex gap-6">
+            <a href="/" class="hover:text-accent transition-colors">Accueil</a>
+            <a href="/projects" class="hover:text-accent transition-colors">Projets</a>
+            <a href="/blog" class="hover:text-accent transition-colors">Blog</a>
+            <a href="/about" class="hover:text-accent transition-colors">À propos</a>
+            <a href="/contact" class="hover:text-accent transition-colors">Contact</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="pt-16">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-zinc-800 mt-16 bg-[#1E1E2E]">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col items-center gap-4">
+          <p class="text-zinc-400 text-sm">
+            © 2025 PypNetty. Building in public.
+          </p>
+          <div class="flex gap-6 text-sm text-zinc-400">
+            <a href="https://github.com/pypnetty" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
+              GitHub
+            </a>
+            <a href="https://twitter.com/pypnetty" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
+              Twitter
+            </a>
+            <a href="https://linkedin.com/in/pypnetty" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
+              LinkedIn
+            </a>
+            <a href="/rss.xml" class="hover:text-accent transition-colors">
+              RSS
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const navbar = document.getElementById('navbar');
+      
+      function handleScroll() {
+        if (window.scrollY > 10) {
+          navbar?.classList.remove('border-transparent');
+          navbar?.classList.add('border-zinc-800');
+          navbar?.classList.remove('bg-zinc-950/0');
+          navbar?.classList.add('bg-zinc-950/80');
+        } else {
+          navbar?.classList.remove('border-zinc-800');
+          navbar?.classList.add('border-transparent');
+          navbar?.classList.remove('bg-zinc-950/80');
+          navbar?.classList.add('bg-zinc-950/0');
+        }
+      }
+      
+      window.addEventListener('scroll', handleScroll);
+      handleScroll(); // Check initial state
+    </script>
+  </body>
+</html>
