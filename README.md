@@ -1,88 +1,72 @@
-# Portfolio PypNetty
+# 🌌 PypNetty's Portfolio
 
-Portfolio personnel et blog créé avec Astro, Tailwind CSS et TypeScript.
+> DevOps Engineer | Cloud Native Enthusiast | Cosmic Coder
 
-## 🚀 Stack technique
+[![Deployed on Cloudflare Pages](https://img.shields.io/badge/Deployed%20on-Cloudflare%20Pages-F38020?style=flat&logo=cloudflare&logoColor=white)](https://pypnetty.dev)
+[![Built with Astro](https://img.shields.io/badge/Built%20with-Astro-FF5D01?style=flat&logo=astro&logoColor=white)](https://astro.build)
+[![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-CC3534?style=flat&logo=pnpm&logoColor=white)](https://pnpm.io/)
 
-- **Framework**: Astro 4.x
-- **Styling**: Tailwind CSS 4 avec plugin Typography
-- **Content**: Content Collections avec MDX
-- **TypeScript**: Configuration stricte
-- **Fonts**: Inter (sans-serif) + JetBrains Mono (monospace)
+Personal portfolio and blog showcasing my journey in DevOps, cloud-native technologies, and software development.
 
-## 🎨 Design
+## 🚀 Tech Stack
 
-- **Theme**: Dark mode (zinc-950)
-- **Accent**: Vert (#10b981)
-- **Style**: Minimaliste et épuré
-- **Typography**: Excellent contraste et lisibilité
+- **Framework:** [Astro](https://astro.build) - Fast, content-focused static site generation
+- **Styling:** Tailwind CSS
+- **Package Manager:** pnpm
+- **Deployment:** Cloudflare Pages
+- **Domain:** Managed via Cloudflare
 
-## 📦 Structure du projet
+## 🛠️ Local Development
+```bash
+# Install dependencies
+pnpm install
 
+# Start dev server
+pnpm dev
+
+# Build for production
+pnpm build
+
+# Preview production build
+pnpm preview
 ```
-portfolio/
+
+## 📂 Project Structure
+```
+/
+├── public/          # Static assets
 ├── src/
-│   ├── content/
-│   │   ├── blog/           # Articles de blog en MDX
-│   │   └── config.ts       # Configuration Content Collections
-│   ├── layouts/
-│   │   ├── Layout.astro    # Layout principal
-│   │   └── BlogPost.astro  # Layout pour articles
-│   ├── pages/
-│   │   ├── index.astro     # Page d'accueil
-│   │   ├── about.astro     # À propos
-│   │   └── blog/
-│   │       ├── index.astro      # Liste des articles
-│   │       └── [...slug].astro  # Pages d'articles
-│   ├── styles/
-│   │   └── global.css      # Styles globaux + config Tailwind
-│   └── utils/
-│       └── formatDate.ts   # Utilitaires
-├── public/                 # Assets statiques
-└── astro.config.mjs       # Configuration Astro
+│   ├── components/  # Reusable components
+│   ├── layouts/     # Page layouts
+│   ├── pages/       # Route pages
+│   └── styles/      # Global styles
+└── astro.config.mjs # Astro configuration
 ```
 
-## 🛠️ Commandes
+## 📝 Blog Topics
 
-Toutes les commandes doivent être exécutées depuis le répertoire `portfolio/` :
+- Cloud-Native Architecture
+- Kubernetes & DevOps Best Practices
+- Go Development
+- Infrastructure as Code
+- Building in Public
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## 🌟 About Me
 
-## 📝 Ajouter un article
+DevOps engineer based in Orléans, France. I believe infrastructure doesn't have to be scary. When I'm not coding, you'll find me stargazing or playing progressive metal on guitar.
 
-1. Créer un fichier `.mdx` dans `src/content/blog/`
-2. Ajouter le frontmatter :
+**Passions:** Astronomy, Progressive Metal (Gojira, Meshuggah, Tool), Science Fiction Writing
 
-```yaml
----
-title: "Titre de l'article"
-description: "Description courte"
-pubDate: 2025-01-05
-tags: ["tag1", "tag2"]
-readingTime: "5 min"
----
-```
+## 📫 Connect
 
-3. Écrire le contenu en Markdown/MDX
-4. L'article apparaîtra automatiquement sur le blog
-
-## 🌐 Déploiement
-
-Le site est statique et peut être déployé sur :
-- Netlify
-- Vercel
-- GitHub Pages
-- CloudFlare Pages
-- Tout hébergeur de sites statiques
+- Twitter: [@PypNetty](https://twitter.com/PypNetty)
+- GitHub: [@PypNetty](https://github.com/PypNetty)
+- Website: [pypnetty.dev](https://pypnetty.dev)
 
 ## 📄 License
 
-Contenu : © 2025 PypNetty. Tous droits réservés.
-Code : MIT License
+© 2025 PypNetty. All rights reserved.
+
+---
+
+*Teaching that infrastructure doesn't have to be scary, one cosmic commit at a time* 🎸✨
