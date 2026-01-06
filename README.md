@@ -1,72 +1,50 @@
-# 🌌 PypNetty's Portfolio
+# 🌌 pypnetty.fr
 
-> DevOps Engineer | Cloud Native Enthusiast | Cosmic Coder
+> Mon coin d'internet où je partage mes réflexions sur le DevOps, le cloud-native,
+> et tout ce qui me passe par la tête en regardant les étoiles.
 
-[![Deployed on Cloudflare Pages](https://img.shields.io/badge/Deployed%20on-Cloudflare%20Pages-F38020?style=flat&logo=cloudflare&logoColor=white)](https://pypnetty.dev)
+[![Deployed on Cloudflare Pages](https://img.shields.io/badge/Deployed%20on-Cloudflare%20Pages-F38020?style=flat&logo=cloudflare&logoColor=white)](https://pypnetty.fr)
 [![Built with Astro](https://img.shields.io/badge/Built%20with-Astro-FF5D01?style=flat&logo=astro&logoColor=white)](https://astro.build)
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-CC3534?style=flat&logo=pnpm&logoColor=white)](https://pnpm.io/)
 
-Personal portfolio and blog showcasing my journey in DevOps, cloud-native technologies, and software development.
+Site personnel : articles techniques, projets, découvertes, et coups de gueule.
 
 ## 🚀 Tech Stack
 
-- **Framework:** [Astro](https://astro.build) - Fast, content-focused static site generation
+- **Framework:** [Astro](https://astro.build)
 - **Styling:** Tailwind CSS
 - **Package Manager:** pnpm
 - **Deployment:** Cloudflare Pages
-- **Domain:** Managed via Cloudflare
 
-## 🛠️ Local Development
+## 🛠️ Développement local
 ```bash
-# Install dependencies
 pnpm install
-
-# Start dev server
 pnpm dev
-
-# Build for production
 pnpm build
-
-# Preview production build
 pnpm preview
 ```
 
-## 📂 Project Structure
-```
-/
-├── public/          # Static assets
-├── src/
-│   ├── components/  # Reusable components
-│   ├── layouts/     # Page layouts
-│   ├── pages/       # Route pages
-│   └── styles/      # Global styles
-└── astro.config.mjs # Astro configuration
-```
+## 📝 Contenu
 
-## 📝 Blog Topics
-
-- Cloud-Native Architecture
-- Kubernetes & DevOps Best Practices
-- Go Development
+- Architecture Cloud-Native
+- DevOps & Kubernetes
+- Développement Go
 - Infrastructure as Code
 - Building in Public
+- Et ce qui me passe par la tête
 
-## 🌟 About Me
+## 🌟 À propos
 
-DevOps engineer based in Orléans, France. I believe infrastructure doesn't have to be scary. When I'm not coding, you'll find me stargazing or playing progressive metal on guitar.
+DevOps engineer basé à Orléans. Je crois que l'infra n'a pas à faire peur.
 
-**Passions:** Astronomy, Progressive Metal (Gojira, Meshuggah, Tool), Science Fiction Writing
+Quand je ne code pas, je regarde les étoiles ou je joue du metal progressif.
 
-## 📫 Connect
+## 📫 Contact
 
 - Twitter: [@PypNetty](https://twitter.com/PypNetty)
 - GitHub: [@PypNetty](https://github.com/PypNetty)
-- Website: [pypnetty.dev](https://pypnetty.dev)
-
-## 📄 License
-
-© 2025 PypNetty. All rights reserved.
+- Site: [pypnetty.fr](https://pypnetty.fr)
 
 ---
 
-*Teaching that infrastructure doesn't have to be scary, one cosmic commit at a time* 🎸✨
+*L'infra n'a pas à faire peur, un commit cosmique à la fois* 🎸✨
