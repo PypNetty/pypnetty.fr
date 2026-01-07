@@ -53,6 +53,18 @@ const recentPosts = allPosts
 
     <!-- Main Content -->
     <article class="article-content-main">
+      <!-- Navigation breadcrumb et Back -->
+      <div class="article-nav-bar">
+        <div class="breadcrumb">
+          <a href="/">🏠 Home</a>
+          <span class="separator">›</span>
+          <a href="/blog">📝 Blog</a>
+          <span class="separator">›</span>
+          <span class="current">{title}</span>
+        </div>
+        <a href="/blog" class="back-button">← Back</a>
+      </div>
+
       <!-- Article Header -->
       <div class="article-header-section">
         <h1 class="article-main-title">{title}</h1>
@@ -238,6 +250,64 @@ const recentPosts = allPosts
     }
   }
 
+  /* Navigation bar avec breadcrumb */
+  .article-nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 1.5rem 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #2a2a3e;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #71717a;
+  }
+
+  .breadcrumb a {
+    color: #71717a;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .breadcrumb a:hover {
+    color: #10b981;
+  }
+
+  .breadcrumb .separator {
+    color: #3f3f46;
+  }
+
+  .breadcrumb .current {
+    color: #a1a1aa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
+  }
+
+  /* Bouton retour */
+  .back-button {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    color: #71717a;
+    text-decoration: none;
+    border: 1px solid #2a2a3e;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    color: #10b981;
+    border-color: #10b981;
+  }
+
   /* Left Sidebar */
   .toc-sidebar {
     background: #1a1a2e;
@@ -260,13 +330,22 @@ const recentPosts = allPosts
   .window-header {
     background: #1a1a2e;
     border-bottom: 1px solid #2a2a3e;
-    padding: 1rem 1.25rem;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .window-header::before {
+    content: "";
+    display: flex;
+    gap: 0.375rem;
   }
 
   .window-header h3 {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: #e4e4e7;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #a1a1aa;
     margin: 0;
   }
 
