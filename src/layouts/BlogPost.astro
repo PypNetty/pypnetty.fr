@@ -1,8 +1,8 @@
 ---
-import Layout from './Layout.astro';
-import { formatDate } from '../utils/formatDate';
-import { getCollection } from 'astro:content';
-import { siteConfig } from '../config/site';
+import Layout from "./Layout.astro";
+import { formatDate } from "../utils/formatDate";
+import { getCollection } from "astro:content";
+import { siteConfig } from "../config/site";
 
 interface Props {
   title: string;
@@ -14,14 +14,20 @@ interface Props {
   slug: string;
 }
 
-const { title, description, pubDate, updatedDate, tags, readingTime, slug } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, readingTime, slug } =
+  Astro.props;
 
 // Configuration de l'auteur
 const author = siteConfig.author;
-type SocialLink = { url: string; username: string; icon: string; label: string };
+type SocialLink = {
+  url: string;
+  username: string;
+  icon: string;
+  label: string;
+};
 
 // Récupérer tous les articles pour la sidebar
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
 const recentPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 8);
@@ -35,7 +41,7 @@ const recentPosts = allPosts
         <div class="window-header">
           <h3>Sommaire</h3>
         </div>
-        
+
         <div class="toc-content">
           <h4 class="toc-section-title"># SUR CETTE PAGE</h4>
           <nav class="toc-nav" id="toc">
@@ -50,23 +56,23 @@ const recentPosts = allPosts
       <!-- Article Header -->
       <div class="article-header-section">
         <h1 class="article-main-title">{title}</h1>
-        
+
         <div class="article-meta-info">
           <time datetime={pubDate.toISOString()}>
             {formatDate(pubDate)}
           </time>
-          {readingTime && (
-            <>
-              <span class="separator">•</span>
-              <span>{readingTime}</span>
-            </>
-          )}
+          {
+            readingTime && (
+              <>
+                <span class="separator">•</span>
+                <span>{readingTime}</span>
+              </>
+            )
+          }
         </div>
 
         <div class="article-tags-list">
-          {tags.map((tag) => (
-            <span class="article-tag-badge">{tag}</span>
-          ))}
+          {tags.map((tag) => <span class="article-tag-badge">{tag}</span>)}
         </div>
       </div>
 
@@ -86,21 +92,29 @@ const recentPosts = allPosts
             <p>{author.title}</p>
             <p class="author-desc">{author.bio}</p>
             <div class="author-social-links">
-              {Object.entries(author.social).map(([key, social]) => {
-                const socialLink = social as SocialLink;
-                return (
-                  <a href={socialLink.url} target="_blank" rel="noopener noreferrer">
-                    {socialLink.icon} {socialLink.label}
-                  </a>
-                );
-              })}
+              {
+                Object.entries(author.social).map(([key, social]) => {
+                  const socialLink = social as SocialLink;
+                  return (
+                    <a
+                      href={socialLink.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {socialLink.icon} {socialLink.label}
+                    </a>
+                  );
+                })
+              }
             </div>
           </div>
         </div>
 
         <div class="comments-section">
           <h3>💬 Commentaires</h3>
-          <p class="comments-placeholder">Les commentaires seront bientôt disponibles...</p>
+          <p class="comments-placeholder">
+            Les commentaires seront bientôt disponibles...
+          </p>
         </div>
       </div>
     </article>
@@ -109,18 +123,23 @@ const recentPosts = allPosts
     <aside class="recent-sidebar">
       <div class="sidebar-window">
         <h3 class="sidebar-title">Articles similaires</h3>
-        
+
         <div class="categories-list">
           <!-- DevOps Category -->
           <div class="category-group">
             <h4 class="category-title">DevOps/</h4>
             <div class="category-posts">
-              {allPosts.filter(p => p.data.tags?.includes('DevOps')).slice(0, 3).map((post) => (
-                <a href={`/blog/${post.slug}`} class="category-post-item">
-                  <span class="post-icon">☸️</span>
-                  <span class="post-title">{post.data.title}</span>
-                </a>
-              ))}
+              {
+                allPosts
+                  .filter((p) => p.data.tags?.includes("DevOps"))
+                  .slice(0, 3)
+                  .map((post) => (
+                    <a href={`/blog/${post.slug}`} class="category-post-item">
+                      <span class="post-icon">☸️</span>
+                      <span class="post-title">{post.data.title}</span>
+                    </a>
+                  ))
+              }
             </div>
           </div>
 
@@ -128,12 +147,17 @@ const recentPosts = allPosts
           <div class="category-group">
             <h4 class="category-title">DevEx/</h4>
             <div class="category-posts">
-              {allPosts.filter(p => p.data.tags?.includes('DevEx')).slice(0, 3).map((post) => (
-                <a href={`/blog/${post.slug}`} class="category-post-item">
-                  <span class="post-icon">💻</span>
-                  <span class="post-title">{post.data.title}</span>
-                </a>
-              ))}
+              {
+                allPosts
+                  .filter((p) => p.data.tags?.includes("DevEx"))
+                  .slice(0, 3)
+                  .map((post) => (
+                    <a href={`/blog/${post.slug}`} class="category-post-item">
+                      <span class="post-icon">💻</span>
+                      <span class="post-title">{post.data.title}</span>
+                    </a>
+                  ))
+              }
             </div>
           </div>
 
@@ -141,12 +165,17 @@ const recentPosts = allPosts
           <div class="category-group">
             <h4 class="category-title">IaC/</h4>
             <div class="category-posts">
-              {allPosts.filter(p => p.data.tags?.includes('Infrastructure')).slice(0, 3).map((post) => (
-                <a href={`/blog/${post.slug}`} class="category-post-item">
-                  <span class="post-icon">🔧</span>
-                  <span class="post-title">{post.data.title}</span>
-                </a>
-              ))}
+              {
+                allPosts
+                  .filter((p) => p.data.tags?.includes("Infrastructure"))
+                  .slice(0, 3)
+                  .map((post) => (
+                    <a href={`/blog/${post.slug}`} class="category-post-item">
+                      <span class="post-icon">🔧</span>
+                      <span class="post-title">{post.data.title}</span>
+                    </a>
+                  ))
+              }
             </div>
           </div>
 
@@ -154,20 +183,23 @@ const recentPosts = allPosts
           <div class="category-group">
             <h4 class="category-title">FinOps/</h4>
             <div class="category-posts">
-              {allPosts.filter(p => p.data.tags?.includes('FinOps')).slice(0, 3).map((post) => (
-                <a href={`/blog/${post.slug}`} class="category-post-item">
-                  <span class="post-icon">💰</span>
-                  <span class="post-title">{post.data.title}</span>
-                </a>
-              ))}
+              {
+                allPosts
+                  .filter((p) => p.data.tags?.includes("FinOps"))
+                  .slice(0, 3)
+                  .map((post) => (
+                    <a href={`/blog/${post.slug}`} class="category-post-item">
+                      <span class="post-icon">💰</span>
+                      <span class="post-title">{post.data.title}</span>
+                    </a>
+                  ))
+              }
             </div>
           </div>
 
           <!-- All Posts Link -->
           <div class="category-group">
-            <a href="/blog" class="all-posts-link">
-              ../ [Tout]
-            </a>
+            <a href="/blog" class="all-posts-link"> ../ [Tout] </a>
           </div>
         </div>
       </div>
@@ -199,7 +231,7 @@ const recentPosts = allPosts
       grid-template-columns: 1fr;
       padding: 1rem;
     }
-    
+
     .toc-sidebar,
     .recent-sidebar {
       display: none;
@@ -247,7 +279,7 @@ const recentPosts = allPosts
     font-weight: 600;
     color: #71717a;
     margin-bottom: 1rem;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     letter-spacing: 0.05em;
   }
 
@@ -274,8 +306,8 @@ const recentPosts = allPosts
   }
 
   .toc-nav :global(a.active) {
-    color: #10B981;
-    border-left-color: #10B981;
+    color: #10b981;
+    border-left-color: #10b981;
     background: #1a1a2e;
   }
 
@@ -375,14 +407,14 @@ const recentPosts = allPosts
   }
 
   .prose-content :global(a) {
-    color: #10B981;
+    color: #10b981;
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: border-color 0.2s;
   }
 
   .prose-content :global(a:hover) {
-    border-bottom-color: #10B981;
+    border-bottom-color: #10b981;
   }
 
   .prose-content :global(code) {
@@ -391,7 +423,7 @@ const recentPosts = allPosts
     border-radius: 3px;
     color: #9ca3ff;
     font-size: 0.875em;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
   }
 
   .prose-content :global(pre) {
@@ -527,7 +559,7 @@ const recentPosts = allPosts
   }
 
   .author-social-links a {
-    color: #10B981;
+    color: #10b981;
     text-decoration: none;
     font-size: 0.875rem;
     transition: color 0.2s;
@@ -603,7 +635,7 @@ const recentPosts = allPosts
     font-weight: 600;
     color: #a1a1aa;
     margin-bottom: 0.5rem;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
   }
 
   .category-posts {
@@ -649,16 +681,16 @@ const recentPosts = allPosts
     background: #1a1a2e;
     border: 1px solid #2a2a3e;
     border-radius: 4px;
-    color: #10B981;
+    color: #10b981;
     text-decoration: none;
     font-size: 0.8125rem;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
     transition: all 0.2s;
   }
 
   .all-posts-link:hover {
     background: #1f1f3a;
-    border-color: #10B981;
+    border-color: #10b981;
   }
 
   /* Scrollbar Styles */
@@ -687,66 +719,68 @@ const recentPosts = allPosts
 <script>
   // Generate TOC from headings
   function generateTOC() {
-    const content = document.querySelector('.prose-content');
-    const toc = document.getElementById('toc');
-    
+    const content = document.querySelector(".prose-content");
+    const toc = document.getElementById("toc");
+
     if (!content || !toc) return;
-    
-    const headings = content.querySelectorAll('h2, h3');
-    
+
+    const headings = content.querySelectorAll("h2, h3");
+
     headings.forEach((heading, index) => {
       const id = heading.id || `heading-${index}`;
       if (!heading.id) heading.id = id;
-      
-      const link = document.createElement('a');
+
+      const link = document.createElement("a");
       link.href = `#${id}`;
-      link.textContent = heading.textContent || '';
+      link.textContent = heading.textContent || "";
       link.dataset.level = heading.tagName.toLowerCase();
-      
-      link.addEventListener('click', (e) => {
+
+      link.addEventListener("click", (e) => {
         e.preventDefault();
-        heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        history.pushState(null, '', `#${id}`);
-        
+        heading.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.pushState(null, "", `#${id}`);
+
         // Update active state
-        toc.querySelectorAll('a').forEach(a => a.classList.remove('active'));
-        link.classList.add('active');
+        toc.querySelectorAll("a").forEach((a) => a.classList.remove("active"));
+        link.classList.add("active");
       });
-      
+
       toc.appendChild(link);
     });
   }
 
   // Highlight active TOC link on scroll
   function updateActiveTOC() {
-    const headings = document.querySelectorAll('.prose-content h2, .prose-content h3');
-    const tocLinks = document.querySelectorAll('.toc-nav a');
-    
-    let current = '';
+    const headings = document.querySelectorAll(
+      ".prose-content h2, .prose-content h3"
+    );
+    const tocLinks = document.querySelectorAll(".toc-nav a");
+
+    let current = "";
     let closestDistance = Infinity;
-    
+
     headings.forEach((heading) => {
       const rect = heading.getBoundingClientRect();
       const distance = Math.abs(rect.top - 100);
-      
+
       if (distance < closestDistance && rect.top < window.innerHeight / 2) {
         closestDistance = distance;
         current = heading.id;
       }
     });
-    
+
     tocLinks.forEach((link) => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('active');
+      link.classList.remove("active");
+      if (link.getAttribute("href") === `#${current}`) {
+        link.classList.add("active");
       }
     });
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     generateTOC();
     updateActiveTOC();
   });
 
-  window.addEventListener('scroll', updateActiveTOC, { passive: true });
+  window.addEventListener("scroll", updateActiveTOC, { passive: true });
 </script>

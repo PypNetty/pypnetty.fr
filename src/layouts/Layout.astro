@@ -1,13 +1,14 @@
 ---
-import '../styles/global.css';
-import TerminalFooter from '../components/TerminalFooter.astro';
+import "../styles/global.css";
+import TerminalFooter from "../components/TerminalFooter.astro";
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "Ingénieur DevOps et créateur de SaaS" } = Astro.props;
+const { title, description = "Ingénieur DevOps et créateur de SaaS" } =
+  Astro.props;
 ---
 
 <!doctype html>
@@ -19,23 +20,55 @@ const { title, description = "Ingénieur DevOps et créateur de SaaS" } = Astro.
     <meta name="generator" content={Astro.generator} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <title>{title}</title>
   </head>
   <body class="bg-zinc-950 text-zinc-100 font-sans antialiased">
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/0 backdrop-blur-sm border-b border-transparent transition-all duration-300">
+    <nav
+      id="navbar"
+      class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/0 backdrop-blur-sm border-b border-transparent transition-all duration-300"
+    >
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-          <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <span class="text-xl font-bold" style="color: #10B981;">PypNetty</span>
-            <span class="text-xs text-zinc-400 font-medium px-2.5 py-1 bg-zinc-900/50 border border-zinc-700 rounded">Platform Engineer & Resilience Architect</span>
+          <a
+            href="/"
+            class="flex items-center gap-3 hover:opacity-80 transition-opacity"
+          >
+            <span class="text-xl font-bold" style="color: #10B981;"
+              >PypNetty</span
+            >
+            <span
+              class="text-xs text-zinc-400 font-medium px-2.5 py-1 bg-zinc-900/50 border border-zinc-700 rounded"
+              >Platform Engineer & Resilience Architect</span
+            >
           </a>
-          <div class="flex gap-0 bg-zinc-900/50 border border-zinc-800 rounded overflow-hidden">
-            <a href="/" class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm">responsabilités</a>
-            <a href="/projects" class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm">projets</a>
-            <a href="/blog" class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm">blog</a>
-            <a href="/about" class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm">à propos</a>
+          <div
+            class="flex gap-0 bg-zinc-900/50 border border-zinc-800 rounded overflow-hidden"
+          >
+            <a
+              href="/"
+              class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm"
+              >responsabilités</a
+            >
+            <a
+              href="/projects"
+              class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm"
+              >projets</a
+            >
+            <a
+              href="/blog"
+              class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm"
+              >blog</a
+            >
+            <a
+              href="/about"
+              class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm"
+              >à propos</a
+            >
           </div>
         </div>
       </div>
@@ -50,23 +83,23 @@ const { title, description = "Ingénieur DevOps et créateur de SaaS" } = Astro.
     <TerminalFooter />
 
     <script>
-      const navbar = document.getElementById('navbar');
-      
+      const navbar = document.getElementById("navbar");
+
       function handleScroll() {
         if (window.scrollY > 10) {
-          navbar?.classList.remove('border-transparent');
-          navbar?.classList.add('border-zinc-800');
-          navbar?.classList.remove('bg-zinc-950/0');
-          navbar?.classList.add('bg-zinc-950/80');
+          navbar?.classList.remove("border-transparent");
+          navbar?.classList.add("border-zinc-800");
+          navbar?.classList.remove("bg-zinc-950/0");
+          navbar?.classList.add("bg-zinc-950/80");
         } else {
-          navbar?.classList.remove('border-zinc-800');
-          navbar?.classList.add('border-transparent');
-          navbar?.classList.remove('bg-zinc-950/80');
-          navbar?.classList.add('bg-zinc-950/0');
+          navbar?.classList.remove("border-zinc-800");
+          navbar?.classList.add("border-transparent");
+          navbar?.classList.remove("bg-zinc-950/80");
+          navbar?.classList.add("bg-zinc-950/0");
         }
       }
-      
-      window.addEventListener('scroll', handleScroll);
+
+      window.addEventListener("scroll", handleScroll);
       handleScroll(); // Check initial state
     </script>
   </body>
