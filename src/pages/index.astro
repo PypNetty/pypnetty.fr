@@ -1,49 +1,54 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import { formatDate } from '../utils/formatDate';
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../utils/formatDate";
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
 const recentPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
 const projects = [
   {
-    title: 'Kytena',
-    description: "Orchestrateur de sécurité Kubernetes avec documentation 'KnownRisk' des vulnérabilités",
-    tags: ['Go', 'Kubernetes', 'Security'],
-    link: '#',
+    title: "Kytena",
+    description:
+      "Orchestrateur de sécurité Kubernetes avec documentation 'KnownRisk' des vulnérabilités",
+    tags: ["Go", "Kubernetes", "Security"],
+    link: "#",
   },
   {
-    title: 'CloudCost CLI',
-    description: 'Outil terminal pour tracker les coûts cloud en temps réel',
-    tags: ['Go', 'CLI', 'Cloud'],
-    link: '#',
+    title: "CloudCost CLI",
+    description: "Outil terminal pour tracker les coûts cloud en temps réel",
+    tags: ["Go", "CLI", "Cloud"],
+    link: "#",
   },
 ];
 ---
 
-<Layout title="PypNetty - Ingénieur DevOps & Créateur de SaaS">
+<Layout
+  title="PypNetty - plateform enginner and resilience architect"
+  description="Ingénieur DevOps"
+>
   <!-- Hero Section -->
   <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
     <div class="space-y-6">
       <h1 class="text-5xl sm:text-6xl font-bold leading-tight">
-        Ingénieur DevOps.<br />
-        <span class="text-accent">Créateur de SaaS.</span>
+        Plateform Engineer.<br />
+        <span class="text-accent">Resilience Architect</span>
       </h1>
       <p class="text-xl text-zinc-400 max-w-2xl">
-        Je construis des produits cloud-native en Go et partage mon parcours dans le développement de solutions DevSecOps.
+        Je construis des produits cloud-native en Go et partage mon parcours
+        dans le développement de solutions DevSecOps.
       </p>
       <div class="flex flex-wrap gap-4 pt-4">
-        <a 
-          href="/blog" 
+        <a
+          href="/blog"
           class="px-6 py-3 bg-accent text-zinc-950 font-semibold rounded-lg hover:bg-accent/90 transition-colors"
         >
           Lire le blog
         </a>
-        <a 
-          href="#projects" 
+        <a
+          href="#projects"
           class="px-6 py-3 border border-zinc-700 text-zinc-100 font-semibold rounded-lg hover:border-accent hover:text-accent transition-colors"
         >
           Voir mes projets
@@ -56,29 +61,29 @@ const projects = [
   <section id="projects" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <h2 class="text-3xl font-bold mb-8">Projets</h2>
     <div class="grid sm:grid-cols-2 gap-6">
-      {projects.map((project) => (
-        <div class="border border-zinc-800 rounded-lg p-6 hover:border-accent transition-colors group">
-          <h3 class="text-xl font-bold mb-3 group-hover:text-accent transition-colors">
-            {project.title}
-          </h3>
-          <p class="text-zinc-400 mb-4">
-            {project.description}
-          </p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            {project.tags.map((tag) => (
-              <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-zinc-400">
-                {tag}
-              </span>
-            ))}
+      {
+        projects.map((project) => (
+          <div class="border border-zinc-800 rounded-lg p-6 hover:border-accent transition-colors group">
+            <h3 class="text-xl font-bold mb-3 group-hover:text-accent transition-colors">
+              {project.title}
+            </h3>
+            <p class="text-zinc-400 mb-4">{project.description}</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              {project.tags.map((tag) => (
+                <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-zinc-400">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <a
+              href={project.link}
+              class="text-accent hover:underline inline-flex items-center gap-1"
+            >
+              En savoir plus →
+            </a>
           </div>
-          <a 
-            href={project.link} 
-            class="text-accent hover:underline inline-flex items-center gap-1"
-          >
-            En savoir plus →
-          </a>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </section>
 
@@ -86,31 +91,37 @@ const projects = [
   <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <h2 class="text-3xl font-bold mb-8">Articles récents</h2>
     <div class="space-y-8">
-      {recentPosts.map((post) => (
-        <article class="border-b border-zinc-800 pb-8 last:border-0">
-          <div class="flex flex-wrap gap-2 mb-3">
-            {post.data.tags.map((tag) => (
-              <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-zinc-400">
-                {tag}
-              </span>
-            ))}
-          </div>
-          <h3 class="text-2xl font-bold mb-2">
-            <a href={`/blog/${post.slug}`} class="hover:text-accent transition-colors">
-              {post.data.title}
-            </a>
-          </h3>
-          <p class="text-zinc-400 mb-3">
-            {post.data.description}
-          </p>
-          <time class="text-sm text-zinc-500">
-            {formatDate(post.data.pubDate)}
-          </time>
-        </article>
-      ))}
+      {
+        recentPosts.map((post) => (
+          <article class="border-b border-zinc-800 pb-8 last:border-0">
+            <div class="flex flex-wrap gap-2 mb-3">
+              {post.data.tags.map((tag) => (
+                <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-zinc-400">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <h3 class="text-2xl font-bold mb-2">
+              <a
+                href={`/blog/${post.slug}`}
+                class="hover:text-accent transition-colors"
+              >
+                {post.data.title}
+              </a>
+            </h3>
+            <p class="text-zinc-400 mb-3">{post.data.description}</p>
+            <time class="text-sm text-zinc-500">
+              {formatDate(post.data.pubDate)}
+            </time>
+          </article>
+        ))
+      }
     </div>
     <div class="mt-8">
-      <a href="/blog" class="text-accent hover:underline inline-flex items-center gap-1">
+      <a
+        href="/blog"
+        class="text-accent hover:underline inline-flex items-center gap-1"
+      >
         Voir tous les articles →
       </a>
     </div>

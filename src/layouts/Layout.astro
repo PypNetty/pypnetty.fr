@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import TerminalFooter from '../components/TerminalFooter.astro';
 
 interface Props {
   title: string;
@@ -26,15 +27,15 @@ const { title, description = "Ingénieur DevOps et créateur de SaaS" } = Astro.
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/0 backdrop-blur-sm border-b border-transparent transition-all duration-300">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-          <a href="/" class="text-xl font-bold hover:opacity-80 transition-opacity" style="color: #10B981;">
-            PypNetty
+          <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <span class="text-xl font-bold" style="color: #10B981;">PypNetty</span>
+            <span class="text-xs text-zinc-400 font-medium px-2.5 py-1 bg-zinc-900/50 border border-zinc-700 rounded">Platform Engineer & Resilience Architect</span>
           </a>
-          <div class="flex gap-6">
-            <a href="/" class="hover:text-accent transition-colors">Accueil</a>
-            <a href="/projects" class="hover:text-accent transition-colors">Projets</a>
-            <a href="/blog" class="hover:text-accent transition-colors">Blog</a>
-            <a href="/about" class="hover:text-accent transition-colors">À propos</a>
-            <a href="/contact" class="hover:text-accent transition-colors">Contact</a>
+          <div class="flex gap-0 bg-zinc-900/50 border border-zinc-800 rounded overflow-hidden">
+            <a href="/" class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm">responsabilités</a>
+            <a href="/projects" class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm">projets</a>
+            <a href="/blog" class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm">blog</a>
+            <a href="/about" class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm">à propos</a>
           </div>
         </div>
       </div>
@@ -46,29 +47,7 @@ const { title, description = "Ingénieur DevOps et créateur de SaaS" } = Astro.
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-zinc-800 mt-16 bg-[#1E1E2E]">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="flex flex-col items-center gap-4">
-          <p class="text-zinc-400 text-sm">
-            © 2025 PypNetty. Building in public.
-          </p>
-          <div class="flex gap-6 text-sm text-zinc-400">
-            <a href="https://github.com/pypnetty" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
-              GitHub
-            </a>
-            <a href="https://twitter.com/pypnetty" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
-              Twitter
-            </a>
-            <a href="https://linkedin.com/in/pypnetty" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">
-              LinkedIn
-            </a>
-            <a href="/rss.xml" class="hover:text-accent transition-colors">
-              RSS
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <TerminalFooter />
 
     <script>
       const navbar = document.getElementById('navbar');
