@@ -1,73 +1,73 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 
 const projects = [
   {
-    title: 'Kytena',
-    description: "Orchestrateur de sécurité Kubernetes avec documentation 'KnownRisk' des vulnérabilités",
-    tags: ['Go', 'Kubernetes', 'Security'],
-    link: '#',
-    status: 'En développement',
+    title: "The Metal Farm (Bare Metal K8s)",
+    description:
+      "Conception et exploitation d'un cluster Kubernetes industriel sur matériel physique. Automatisation complète du provisionnement (PXE/MaaS) pour traiter les nœuds comme du bétail (Cattle). Zéro hyperviseur pour une performance brute et une latence minimale.",
+    tags: ["Kubernetes", "Bare Metal", "Automation", "Linux", "PXE"],
+    link: "#", // Idéalement vers un repo Ansible/Terraform ou un schéma d'archi
+    status: "Production",
   },
-  {
-    title: 'CloudCost CLI',
-    description: 'Outil terminal pour tracker les coûts cloud en temps réel',
-    tags: ['Go', 'CLI', 'Cloud'],
-    link: '#',
-    status: 'Conception',
-  },
+  // Tu peux garder Kytena si tu veux montrer ton côté sécu,
+  // ou rester uniquement sur l'infra si c'est ton focus actuel.
 ];
 ---
 
-<Layout title="Projets - PypNetty" description="Découvrez mes projets de SaaS cloud-native en Go">
+<Layout
+  title="Projets - PypNetty"
+  description="Découvrez mes projets de SaaS cloud-native en Go"
+>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="mb-12">
       <h1 class="text-4xl sm:text-5xl font-bold mb-4">Projets</h1>
       <p class="text-xl text-zinc-400">
-        Produits SaaS cloud-native que je développe et partage en build in public.
+        Produits SaaS cloud-native que je développe et partage en build in
+        public.
       </p>
     </div>
 
     <div class="grid sm:grid-cols-2 gap-6">
-      {projects.map((project) => (
-        <div class="border border-zinc-800 rounded-lg p-6 hover:border-accent transition-colors group">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="text-2xl font-bold group-hover:text-accent transition-colors">
-              {project.title}
-            </h2>
-            <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-accent border border-zinc-800">
-              {project.status}
-            </span>
-          </div>
-          <p class="text-zinc-400 mb-4 text-lg">
-            {project.description}
-          </p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            {project.tags.map((tag) => (
-              <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-zinc-400">
-                {tag}
+      {
+        projects.map((project) => (
+          <div class="border border-zinc-800 rounded-lg p-6 hover:border-accent transition-colors group">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-2xl font-bold group-hover:text-accent transition-colors">
+                {project.title}
+              </h2>
+              <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-accent border border-zinc-800">
+                {project.status}
               </span>
-            ))}
+            </div>
+            <p class="text-zinc-400 mb-4 text-lg">{project.description}</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              {project.tags.map((tag) => (
+                <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-zinc-400">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <a
+              href={project.link}
+              class="text-accent hover:underline inline-flex items-center gap-1"
+            >
+              En savoir plus →
+            </a>
           </div>
-          <a 
-            href={project.link} 
-            class="text-accent hover:underline inline-flex items-center gap-1"
-          >
-            En savoir plus →
-          </a>
-        </div>
-      ))}
+        ))
+      }
     </div>
 
     <!-- Call to action -->
     <div class="mt-12 p-8 border border-zinc-800 rounded-lg bg-zinc-900/50">
       <h2 class="text-2xl font-bold mb-3">Vous voulez suivre l'aventure ?</h2>
       <p class="text-zinc-400 mb-6">
-        Je documente publiquement la création de ces produits SaaS sur mon blog. 
+        Je documente publiquement la création de ces produits SaaS sur mon blog.
         Architecture, décisions techniques, métriques, échecs et réussites.
       </p>
-      <a 
-        href="/blog" 
+      <a
+        href="/blog"
         class="inline-block px-6 py-3 bg-accent text-zinc-950 font-semibold rounded-lg hover:bg-accent/90 transition-colors"
       >
         Lire le blog
