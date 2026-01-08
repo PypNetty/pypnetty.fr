@@ -4,9 +4,9 @@ import { getCollection } from "astro:content";
 export async function GET(context) {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
   return rss({
-    title: "PypNetty - Blog",
+    title: "PypNetty | Platform Engineer & Resilience Architect",
     description:
-      "Articles sur DevOps, Go, Kubernetes et la création de SaaS cloud-native",
+      "Flux technique sur le Kubernetes Bare Metal, le Go et l'infrastructure résiliente. Retours d'expérience sur la construction de systèmes cloud-native sans compromis.",
     site: context.site,
     items: posts.map((post) => ({
       title: post.data.title,

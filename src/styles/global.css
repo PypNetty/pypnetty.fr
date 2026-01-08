@@ -16,3 +16,11 @@ body {
   background-size: 30px 30px;
   background-attachment: fixed;
 }
+
+/* Line clamp utility (fallback pour compatibilité) */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

@@ -1,30 +1,42 @@
 ---
 import "../styles/global.css";
 import TerminalFooter from "../components/TerminalFooter.astro";
+import SEO from "../components/SEO.astro";
 
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  article?: boolean;
 }
 
-const { title, description = "Ingénieur DevOps et créateur de SaaS" } =
-  Astro.props;
+const {
+  title,
+  description = "Ingénieur DevOps et créateur de SaaS",
+  image = "/og-image.jpg",
+  article = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      canonicalURL={canonicalURL}
+      type={article ? "article" : "website"}
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <title>{title}</title>
   </head>
   <body class="bg-[#1E1E2E] text-zinc-100 font-sans antialiased">
     <!-- Navigation -->

@@ -12,10 +12,19 @@ interface Props {
   tags: string[];
   readingTime?: string;
   slug: string;
+  image?: string;
 }
 
-const { title, description, pubDate, updatedDate, tags, readingTime, slug } =
-  Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  tags,
+  readingTime,
+  slug,
+  image = "/og-image.jpg",
+} = Astro.props;
 
 // Configuration de l'auteur
 const author = siteConfig.author;
@@ -33,7 +42,15 @@ const recentPosts = allPosts
   .slice(0, 8);
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} image={image} article={true}>
+  <!-- Reading Progress Bar -->
+  <div
+    id="reading-progress"
+    class="fixed top-0 left-0 h-[2px] bg-emerald-500 z-[100] transition-all duration-150 ease-out"
+    style="width: 0%"
+  >
+  </div>
+
   <div class="blog-article-container">
     <!-- Left Sidebar: Table of Contents -->
     <aside class="toc-sidebar">
@@ -856,10 +873,31 @@ const recentPosts = allPosts
     });
   }
 
+  // Update reading progress bar
+  function updateReadingProgress() {
+    const progressBar = document.getElementById("reading-progress");
+    if (!progressBar) return;
+
+    const windowHeight = window.innerHeight;
+    const fullHeight = document.documentElement.scrollHeight;
+    const scrollPosition = window.scrollY;
+
+    // Calcul du pourcentage : (position actuelle / (hauteur totale - hauteur fenêtre)) * 100
+    const percentage = (scrollPosition / (fullHeight - windowHeight)) * 100;
+
+    progressBar.style.width = `${Math.min(100, Math.max(0, percentage))}%`;
+  }
+
+  // Initialize on page load
   document.addEventListener("DOMContentLoaded", () => {
     generateTOC();
     updateActiveTOC();
+    updateReadingProgress();
   });
 
-  window.addEventListener("scroll", updateActiveTOC, { passive: true });
+  // Update on scroll
+  document.addEventListener("scroll", () => {
+    updateActiveTOC();
+    updateReadingProgress();
+  });
 </script>
