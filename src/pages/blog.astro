@@ -10,9 +10,10 @@ const posts = [
     date: "2026-02-01",
     readTime: "3 min",
     category: "Kernel",
-    excerpt: "Comprendre eBPF sans noyer son kernel. Pourquoi tout le monde en parle et pourquoi ça remplace iptables.",
+    excerpt:
+      "Comprendre eBPF sans noyer son kernel. Pourquoi tout le monde en parle et pourquoi ça remplace iptables.",
     fileType: ".md",
-    size: "2kb"
+    size: "2kb",
   },
   {
     title: "Deep Dive: Talos Bootstrap Process",
@@ -21,9 +22,10 @@ const posts = [
     date: "2026-01-28",
     readTime: "18 min",
     category: "OS",
-    excerpt: "Analyse pas-à-pas de la séquence de boot d'un noeud Talos. Du PXE au Kubelet ready, analyse des appels API et de la sécurité.",
+    excerpt:
+      "Analyse pas-à-pas de la séquence de boot d'un noeud Talos. Du PXE au Kubelet ready, analyse des appels API et de la sécurité.",
     fileType: ".core",
-    size: "128MB"
+    size: "128MB",
   },
   {
     title: "Le Pattern GitOps expliqué à ma grand-mère",
@@ -32,9 +34,10 @@ const posts = [
     date: "2026-01-15",
     readTime: "4 min",
     category: "IaC",
-    excerpt: "Fini les scripts manuels. On explique pourquoi Git doit être la seule source de vérité.",
+    excerpt:
+      "Fini les scripts manuels. On explique pourquoi Git doit être la seule source de vérité.",
     fileType: ".txt",
-    size: "1kb"
+    size: "1kb",
   },
   {
     title: "Post-Mortem: Etcd Split-Brain",
@@ -43,10 +46,11 @@ const posts = [
     date: "2025-12-10",
     readTime: "12 min",
     category: "Resilience",
-    excerpt: "Comment une latence réseau de 50ms a corrompu le quorum. Analyse des logs RAFT et stratégie de mitigation.",
+    excerpt:
+      "Comment une latence réseau de 50ms a corrompu le quorum. Analyse des logs RAFT et stratégie de mitigation.",
     fileType: ".log",
-    size: "450kb"
-  }
+    size: "450kb",
+  },
 ];
 
 const categories = ["/all", "/kernel", "/os", "/iac", "/resilience"];
