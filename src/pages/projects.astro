@@ -1,77 +1,227 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ProjectDatasheet from "../components/ProjectDatasheet.astro";
 
 const projects = [
   {
-    title: "The Metal Farm (Bare Metal K8s)",
+    projectId: "MF-K8S-01",
+    title: "The Metal Farm",
     description:
-      "Conception et exploitation d'un cluster Kubernetes industriel sur matériel physique. Automatisation complète du provisionnement (PXE/MaaS) pour traiter les nœuds comme du bétail (Cattle). Zéro hyperviseur pour une performance brute et une latence minimale.",
-    tags: ["Kubernetes", "Bare Metal", "Automation", "Linux", "PXE"],
-    link: "#", // Idéalement vers un repo Ansible/Terraform ou un schéma d'archi
-    status: "Production",
+      "Laboratoire de résilience conçu pour valider l'automatisation du cycle de vie du bétail (Cattle) sur hardware physique. L'objectif est de démontrer qu'une infrastructure hautement disponible peut être opérée sur du matériel hétérogène recyclé sans surcouche de virtualisation.",
+    status: "Development",
+    specs: [
+      { label: "Provisioning", value: "PXE / MaaS" },
+      { label: "Runtime", value: "Containerd" },
+      { label: "Hardware", value: "Dell & Fujitsu (Hybrid)" },
+      { label: "Networking", value: "MikroTik / BGP" },
+      { label: "Storage", value: "SSD/HDD Tiering" },
+      { label: "OS Base", value: "Talos" },
+    ],
+    metrics: [
+      { label: "Node Count", value: "05 [Planning]" },
+      { label: "Memory Type", value: "DDR3 ECC" },
+      { label: "Storage", value: "SSD + HDD Pool" },
+      { label: "Target Uptime", value: "99.9%" },
+      { label: "Security", value: "Zero-Trust Vision" },
+    ],
+    systemLogs: [
+      { date: "2026-01-08", message: "Initial hardware inventory completed" },
+      {
+        date: "2026-01-05",
+        message: "BGP routing strategy defined with MikroTik",
+      },
+      { date: "2025-12-28", message: "Testing MaaS automation on Dell nodes" },
+    ],
+    capabilities: [
+      {
+        label: "Storage Hybrid Tiering",
+        description:
+          "Optimisation de la latence via SSD pour etcd et OS, tout en utilisant les HDD pour le stockage de données massif via des StorageClasses K8s dédiées.",
+      },
+      {
+        label: "Hardware Abstraction",
+        description:
+          "Preuve de concept d'une couche d'automatisation (MaaS) capable d'unifier des firmwares Dell et Fujitsu pour un déploiement 'One-Click'.",
+      },
+      {
+        label: "Density & Efficiency",
+        description:
+          "Exploitation de la densité de la DDR3 pour supporter une haute densité de micro-services isolés avec un monitoring eBPF à bas overhead.",
+      },
+    ],
+    link: "#",
   },
-  // Tu peux garder Kytena si tu veux montrer ton côté sécu,
-  // ou rester uniquement sur l'infra si c'est ton focus actuel.
 ];
 ---
 
 <Layout
   title="Projets - PypNetty"
-  description="Découvrez mes projets de SaaS cloud-native en Go"
+  description="Projets d'infrastructure cloud-native et Kubernetes Bare Metal"
 >
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Page Header -->
     <div class="mb-12">
-      <h1 class="text-4xl sm:text-5xl font-bold mb-4">Projets</h1>
-      <p class="text-xl text-zinc-400">
-        Produits SaaS cloud-native que je développe et partage en build in
-        public.
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+        <h1 class="text-4xl sm:text-5xl font-bold">Projets</h1>
+      </div>
+      <p class="text-xl text-zinc-400 max-w-3xl">
+        Infrastructure industrielle et systèmes de production. Architectures
+        conçues pour la résilience, le contrôle et la performance déterministe.
       </p>
+      <div class="h-1 w-16 bg-emerald-500 mt-4"></div>
     </div>
 
-    <div class="grid sm:grid-cols-2 gap-6">
-      {
-        projects.map((project) => (
-          <div class="border border-zinc-800 rounded-lg p-6 hover:border-accent transition-colors group">
-            <div class="flex items-center justify-between mb-3">
-              <h2 class="text-2xl font-bold group-hover:text-accent transition-colors">
-                {project.title}
-              </h2>
-              <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-accent border border-zinc-800">
-                {project.status}
-              </span>
-            </div>
-            <p class="text-zinc-400 mb-4 text-lg">{project.description}</p>
-            <div class="flex flex-wrap gap-2 mb-4">
-              {project.tags.map((tag) => (
-                <span class="text-xs px-3 py-1 rounded-full bg-zinc-900 text-zinc-400">
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <a
-              href={project.link}
-              class="text-accent hover:underline inline-flex items-center gap-1"
-            >
-              En savoir plus →
-            </a>
+    <!-- Hardware Inventory & Vision -->
+    <div class="space-y-12 mb-16">
+      <!-- Physical Resources -->
+      <section class="border border-slate-800 bg-slate-900/10 p-6 rounded-lg">
+        <h3
+          class="text-emerald-500 font-mono text-xs mb-6 uppercase tracking-widest"
+        >
+          // Input: Physical Resources
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <ul class="space-y-2 text-sm font-mono">
+            <li class="text-slate-400">
+              <span class="text-white">DELL Nodes (x2):</span> DDR3 ECC Optimized
+            </li>
+            <li class="text-slate-400">
+              <span class="text-white">Fujitsu Node:</span> Workload Balancing
+            </li>
+            <li class="text-slate-400">
+              <span class="text-white">Network:</span> MikroTik hEX S + BGP
+            </li>
+          </ul>
+          <ul class="space-y-2 text-sm font-mono md:text-right">
+            <li class="text-slate-400">
+              SSD Fast-Path <span class="text-emerald-500">[SYSTEM]</span>
+            </li>
+            <li class="text-slate-400">
+              HDD Bulk-Storage <span class="text-emerald-500">[DATA]</span>
+            </li>
+            <li class="text-slate-400">
+              Hybrid Tiering <span class="text-emerald-500">[OPTIMIZED]</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Vision & Terminal -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <h2 class="text-2xl font-bold text-white mb-4 italic">
+            Hardware Optimization Strategy
+          </h2>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">
+            Créer un <strong>"Self-Healing Lab"</strong> capable de gérer le cycle
+            de vie du bétail (Cattle) sur hardware réel. Focus sur l'automatisation
+            du stockage hybride et la sécurité réseau, sans dépendance Cloud Provider.
+          </p>
+          <div class="border-l-2 border-emerald-500 pl-4 py-2">
+            <p class="text-slate-300 text-xs leading-relaxed">
+              <strong>Storage Tiering :</strong> SSD pour etcd et OS (latence critique),
+              HDD pour Longhorn/Ceph (capacité). Classes de stockage Kubernetes différenciées
+              pour optimiser coût/performance.
+            </p>
           </div>
-        ))
-      }
+        </div>
+        <div
+          class="bg-slate-950 p-4 border border-slate-800 rounded font-mono text-[10px] text-emerald-500/70 leading-relaxed"
+        >
+          $ k8s-deploy --strategy=bare-metal<br />
+          [INFO] Mapping SSD for etcd latency...<br />
+          [INFO] Initializing HDD pool for Longhorn...<br />
+          [INFO] BGP routes propagating...<br />
+          [INFO] StorageClass 'fast' → SSD tier<br />
+          [INFO] StorageClass 'bulk' → HDD tier<br />
+          [OK] Nodes ready for heterogeneous workload.<br />
+          [OK] Multi-vendor firmware validated.
+        </div>
+      </section>
+
+      <!-- Technical Benefits -->
+      <section
+        class="grid grid-cols-1 md:grid-cols-3 gap-6 border border-slate-800 bg-slate-900/10 p-6 rounded-lg"
+      >
+        <div>
+          <h3 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
+            <span class="text-emerald-500">⚡</span>
+            Storage Tiering
+          </h3>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            Séparation intelligente : données chaudes sur SSD (&lt; 5ms),
+            données froides sur HDD. Optimisation automatique via StorageClasses
+            K8s.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
+            <span class="text-emerald-500">🔧</span>
+            Multi-Vendor
+          </h3>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            Interopérabilité Dell/Fujitsu. Test réel de l'automatisation
+            MaaS/PXE sur firmwares différents. Résilience face à l'hétérogène.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
+            <span class="text-emerald-500">💾</span>
+            Memory Density
+          </h3>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            DDR3 ECC = grande capacité RAM à coût optimisé. Parfait pour
+            microservices multiples et outils eBPF gourmands.
+          </p>
+        </div>
+      </section>
     </div>
 
-    <!-- Call to action -->
-    <div class="mt-12 p-8 border border-zinc-800 rounded-lg bg-zinc-900/50">
-      <h2 class="text-2xl font-bold mb-3">Vous voulez suivre l'aventure ?</h2>
-      <p class="text-zinc-400 mb-6">
-        Je documente publiquement la création de ces produits SaaS sur mon blog.
-        Architecture, décisions techniques, métriques, échecs et réussites.
+    <!-- Project Datasheets -->
+    {
+      projects.map((project) => (
+        <ProjectDatasheet
+          projectId={project.projectId}
+          title={project.title}
+          description={project.description}
+          status={project.status}
+          specs={project.specs}
+          metrics={project.metrics}
+          systemLogs={project.systemLogs}
+          challenges={project.challenges}
+          link={project.link}
+        />
+      ))
+    }
+
+    <!-- Call to Action -->
+    <div class="mt-12 p-8 border border-slate-800 rounded-xl bg-slate-900/20">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-emerald-500 font-mono text-xs">$</span>
+        <h2 class="text-2xl font-bold">Suivre les évolutions</h2>
+      </div>
+      <p class="text-slate-400 mb-6 leading-relaxed">
+        Je documente publiquement la construction et l'exploitation de ces
+        systèmes sur mon blog. Décisions d'architecture, métriques de
+        performance, incidents résolus et leçons apprises.
       </p>
-      <a
-        href="/blog"
-        class="inline-block px-6 py-3 bg-accent text-zinc-950 font-semibold rounded-lg hover:bg-accent/90 transition-colors"
-      >
-        Lire le blog
-      </a>
+      <div class="flex flex-wrap gap-4">
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-lg transition-colors"
+        >
+          Lire le blog
+          <span>→</span>
+        </a>
+        <a
+          href="/rss.xml"
+          class="inline-flex items-center gap-2 px-6 py-3 border border-slate-700 hover:border-emerald-500 text-slate-300 hover:text-emerald-400 font-semibold rounded-lg transition-colors"
+        >
+          <span>📡</span>
+          S'abonner au RSS
+        </a>
+      </div>
     </div>
   </div>
 </Layout>

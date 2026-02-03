@@ -18,7 +18,7 @@ export const siteConfig = {
         label: "LinkedIn",
       },
       twitter: {
-        url: "https://twitter.com/pypnetty",
+        url: "https://twitter.com/PypNetty0",
         username: "@PypNetty",
         icon: "𝕏",
         label: "Twitter/X",

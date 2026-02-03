@@ -1,0 +1,217 @@
+---
+// ProjectDatasheet.astro - Fiche technique industrielle pour projets
+interface Props {
+  projectId: string;
+  title: string;
+  description: string;
+  status: string;
+  specs: {
+    label: string;
+    value: string;
+  }[];
+  metrics: {
+    label: string;
+    value: string;
+  }[];
+  systemLogs?: {
+    date: string;
+    message: string;
+  }[];
+  capabilities?: {
+    label: string;
+    description: string;
+  }[];
+  link: string;
+}
+
+const {
+  projectId,
+  title,
+  description,
+  status,
+  specs,
+  metrics,
+  systemLogs = [],
+  capabilities = [],
+  link,
+} = Astro.props;
+
+const statusConfig = {
+  Production: {
+    dotClass: "bg-emerald-500",
+    textClass: "text-emerald-500",
+    label: "System Operational",
+    pulse: true,
+  },
+  Development: {
+    dotClass: "bg-blue-500",
+    textClass: "text-blue-500",
+    label: "In Development",
+    pulse: true,
+  },
+  Maintenance: {
+    dotClass: "bg-yellow-500",
+    textClass: "text-yellow-500",
+    label: "Under Maintenance",
+    pulse: false,
+  },
+  Archived: {
+    dotClass: "bg-gray-500",
+    textClass: "text-gray-500",
+    label: "Archived",
+    pulse: false,
+  },
+};
+
+const statusInfo = statusConfig[status] || statusConfig.Production;
+---
+
+<section class="mb-12">
+  <div
+    class="border border-slate-800 bg-slate-900/20 rounded-xl overflow-hidden"
+  >
+    <!-- Header -->
+    <div
+      class="bg-slate-800/50 border-b border-slate-800 p-4 flex justify-between items-center flex-wrap gap-4"
+    >
+      <div class="flex items-center gap-4">
+        <span class="text-emerald-500 font-mono text-xs font-bold"
+          >SPEC_SHEET_V1</span
+        >
+        <span class="text-slate-600 font-mono text-[10px]"
+          >// PROJECT_ID: {projectId}</span
+        >
+        <h2
+          class="text-white font-bold italic uppercase tracking-tighter text-lg sm:text-xl"
+        >
+          {title}
+        </h2>
+      </div>
+      <div class="flex items-center gap-2">
+        {
+          statusInfo.pulse ? (
+            <span
+              class={`w-2 h-2 ${statusInfo.dotClass} rounded-full animate-pulse`}
+            />
+          ) : (
+            <span class={`w-2 h-2 ${statusInfo.dotClass} rounded-full`} />
+          )
+        }
+        <span class={`text-[10px] font-mono ${statusInfo.textClass} uppercase`}>
+          {statusInfo.label}
+        </span>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3">
+      <!-- Description & Specs (2/3) -->
+      <div class="p-8 lg:col-span-2 border-r border-slate-800 space-y-8">
+        <!-- Description -->
+        <p class="text-slate-400 leading-relaxed">
+          {description}
+        </p>
+
+        <!-- Technical Specifications -->
+        <div>
+          <h3
+            class="text-emerald-400 font-mono text-xs uppercase mb-4 flex items-center gap-2"
+          >
+            <span class="w-1 h-1 bg-emerald-500 rounded-full"></span>
+            Technical Stack
+          </h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {
+              specs.map((spec) => (
+                <div>
+                  <p class="text-[10px] font-mono text-slate-500 uppercase mb-1">
+                    {spec.label}
+                  </p>
+                  <p class="text-white text-sm font-bold italic">
+                    {spec.value}
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- System Capabilities & Potential -->
+        {
+          capabilities.length > 0 && (
+            <div>
+              <h3 class="text-emerald-400 font-mono text-xs uppercase mb-4 flex items-center gap-2">
+                <span class="w-1 h-1 bg-emerald-500 rounded-full" />
+                System Capabilities & Potential
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {capabilities.map((cap) => (
+                  <div class="p-4 bg-slate-950/50 border border-slate-800 rounded">
+                    <p class="text-white text-xs font-bold mb-2 italic">
+                      {cap.label}
+                    </p>
+                    <p class="text-slate-500 text-[10px] leading-relaxed">
+                      {cap.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Sidebar: Metrics & Logs (1/3) -->
+      <div class="p-8 bg-slate-950/40 flex flex-col justify-between">
+        <!-- Metrics -->
+        <div>
+          <h3
+            class="text-emerald-400 font-mono text-xs uppercase mb-4 flex items-center gap-2"
+          >
+            <span class="w-1 h-1 bg-emerald-500 rounded-full"></span>
+            System Metrics
+          </h3>
+          <div class="space-y-4 text-xs font-mono">
+            {
+              metrics.map((metric) => (
+                <div class="flex justify-between">
+                  <span class="text-slate-500">{metric.label}:</span>
+                  <span class="text-emerald-400">{metric.value}</span>
+                </div>
+              ))
+            }
+          </div>
+
+          <!-- System Logs -->
+          {
+            systemLogs.length > 0 && (
+              <>
+                <h3 class="text-emerald-400 font-mono text-xs uppercase mt-8 mb-4 flex items-center gap-2">
+                  <span class="w-1 h-1 bg-emerald-500 rounded-full" />
+                  Recent Activity
+                </h3>
+                <div class="space-y-2 text-[10px] font-mono">
+                  {systemLogs.map((log) => (
+                    <div class="text-slate-500">
+                      <span class="text-emerald-500">[{log.date}]</span>
+                      <br />
+                      <span class="text-slate-400">{log.message}</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )
+          }
+        </div>
+
+        <!-- CTA Button -->
+        <a
+          href={link}
+          class="mt-8 block text-center py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded transition-colors uppercase text-xs tracking-widest"
+        >
+          Consulter l'architecture →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

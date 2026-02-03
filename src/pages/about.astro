@@ -1,108 +1,159 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="À propos - PypNetty" description="Ingénieur DevOps et créateur de SaaS cloud-native basé à Orléans">
-  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <h1 class="text-4xl sm:text-5xl font-bold mb-8">À propos</h1>
-    
-    <div class="prose prose-invert prose-zinc prose-lg max-w-none
+<Layout
+  title="À propos - PypNetty"
+  description="Platform Engineer et Resilience Architect. Construction d'infrastructure Kubernetes Bare Metal et systèmes cloud-native."
+>
+  <article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Header -->
+    <div class="mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+        <h1 class="text-4xl sm:text-5xl font-bold">À propos</h1>
+      </div>
+      <p class="text-xl text-zinc-400 max-w-3xl">
+        Platform Engineer obsédé par la résilience et le contrôle total de
+        l'infrastructure. Du métal nu au cluster Kubernetes.
+      </p>
+      <div class="h-1 w-16 bg-emerald-500 mt-4"></div>
+    </div>
+
+    <!-- Introduction -->
+    <section class="mb-16">
+      <div
+        class="prose prose-invert prose-zinc prose-lg max-w-none
       prose-headings:font-bold prose-headings:text-zinc-100
       prose-a:text-accent prose-a:no-underline hover:prose-a:underline
-      prose-strong:text-zinc-100">
-      
-      <p>
-        Salut ! Je suis <strong>PypNetty</strong>, ingénieur DevOps basé à Orléans et créateur de produits SaaS cloud-native.
-      </p>
+      prose-strong:text-zinc-100"
+      >
+        <p>
+          Je suis <strong>PypNetty</strong>, ingénieur DevOps basé à Orléans.
+          Mon terrain de jeu : Kubernetes sur Bare Metal, Go, et
+          l'automatisation d'infrastructure résiliente. Je construis des
+          systèmes qui ne tombent pas.
+        </p>
+      </div>
+    </section>
 
-      <h2>Mon parcours</h2>
-      
-      <p>
-        Actuellement en formation DevOps avec examens prévus en novembre/décembre 2026, je construis mes propres outils 
-        pour résoudre des problèmes concrets dans l'écosystème cloud et Kubernetes.
-      </p>
+    <!-- Journey & Philosophy -->
+    <section class="mb-16">
+      <div
+        class="prose prose-invert prose-zinc prose-lg max-w-none
+      prose-headings:font-bold prose-headings:text-zinc-100
+      prose-a:text-accent prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-zinc-100"
+      >
+        <h2>Ma philosophie</h2>
 
-      <p>
-        Mon approche est pragmatique : identifier un problème, construire une solution, la tester en conditions réelles, 
-        et itérer. Pas de bullshit, juste du code qui fonctionne.
-      </p>
+        <p>
+          Dans un monde qui s'empile sur des couches de virtualisation, je
+          choisis le <strong>Bare Metal</strong>. L'abstraction a un coût :
+          latence imprévisible, dépendance à des tiers, perte de contrôle. Je
+          refuse de payer ce prix.
+        </p>
 
-      <h2>Mes projets</h2>
+        <p>
+          Mon approche : <strong>Cattle, not Pets</strong>. Chaque node est
+          remplaçable, reconstruit en moins de 15 minutes via MaaS/Terraform. Si
+          un serveur faillit, il est exterminé et recréé. C'est ça, la vraie
+          résilience.
+        </p>
 
-      <h3>Kytena</h3>
-      <p>
-        Orchestrateur de sécurité Kubernetes qui automatise l'analyse et la documentation des vulnérabilités. 
-        Le concept "KnownRisk" permet de documenter les vulnérabilités identifiées et les décisions de remédiation 
-        ou d'acceptation du risque.
-      </p>
+        <h2>Stack technique</h2>
 
-      <h3>CloudCost CLI</h3>
-      <p>
-        Outil en ligne de commande pour tracker les coûts cloud en temps réel. Parce que personne ne devrait découvrir 
-        sa facture AWS avec surprise à la fin du mois.
-      </p>
+        <p>
+          Mon langage de prédilection : <strong>Go</strong>. Performance,
+          efficacité mémoire, single binary, concurrence native. Le choix
+          évident pour l'infrastructure cloud-native.
+        </p>
 
-      <h2>Stack technique</h2>
+        <p>Pour le reste :</p>
+        <ul>
+          <li>
+            <strong>Infrastructure</strong> : Talos Linux, Kubernetes, MaaS, Terraform
+          </li>
+          <li>
+            <strong>Networking</strong> : Cilium (eBPF), BGP, MikroTik RouterOS
+          </li>
+          <li>
+            <strong>Storage</strong> : Longhorn, Ceph, MinIO (S3)
+          </li>
+          <li>
+            <strong>Monitoring</strong> : Prometheus, Grafana, VictoriaMetrics
+          </li>
+          <li>
+            <strong>Frontend</strong> : React, Astro, TypeScript
+          </li>
+        </ul>
 
-      <p>
-        Mon langage de prédilection pour le backend est <strong>Go</strong>. Performance, efficacité mémoire, 
-        single binary, et écosystème cloud-native font de Go le choix évident pour des SaaS.
-      </p>
+        <h2>Mes projets</h2>
 
-      <p>
-        Pour le reste :
-      </p>
-      <ul>
-        <li><strong>Infrastructure</strong> : Kubernetes, Docker, Terraform</li>
-        <li><strong>Frontend</strong> : React, Astro (ce site !), TypeScript</li>
-        <li><strong>Backend</strong> : Go, Node.js, gRPC, REST APIs</li>
-        <li><strong>Environnement</strong> : Pop!_OS (Linux), VS Code</li>
-      </ul>
+        <h3>The Metal Farm</h3>
+        <p>
+          Cluster Kubernetes industriel sur hardware physique. Zéro hyperviseur,
+          latence &lt; 2ms, provisionnement automatisé. Infrastructure traitée
+          comme du bétail avec reconstruction complète en &lt; 15min.
+        </p>
 
-      <h2>Au-delà du code</h2>
+        <h3>Kytena Security Orchestrator</h3>
+        <p>
+          Plateforme de sécurité Kubernetes qui automatise l'analyse de
+          vulnérabilités et la documentation des risques. Concept "KnownRisk"
+          pour tracer les décisions de remédiation ou d'acceptation.
+        </p>
 
-      <p>
-        Quand je ne code pas, je suis probablement en train de :
-      </p>
-      <ul>
-        <li>Observer le ciel (passionné d'<strong>astronomie</strong>)</li>
-        <li>Écouter du metal progressif (Gojira, Meshuggah, Tool)</li>
-        <li>Jouer de la guitare (mal, mais avec passion)</li>
-        <li>Lire sur la physique quantique ou l'astrophysique</li>
-      </ul>
+        <h2>Build in public</h2>
 
-      <h2>Build in public</h2>
+        <p>
+          Je documente publiquement la construction de ces systèmes. Pas de
+          marketing, juste la réalité : architecture, métriques, incidents,
+          décisions techniques. Le processus réel, sans filtre.
+        </p>
 
-      <p>
-        J'ai décidé de documenter publiquement la création de mes produits SaaS. Pas pour le personal branding, 
-        mais pour partager le processus réel : les wins, les fails, les décisions techniques, les métriques.
-      </p>
+        <h2>Au-delà du code</h2>
 
-      <p>
-        Si vous êtes vous-même en train de construire quelque chose, ou simplement curieux du parcours indie hacker/DevOps, 
-        ce blog documente tout ça sans filtre.
-      </p>
+        <p>Quand je ne suis pas devant un terminal :</p>
+        <ul>
+          <li>🔭 Observation astronomique (passionné depuis l'enfance)</li>
+          <li>🎸 Guitare et metal progressif (Gojira, Meshuggah, Tool)</li>
+          <li>📚 Physique quantique et astrophysique</li>
+          <li>🏃 Trail running (déconnexion totale)</li>
+        </ul>
 
-      <h2>Contact</h2>
+        <h2>Contact</h2>
 
-      <p>
-        Le meilleur moyen de me contacter est via mes réseaux :
-      </p>
-      <ul>
-        <li><a href="https://github.com/pypnetty" target="_blank" rel="noopener noreferrer">GitHub</a> - Code et projets open-source</li>
-        <li><a href="https://twitter.com/pypnetty" target="_blank" rel="noopener noreferrer">Twitter</a> - Updates et réflexions</li>
-        <li><a href="https://linkedin.com/in/pypnetty" target="_blank" rel="noopener noreferrer">LinkedIn</a> - Réseau professionnel</li>
-      </ul>
+        <p>Connectons-nous :</p>
+        <ul>
+          <li>
+            <a
+              href="https://github.com/pypnetty"
+              target="_blank"
+              rel="noopener noreferrer">GitHub</a
+            > - Code et projets open-source
+          </li>
+          <li>
+            <a
+              href="https://twitter.com/pypnetty"
+              target="_blank"
+              rel="noopener noreferrer">Twitter</a
+            > - Updates techniques et réflexions
+          </li>
+          <li>
+            <a
+              href="https://linkedin.com/in/pypnetty"
+              target="_blank"
+              rel="noopener noreferrer">LinkedIn</a
+            > - Réseau professionnel
+          </li>
+        </ul>
 
-      <p>
-        N'hésitez pas à me contacter si vous voulez discuter DevOps, Go, Kubernetes, ou simplement échanger 
-        sur nos parcours respectifs.
-      </p>
-
-      <p>
-        <strong>Let's build something great.</strong>
-      </p>
-
-    </div>
+        <p>
+          N'hésite pas à me contacter pour discuter Kubernetes Bare Metal, Go,
+          résilience d'infrastructure, ou simplement échanger sur nos parcours.
+        </p>
+      </div>
+    </section>
   </article>
 </Layout>
