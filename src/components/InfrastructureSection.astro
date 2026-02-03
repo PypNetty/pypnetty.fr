@@ -1,0 +1,100 @@
+---
+// InfrastructureSection.astro - Live Infrastructure Fleet Section
+import FleetDashboard from "./FleetDashboard.astro";
+import ReconciliationTerminal from "./ReconciliationTerminal.astro";
+import NodeCheckTerminal from "./NodeCheckTerminal.astro";
+---
+
+<section class="py-20 px-4 max-w-7xl mx-auto">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <!-- COLONNE GAUCHE : LE PITCH -->
+    <div class="space-y-6">
+      <div class="flex items-center gap-2">
+        <span class="w-3 h-3 bg-[#00D9A3] rounded-sm"></span>
+        <h2 class="text-[#00D9A3] font-mono text-sm tracking-wider uppercase">
+          Live Operations
+        </h2>
+      </div>
+
+      <h3 class="text-4xl font-bold text-white">Infrastructure Fleet</h3>
+
+      <p class="text-gray-400 text-lg leading-relaxed">
+        Pilotage d'une infrastructure hybride distribuée sous <span
+          class="text-white font-bold">Talos Linux</span
+        >.
+      </p>
+      <p class="text-gray-400 leading-relaxed">
+        L'approche n'est plus de gérer des serveurs, mais d'orchestrer la
+        résilience. Mes clusters <span class="text-white font-mono"
+          >CORE-01</span
+        > (Bare Metal) et <span class="text-white font-mono">R&D-UNIT</span> (Hybrid)
+        sont gérés comme des ressources éphémères via GitOps.
+      </p>
+
+      <!-- LE TEASING STEALTH -->
+      <div
+        class="mt-8 p-4 bg-gray-900/50 border-l-2 border-[#00D9A3] rounded-r-lg"
+      >
+        <p class="text-sm text-gray-300 italic">
+          "J'écris mes propres contrôleurs Kubernetes (Go/eBPF) pour automatiser
+          ce que le Cloud ne fait pas."
+        </p>
+      </div>
+    </div>
+
+    <!-- COLONNE DROITE : LE DASHBOARD LIVE -->
+    <div class="relative">
+      <!-- Un petit effet de glow vert derrière pour l'ambiance -->
+      <div
+        class="absolute -inset-1 bg-gradient-to-r from-[#00D9A3] to-blue-600 rounded-lg blur opacity-20"
+      >
+      </div>
+
+      <div
+        class="relative bg-[#1F2937] border border-gray-800 rounded-xl p-2 shadow-2xl"
+      >
+        <FleetDashboard />
+      </div>
+    </div>
+  </div>
+
+  <!-- RECONCILIATION TERMINAL - FULL WIDTH -->
+  <div class="mt-16 max-w-5xl mx-auto">
+    <div class="mb-6">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></span>
+        <h4 class="text-purple-400 font-mono text-xs tracking-wider uppercase">
+          Self-Healing in Action
+        </h4>
+      </div>
+      <p class="text-gray-400 text-sm">
+        L'infrastructure détecte et corrige automatiquement les anomalies sans
+        intervention humaine.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Terminal 1: Reconciliation Loop -->
+      <div class="relative">
+        <div
+          class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-[#00D9A3] rounded-lg blur opacity-20"
+        >
+        </div>
+        <div class="relative">
+          <ReconciliationTerminal />
+        </div>
+      </div>
+
+      <!-- Terminal 2: Node Check / Disk Pressure -->
+      <div class="relative">
+        <div
+          class="absolute -inset-1 bg-gradient-to-r from-red-600 to-purple-600 rounded-lg blur opacity-20"
+        >
+        </div>
+        <div class="relative">
+          <NodeCheckTerminal />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -10,13 +10,6 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-/* Background dots pattern */
-body {
-  background-image: radial-gradient(#1e293b 1px, transparent 1px);
-  background-size: 30px 30px;
-  background-attachment: fixed;
-}
-
 /* Line clamp utility (fallback pour compatibilité) */
 .line-clamp-2 {
   display: -webkit-box;

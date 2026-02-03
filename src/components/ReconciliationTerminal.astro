@@ -1,0 +1,61 @@
+---
+// ReconciliationTerminal.astro - Self-healing cluster monitoring terminal
+---
+
+<div
+  class="bg-[#0d1117] rounded-lg border border-gray-800 p-4 font-mono text-xs md:text-sm shadow-2xl"
+>
+  <!-- Fake Terminal Header -->
+  <div class="flex gap-2 mb-4 border-b border-gray-800 pb-2">
+    <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+    <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+    <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+    <span class="ml-2 text-gray-500">zsh — pypctl watch</span>
+  </div>
+
+  <!-- Content -->
+  <div class="space-y-1">
+    <div class="flex gap-2">
+      <span class="text-[#00D9A3] font-bold">$</span>
+      <span class="text-white">pypctl watch --reconciliation-loop</span>
+    </div>
+
+    <div class="pt-3 space-y-1">
+      <div class="text-gray-400">
+        <span class="text-blue-400">[INFO]</span> Checking state for cluster: CORE-01
+      </div>
+      <div class="text-green-400">
+        <span class="text-green-500">[OK]</span> Control Plane latency &lt; 12ms
+      </div>
+      <div class="text-green-400">
+        <span class="text-green-500">[OK]</span> BGP Peering established (ASN 64500)
+      </div>
+      <div class="text-yellow-400">
+        <span class="text-yellow-500">[WARN]</span> Node-03: Memory pressure detected
+        (&gt;85%)
+      </div>
+      <div class="text-purple-400">
+        <span class="text-purple-500">[AUTO]</span> Triggering pod eviction policy...
+      </div>
+      <div class="text-blue-400">
+        <span class="text-blue-400">[INFO]</span> Moving workload "database-shard-2"
+        to Node-01
+      </div>
+      <div class="text-green-400">
+        <span class="text-green-500">[OK]</span> Rescheduling complete. Zero downtime
+        observed.
+      </div>
+      <div class="text-blue-400">
+        <span class="text-blue-400">[INFO]</span> Snapshotting state to S3... Done.
+      </div>
+    </div>
+
+    <div class="pt-3 text-gray-500 border-t border-gray-800 mt-3 pt-2">
+      # System is self-healing. Human intervention not required.
+    </div>
+
+    <div class="text-gray-500 animate-pulse mt-2">
+      <span class="inline-block">_</span> Waiting for events...
+    </div>
+  </div>
+</div>

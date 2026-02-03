@@ -1,0 +1,95 @@
+---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>404 - CrashLoopBackOff | Pypnetty</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-black text-white h-screen flex items-center justify-center font-mono selection:bg-red-500 selection:text-white"
+  >
+    <div
+      class="max-w-2xl p-8 border border-red-900/50 bg-red-900/10 rounded-lg shadow-2xl relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')] opacity-20"
+      >
+      </div>
+
+      <div class="relative z-10">
+        <div
+          class="flex items-center gap-3 text-red-500 mb-6 border-b border-red-900/30 pb-4"
+        >
+          <svg
+            class="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            ></path>
+          </svg>
+          <h1 class="text-2xl font-bold tracking-widest uppercase">
+            Fatal Error: 404
+          </h1>
+        </div>
+
+        <div class="space-y-4 text-sm md:text-base text-gray-300">
+          <p>
+            <span class="text-red-400 font-bold">[CRITICAL]</span> Pod <span
+              class="text-white italic">page-requested</span
+            > failed to schedule.
+          </p>
+          <p>
+            <span class="text-blue-400 font-bold">[INFO]</span> Reason: <span
+              class="text-white">ImagePullBackOff</span
+            > (Resource not found).
+          </p>
+          <p
+            class="font-mono text-xs text-gray-500 mt-4 p-4 bg-black rounded border border-gray-800"
+          >
+            Error: GET {Astro.url.pathname}<br />
+            > upstream connect error or disconnect/reset before headers. reset reason:
+            connection failure
+          </p>
+        </div>
+
+        <div class="mt-8 flex gap-4">
+          <a
+            href="/"
+            class="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded flex items-center gap-2 transition-all"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              ></path>
+            </svg>
+            Reboot to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

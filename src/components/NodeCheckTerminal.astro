@@ -1,0 +1,54 @@
+---
+// NodeCheckTerminal.astro - Disk pressure recovery demonstration
+---
+
+<div
+  class="bg-[#0d1117] rounded-lg border border-gray-800 p-4 font-mono text-xs md:text-sm shadow-2xl"
+>
+  <!-- Terminal Header -->
+  <div class="flex gap-2 mb-4 border-b border-gray-800 pb-2">
+    <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+    <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+    <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+    <span class="ml-2 text-gray-500">zsh — pypctl events</span>
+  </div>
+
+  <!-- Content -->
+  <div class="space-y-1">
+    <div class="flex gap-2">
+      <span class="text-[#00D9A3] font-bold">$</span>
+      <span class="text-white">pypctl check --node core-02</span>
+    </div>
+
+    <div class="pt-2 text-green-400">
+      <span class="text-green-500">[OK]</span> Traefik Ingress: Routing converged
+      (HTTPS/TLS)
+    </div>
+
+    <!-- Le drame du disque (Géré) -->
+    <div class="text-red-400">
+      <span class="text-red-500">[CRIT]</span> Node-02: DiskPressure detected (Usage
+      &gt; 85%)
+    </div>
+
+    <div class="text-yellow-400">
+      <span class="text-blue-400">[INFO]</span> Kubelet: Triggering Image Garbage
+      Collection...
+    </div>
+
+    <div class="text-gray-400">
+      <span class="text-blue-400">[INFO]</span> Evicting low-priority pods (BestEffort
+      QoS)
+    </div>
+
+    <!-- La Résilience -->
+    <div class="text-purple-400">
+      <span class="text-purple-500">[AUTO]</span> Recovery successful. Available space:
+      22%.
+    </div>
+
+    <div class="text-gray-500 animate-pulse mt-2">
+      <span class="inline-block">_</span> System stable.
+    </div>
+  </div>
+</div>

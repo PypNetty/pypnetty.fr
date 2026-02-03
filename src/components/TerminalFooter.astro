@@ -4,6 +4,9 @@
 
 <footer class="terminal-footer">
   <div class="terminal-window">
+    <div class="footer-logo">
+      <img src="/logo-icon.svg" alt="PypNetty" class="logo-icon" />
+    </div>
     <pre><span class="terminal-command">$ cat footer.txt</span>
 <span class="terminal-key">author:</span> PypNetty
 <span class="terminal-key">copyright:</span> © 2025 PypNetty - Tous droits réservés
@@ -39,6 +42,22 @@
     font-family: "JetBrains Mono", "Courier New", monospace;
     color: #9ca3af;
     font-size: 0.875rem;
+  }
+
+  .footer-logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .logo-icon {
+    height: 48px;
+    width: auto;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+
+  .logo-icon:hover {
+    opacity: 1;
   }
 
   .terminal-window pre {

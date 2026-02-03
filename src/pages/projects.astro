@@ -1,227 +1,358 @@
 ---
+import GitOpsPipeline from "../components/react/GitOpsPipeline.tsx";
 import Layout from "../layouts/Layout.astro";
-import ProjectDatasheet from "../components/ProjectDatasheet.astro";
 
-const projects = [
-  {
-    projectId: "MF-K8S-01",
-    title: "The Metal Farm",
-    description:
-      "Laboratoire de résilience conçu pour valider l'automatisation du cycle de vie du bétail (Cattle) sur hardware physique. L'objectif est de démontrer qu'une infrastructure hautement disponible peut être opérée sur du matériel hétérogène recyclé sans surcouche de virtualisation.",
-    status: "Development",
-    specs: [
-      { label: "Provisioning", value: "PXE / MaaS" },
-      { label: "Runtime", value: "Containerd" },
-      { label: "Hardware", value: "Dell & Fujitsu (Hybrid)" },
-      { label: "Networking", value: "MikroTik / BGP" },
-      { label: "Storage", value: "SSD/HDD Tiering" },
-      { label: "OS Base", value: "Talos" },
-    ],
-    metrics: [
-      { label: "Node Count", value: "05 [Planning]" },
-      { label: "Memory Type", value: "DDR3 ECC" },
-      { label: "Storage", value: "SSD + HDD Pool" },
-      { label: "Target Uptime", value: "99.9%" },
-      { label: "Security", value: "Zero-Trust Vision" },
-    ],
-    systemLogs: [
-      { date: "2026-01-08", message: "Initial hardware inventory completed" },
-      {
-        date: "2026-01-05",
-        message: "BGP routing strategy defined with MikroTik",
-      },
-      { date: "2025-12-28", message: "Testing MaaS automation on Dell nodes" },
-    ],
-    capabilities: [
-      {
-        label: "Storage Hybrid Tiering",
-        description:
-          "Optimisation de la latence via SSD pour etcd et OS, tout en utilisant les HDD pour le stockage de données massif via des StorageClasses K8s dédiées.",
-      },
-      {
-        label: "Hardware Abstraction",
-        description:
-          "Preuve de concept d'une couche d'automatisation (MaaS) capable d'unifier des firmwares Dell et Fujitsu pour un déploiement 'One-Click'.",
-      },
-      {
-        label: "Density & Efficiency",
-        description:
-          "Exploitation de la densité de la DDR3 pour supporter une haute densité de micro-services isolés avec un monitoring eBPF à bas overhead.",
-      },
-    ],
-    link: "#",
-  },
-];
+// Métadonnées du projet
+const project = {
+  title: "The Metal Farm",
+  subtitle: "Bare Metal Kubernetes Laboratory",
+  tags: ["Talos Linux", "GitOps", "Green IT", "Resilience"],
+  description:
+    "Transformation de matériel hétérogène recyclé en un Cloud Privé unifié. Une infrastructure immuable, pilotée par GitOps, où le hardware devient une commodité interchangeable.",
+};
 ---
 
 <Layout
   title="Projets - PypNetty"
   description="Projets d'infrastructure cloud-native et Kubernetes Bare Metal"
 >
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <!-- Page Header -->
-    <div class="mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
-        <h1 class="text-4xl sm:text-5xl font-bold">Projets</h1>
-      </div>
-      <p class="text-xl text-zinc-400 max-w-3xl">
-        Infrastructure industrielle et systèmes de production. Architectures
-        conçues pour la résilience, le contrôle et la performance déterministe.
-      </p>
-      <div class="h-1 w-16 bg-emerald-500 mt-4"></div>
+  <section class="max-w-7xl mx-auto px-4 py-16">
+    <div class="mb-6 flex gap-2">
+      {
+        project.tags.map((tag) => (
+          <span class="px-2 py-1 text-[10px] uppercase font-bold tracking-wider border border-[#00D9A3]/30 text-[#00D9A3] rounded bg-[#00D9A3]/5">
+            {tag}
+          </span>
+        ))
+      }
     </div>
+    <h1 class="text-4xl md:text-6xl font-bold mb-6">{project.title}</h1>
+    <p class="text-xl text-gray-400 max-w-3xl leading-relaxed">
+      {project.description}
+    </p>
+  </section>
 
-    <!-- Hardware Inventory & Vision -->
-    <div class="space-y-12 mb-16">
-      <!-- Physical Resources -->
-      <section class="border border-slate-800 bg-slate-900/10 p-6 rounded-lg">
-        <h3
-          class="text-emerald-500 font-mono text-xs mb-6 uppercase tracking-widest"
+  <section class="max-w-7xl mx-auto px-4 mb-24">
+    <div class="border-t border-gray-800 pt-12">
+      <h2 class="text-2xl font-bold mb-2">Bare Metal Abstraction</h2>
+      <p class="text-gray-500 mb-12 max-w-2xl">
+        L'objectif n'est pas de tuner le hardware (SSD Tiering complexe), mais
+        de l'effacer. Talos Linux transforme un parc disparate en une grille de
+        calcul standardisée.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          class="bg-[#161b22] border border-gray-800 p-6 rounded-lg hover:border-blue-500/50 transition-colors group"
         >
-          // Input: Physical Resources
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <ul class="space-y-2 text-sm font-mono">
-            <li class="text-slate-400">
-              <span class="text-white">DELL Nodes (x2):</span> DDR3 ECC Optimized
-            </li>
-            <li class="text-slate-400">
-              <span class="text-white">Fujitsu Node:</span> Workload Balancing
-            </li>
-            <li class="text-slate-400">
-              <span class="text-white">Network:</span> MikroTik hEX S + BGP
-            </li>
-          </ul>
-          <ul class="space-y-2 text-sm font-mono md:text-right">
-            <li class="text-slate-400">
-              SSD Fast-Path <span class="text-emerald-500">[SYSTEM]</span>
-            </li>
-            <li class="text-slate-400">
-              HDD Bulk-Storage <span class="text-emerald-500">[DATA]</span>
-            </li>
-            <li class="text-slate-400">
-              Hybrid Tiering <span class="text-emerald-500">[OPTIMIZED]</span>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- Vision & Terminal -->
-      <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-        <div>
-          <h2 class="text-2xl font-bold text-white mb-4 italic">
-            Hardware Optimization Strategy
-          </h2>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">
-            Créer un <strong>"Self-Healing Lab"</strong> capable de gérer le cycle
-            de vie du bétail (Cattle) sur hardware réel. Focus sur l'automatisation
-            du stockage hybride et la sécurité réseau, sans dépendance Cloud Provider.
+          <div
+            class="w-10 h-10 bg-blue-500/10 rounded flex items-center justify-center mb-4 group-hover:bg-blue-500/20"
+          >
+            <svg
+              class="w-5 h-5 text-blue-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold mb-2">Stateless by Design</h3>
+          <p class="text-sm text-gray-400">
+            Abandon du stockage distribué complexe (Ceph). La persistance est
+            déléguée au <span class="text-white">Local Path</span> ou aux DBs gérées.
+            Le nœud reste jetable.
           </p>
-          <div class="border-l-2 border-emerald-500 pl-4 py-2">
-            <p class="text-slate-300 text-xs leading-relaxed">
-              <strong>Storage Tiering :</strong> SSD pour etcd et OS (latence critique),
-              HDD pour Longhorn/Ceph (capacité). Classes de stockage Kubernetes différenciées
-              pour optimiser coût/performance.
-            </p>
+        </div>
+
+        <div
+          class="bg-[#161b22] border border-gray-800 p-6 rounded-lg hover:border-purple-500/50 transition-colors group"
+        >
+          <div
+            class="w-10 h-10 bg-purple-500/10 rounded flex items-center justify-center mb-4 group-hover:bg-purple-500/20"
+          >
+            <svg
+              class="w-5 h-5 text-purple-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold mb-2">Unified Control Plane</h3>
+          <p class="text-sm text-gray-400">
+            Dell, Fujitsu, ou Raspberry Pi : l'API Kubernetes uniformise tout.
+            Utilisation de <span class="text-white">NodeSelectors</span> pour le placement
+            intelligent.
+          </p>
+        </div>
+
+        <div
+          class="bg-[#161b22] border border-gray-800 p-6 rounded-lg hover:border-[#00D9A3]/50 transition-colors group"
+        >
+          <div
+            class="w-10 h-10 bg-[#00D9A3]/10 rounded flex items-center justify-center mb-4 group-hover:bg-[#00D9A3]/20"
+          >
+            <svg
+              class="w-5 h-5 text-[#00D9A3]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-white font-bold mb-2">Immutable Security</h3>
+          <p class="text-sm text-gray-400">
+            OS en lecture seule. Pas de SSH. En cas de compromission, le nœud
+            est <span class="text-white">Wiped & Rebooted</span> en moins de 3 minutes
+            via PXE.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[#0d1117] border-y border-gray-800 py-20 mb-20">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="mb-12 text-center">
+        <h2 class="text-3xl font-bold mb-4">From Commit to Metal</h2>
+        <p class="text-gray-400">
+          Visualisation du pipeline de réconciliation continue. Zéro
+          intervention humaine sur les serveurs.
+        </p>
+      </div>
+
+      <GitOpsPipeline client:visible />
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 pb-20">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div
+        class="lg:col-span-1 bg-[#12161c] border border-gray-800/60 rounded-xl p-6 shadow-xl backdrop-blur-sm flex flex-col h-full"
+      >
+        <h3
+          class="text-lg font-bold mb-6 flex items-center gap-3 text-white border-b border-gray-800 pb-4"
+        >
+          <span
+            class="w-2 h-2 bg-[#00D9A3] rounded-full shadow-[0_0_10px_#00D9A3]"
+          ></span>
+          Technical Stack
+        </h3>
+
+        <div class="space-y-8 flex-1">
+          <div>
+            <h4
+              class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3"
+            >
+              Provisioning
+            </h4>
+            <ul class="space-y-3 text-sm font-mono text-gray-300">
+              <li class="flex items-center justify-between group">
+                <span class="group-hover:text-white transition-colors"
+                  >Talos Linux</span
+                >
+                <span
+                  class="text-[#00D9A3] opacity-0 group-hover:opacity-100 transition-opacity text-[10px]"
+                  >API</span
+                >
+              </li>
+              <li class="flex items-center justify-between group">
+                <span class="group-hover:text-white transition-colors"
+                  >Omni</span
+                >
+                <span class="text-gray-600 text-[10px]">BOOT</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4
+              class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3"
+            >
+              Network
+            </h4>
+            <ul class="space-y-3 text-sm font-mono text-gray-300">
+              <li class="flex items-center justify-between group">
+                <span class="group-hover:text-white transition-colors"
+                  >Cilium</span
+                >
+                <span
+                  class="text-yellow-500 text-[10px] border border-yellow-500/20 px-1 rounded"
+                  >eBPF</span
+                >
+              </li>
+              <li class="flex items-center justify-between group">
+                <span class="group-hover:text-white transition-colors">BGP</span
+                >
+                <span class="text-gray-600 text-[10px]">ROUTING</span>
+              </li>
+              <li class="flex items-center justify-between group">
+                <span class="group-hover:text-white transition-colors"
+                  >Traefik</span
+                >
+                <span class="text-gray-600 text-[10px]">INGRESS</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4
+              class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3"
+            >
+              Data
+            </h4>
+            <ul class="space-y-3 text-sm font-mono text-gray-300">
+              <li class="flex items-center justify-between group">
+                <span class="group-hover:text-white transition-colors"
+                  >Local Path</span
+                >
+                <span
+                  class="text-blue-500 text-[10px] border border-blue-500/20 px-1 rounded"
+                  >CSI</span
+                >
+              </li>
+              <li class="flex items-center justify-between group">
+                <span class="group-hover:text-white transition-colors"
+                  >Velero</span
+                >
+                <span class="text-gray-600 text-[10px]">BACKUP</span>
+              </li>
+            </ul>
           </div>
         </div>
-        <div
-          class="bg-slate-950 p-4 border border-slate-800 rounded font-mono text-[10px] text-emerald-500/70 leading-relaxed"
-        >
-          $ k8s-deploy --strategy=bare-metal<br />
-          [INFO] Mapping SSD for etcd latency...<br />
-          [INFO] Initializing HDD pool for Longhorn...<br />
-          [INFO] BGP routes propagating...<br />
-          [INFO] StorageClass 'fast' → SSD tier<br />
-          [INFO] StorageClass 'bulk' → HDD tier<br />
-          [OK] Nodes ready for heterogeneous workload.<br />
-          [OK] Multi-vendor firmware validated.
-        </div>
-      </section>
+      </div>
 
-      <!-- Technical Benefits -->
-      <section
-        class="grid grid-cols-1 md:grid-cols-3 gap-6 border border-slate-800 bg-slate-900/10 p-6 rounded-lg"
+      <div
+        class="lg:col-span-2 bg-[#12161c] border border-gray-800/60 rounded-xl p-8 shadow-xl backdrop-blur-sm h-full"
       >
-        <div>
-          <h3 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
-            <span class="text-emerald-500">⚡</span>
-            Storage Tiering
-          </h3>
-          <p class="text-slate-400 text-xs leading-relaxed">
-            Séparation intelligente : données chaudes sur SSD (&lt; 5ms),
-            données froides sur HDD. Optimisation automatique via StorageClasses
-            K8s.
-          </p>
-        </div>
-        <div>
-          <h3 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
-            <span class="text-emerald-500">🔧</span>
-            Multi-Vendor
-          </h3>
-          <p class="text-slate-400 text-xs leading-relaxed">
-            Interopérabilité Dell/Fujitsu. Test réel de l'automatisation
-            MaaS/PXE sur firmwares différents. Résilience face à l'hétérogène.
-          </p>
-        </div>
-        <div>
-          <h3 class="text-white font-bold text-sm mb-2 flex items-center gap-2">
-            <span class="text-emerald-500">💾</span>
-            Memory Density
-          </h3>
-          <p class="text-slate-400 text-xs leading-relaxed">
-            DDR3 ECC = grande capacité RAM à coût optimisé. Parfait pour
-            microservices multiples et outils eBPF gourmands.
-          </p>
-        </div>
-      </section>
-    </div>
-
-    <!-- Project Datasheets -->
-    {
-      projects.map((project) => (
-        <ProjectDatasheet
-          projectId={project.projectId}
-          title={project.title}
-          description={project.description}
-          status={project.status}
-          specs={project.specs}
-          metrics={project.metrics}
-          systemLogs={project.systemLogs}
-          challenges={project.challenges}
-          link={project.link}
-        />
-      ))
-    }
-
-    <!-- Call to Action -->
-    <div class="mt-12 p-8 border border-slate-800 rounded-xl bg-slate-900/20">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="text-emerald-500 font-mono text-xs">$</span>
-        <h2 class="text-2xl font-bold">Suivre les évolutions</h2>
-      </div>
-      <p class="text-slate-400 mb-6 leading-relaxed">
-        Je documente publiquement la construction et l'exploitation de ces
-        systèmes sur mon blog. Décisions d'architecture, métriques de
-        performance, incidents résolus et leçons apprises.
-      </p>
-      <div class="flex flex-wrap gap-4">
-        <a
-          href="/blog"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-lg transition-colors"
+        <div
+          class="flex items-center justify-between mb-8 pb-4 border-b border-gray-800"
         >
-          Lire le blog
-          <span>→</span>
-        </a>
-        <a
-          href="/rss.xml"
-          class="inline-flex items-center gap-2 px-6 py-3 border border-slate-700 hover:border-emerald-500 text-slate-300 hover:text-emerald-400 font-semibold rounded-lg transition-colors"
-        >
-          <span>📡</span>
-          S'abonner au RSS
-        </a>
+          <h3 class="font-bold text-lg text-white">Hybrid Topology Context</h3>
+          <div class="flex gap-2">
+            <span
+              class="px-2 py-1 bg-gray-800 text-gray-400 text-[10px] font-bold uppercase tracking-wider rounded"
+            >
+              4 Nodes
+            </span>
+            <span
+              class="px-2 py-1 bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-wider rounded border border-blue-500/20 shadow-[0_0_10px_rgba(59,130,246,0.2)]"
+            >
+              Multi-Site
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div class="relative pl-6 border-l-2 border-gray-800 space-y-8">
+            <div class="relative">
+              <span
+                class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#12161c] border-2 border-[#00D9A3] shadow-[0_0_10px_#00D9A3]"
+              ></span>
+              <h4
+                class="text-xs font-bold text-[#00D9A3] uppercase mb-4 tracking-wider"
+              >
+                Zone A: On-Premises (Metal)
+              </h4>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div
+                  class="p-4 bg-black/40 rounded border border-gray-700/50 hover:border-[#00D9A3]/50 transition-all group"
+                >
+                  <div class="text-[10px] text-gray-500 uppercase mb-1">
+                    Compute Power
+                  </div>
+                  <div
+                    class="font-mono text-white font-bold text-lg group-hover:text-[#00D9A3] transition-colors"
+                  >
+                    64 vCPU
+                  </div>
+                  <div class="text-xs text-gray-400 mt-1">
+                    Dell R620 & Fujitsu Cluster
+                  </div>
+                </div>
+                <div
+                  class="p-4 bg-black/40 rounded border border-gray-700/50 hover:border-[#00D9A3]/50 transition-all group"
+                >
+                  <div class="text-[10px] text-gray-500 uppercase mb-1">
+                    Memory Pool
+                  </div>
+                  <div
+                    class="font-mono text-white font-bold text-lg group-hover:text-purple-400 transition-colors"
+                  >
+                    128 GB ECC
+                  </div>
+                  <div class="text-xs text-gray-400 mt-1">
+                    DDR3 Recycled RAM
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="h-8 border-l-2 border-dashed border-gray-700 ml-[-2px]">
+            </div>
+
+            <div class="relative">
+              <span
+                class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#12161c] border-2 border-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+              ></span>
+              <h4
+                class="text-xs font-bold text-blue-400 uppercase mb-4 tracking-wider"
+              >
+                Zone B: Public Cloud (OVH)
+              </h4>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div
+                  class="p-4 bg-blue-900/5 rounded border border-blue-500/20 hover:bg-blue-900/10 transition-all"
+                >
+                  <div class="text-[10px] text-blue-400/70 uppercase mb-1">
+                    Witness Node
+                  </div>
+                  <div class="font-mono text-white font-bold">Talos VPS</div>
+                  <div class="text-xs text-gray-400 mt-1">
+                    Gateway d'entrée & Quorum
+                  </div>
+                </div>
+                <div
+                  class="flex items-center p-4 bg-gray-800/30 rounded border border-dashed border-gray-600"
+                >
+                  <div class="flex-1">
+                    <div class="text-[10px] text-gray-500 uppercase mb-1">
+                      Secure Mesh
+                    </div>
+                    <div class="font-mono text-gray-300 font-bold">
+                      WireGuard VPN
+                    </div>
+                  </div>
+                  <div
+                    class="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"
+                  >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </Layout>

@@ -1,0 +1,365 @@
+---
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+const posts = [
+  {
+    title: "C'est quoi eBPF ?",
+    slug: "kezako-ebpf",
+    type: "kezako",
+    date: "2026-02-01",
+    readTime: "3 min",
+    category: "Kernel",
+    excerpt: "Comprendre eBPF sans noyer son kernel. Pourquoi tout le monde en parle et pourquoi ça remplace iptables.",
+    fileType: ".md",
+    size: "2kb"
+  },
+  {
+    title: "Deep Dive: Talos Bootstrap Process",
+    slug: "talos-bootstrap",
+    type: "deep-dive",
+    date: "2026-01-28",
+    readTime: "18 min",
+    category: "OS",
+    excerpt: "Analyse pas-à-pas de la séquence de boot d'un noeud Talos. Du PXE au Kubelet ready, analyse des appels API et de la sécurité.",
+    fileType: ".core",
+    size: "128MB"
+  },
+  {
+    title: "Le Pattern GitOps expliqué à ma grand-mère",
+    slug: "kezako-gitops",
+    type: "kezako",
+    date: "2026-01-15",
+    readTime: "4 min",
+    category: "IaC",
+    excerpt: "Fini les scripts manuels. On explique pourquoi Git doit être la seule source de vérité.",
+    fileType: ".txt",
+    size: "1kb"
+  },
+  {
+    title: "Post-Mortem: Etcd Split-Brain",
+    slug: "etcd-incident",
+    type: "deep-dive",
+    date: "2025-12-10",
+    readTime: "12 min",
+    category: "Resilience",
+    excerpt: "Comment une latence réseau de 50ms a corrompu le quorum. Analyse des logs RAFT et stratégie de mitigation.",
+    fileType: ".log",
+    size: "450kb"
+  }
+];
+
+const categories = ["/all", "/kernel", "/os", "/iac", "/resilience"];
+---
+
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Engineering Logs | Pypnetty</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    class="bg-[#050608] text-white selection:bg-[#00D9A3] selection:text-black font-sans antialiased relative overflow-x-hidden"
+  >
+    <div class="fixed inset-0 z-0 pointer-events-none">
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px]"
+      >
+      </div>
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050608_100%)]"
+      >
+      </div>
+    </div>
+
+    <nav
+      class="fixed w-full z-50 border-b border-gray-800/50 bg-[#050608]/80 backdrop-blur-md"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between"
+      >
+        <a
+          href="/"
+          class="font-bold text-xl tracking-tight flex items-center gap-2 group"
+        >
+          <div
+            class="w-8 h-8 bg-[#00D9A3] group-hover:bg-white transition-colors rounded-sm flex items-center justify-center text-black font-mono font-bold"
+          >
+            P
+          </div>
+          <span class="text-[#00D9A3] group-hover:text-white transition-colors"
+            >Pypnetty</span
+          >
+        </a>
+        <div class="flex gap-6 text-xs font-mono text-gray-400">
+          <a href="/" class="hover:text-white transition-colors">[~] Home</a>
+          <a href="/projects" class="hover:text-white transition-colors"
+            >[./] Projets</a
+          >
+          <span class="text-[#00D9A3] pointer-events-none">[*] Logs</span>
+          <a href="/about" class="hover:text-white transition-colors"
+            >[?] Profile</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <main class="relative z-10 pt-32 pb-20 max-w-7xl mx-auto px-4">
+      <div class="mb-16 border-b border-gray-800/50 pb-12">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-6">
+          <div>
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00D9A3]/10 border border-[#00D9A3]/20 text-[#00D9A3] text-xs font-mono mb-4 animate-pulse"
+            >
+              <span class="w-2 h-2 rounded-full bg-[#00D9A3]"></span>
+              SYSTEM ONLINE • WRITING LOGS
+            </div>
+            <h1
+              class="text-5xl md:text-6xl font-bold mb-4 tracking-tight text-white"
+            >
+              Engineering <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-[#00D9A3] to-blue-600"
+                >Logs</span
+              >
+            </h1>
+            <p class="text-lg text-gray-400 max-w-xl">
+              Base de connaissance immuable. Retours d'expérience sur
+              l'infrastructure bare-metal et l'orchestration.
+            </p>
+          </div>
+
+          <div class="hidden md:flex gap-4 font-mono text-xs text-gray-500">
+            <div class="bg-[#0d1117] border border-gray-800 p-3 rounded w-32">
+              <div class="flex items-center gap-2 mb-1 text-gray-400">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                  <rect x="9" y="9" width="6" height="6"></rect>
+                  <line x1="9" y1="1" x2="9" y2="4"></line>
+                  <line x1="15" y1="1" x2="15" y2="4"></line>
+                  <line x1="9" y1="20" x2="9" y2="23"></line>
+                  <line x1="15" y1="20" x2="15" y2="23"></line>
+                  <line x1="20" y1="9" x2="23" y2="9"></line>
+                  <line x1="20" y1="14" x2="23" y2="14"></line>
+                  <line x1="1" y1="9" x2="4" y2="9"></line>
+                  <line x1="1" y1="14" x2="4" y2="14"></line>
+                </svg>
+                CPU Load
+              </div>
+              <div class="text-[#00D9A3] text-lg">12%</div>
+            </div>
+            <div class="bg-[#0d1117] border border-gray-800 p-3 rounded w-32">
+              <div class="flex items-center gap-2 mb-1 text-gray-400">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                Uptime
+              </div>
+              <div class="text-blue-400 text-lg">41d 12h</div>
+            </div>
+            <div class="bg-[#0d1117] border border-gray-800 p-3 rounded w-32">
+              <div class="flex items-center gap-2 mb-1 text-gray-400">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="22" y1="12" x2="2" y2="12"></line>
+                  <path
+                    d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"
+                  ></path>
+                  <line x1="6" y1="16" x2="6.01" y2="16"></line>
+                  <line x1="10" y1="16" x2="10.01" y2="16"></line>
+                </svg>
+                Storage
+              </div>
+              <div class="text-purple-400 text-lg">1.2 TB</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex flex-col md:flex-row gap-6 mb-12 items-start md:items-center justify-between sticky top-20 z-40 py-4 bg-[#050608]/90 backdrop-blur transition-all"
+      >
+        <div class="flex flex-wrap gap-2 overflow-x-auto no-scrollbar">
+          {
+            categories.map((cat, idx) => (
+              <button
+                class={`
+                        px-3 py-1.5 text-xs font-mono border rounded transition-all whitespace-nowrap
+                        ${
+                          idx === 0
+                            ? "bg-[#00D9A3]/10 border-[#00D9A3] text-[#00D9A3] shadow-[0_0_10px_rgba(0,217,163,0.2)]"
+                            : "bg-[#161b22] border-gray-800 text-gray-400 hover:border-gray-500 hover:text-white"
+                        }
+                    `}
+              >
+                {cat}
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="relative w-full md:w-auto">
+          <div
+            class="absolute inset-y-0 left-3 flex items-center pointer-events-none"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              class="text-[#00D9A3]"
+            >
+              <polyline points="4 17 10 11 4 5"></polyline>
+              <line x1="12" y1="19" x2="20" y2="19"></line>
+            </svg>
+          </div>
+          <input
+            type="text"
+            placeholder="find . -name 'query'"
+            class="w-full md:w-72 bg-[#0d1117] border border-gray-800 rounded py-2 pl-9 pr-4 text-sm font-mono text-gray-300 focus:outline-none focus:border-[#00D9A3] transition-all placeholder:text-gray-700"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {
+          posts
+            .filter((p) => p.isFeatured)
+            .map((post) => (
+              <a
+                href={`/blog/${post.slug}`}
+                class="md:col-span-2 relative group rounded-xl overflow-hidden cursor-pointer block"
+              >
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-[#00D9A3] to-blue-600 rounded-xl blur opacity-30 group-hover:opacity-75 transition duration-500" />
+
+                <div class="relative h-full bg-[#0d1117] rounded-xl p-8 flex flex-col justify-between border border-gray-800 group-hover:border-transparent transition-colors">
+                  <div>
+                    <div class="flex justify-between items-start mb-6">
+                      <div class="flex items-center gap-2 text-xs font-mono text-[#00D9A3]">
+                        <span class="px-2 py-1 bg-[#00D9A3]/10 rounded border border-[#00D9A3]/20">
+                          LATEST ENTRY
+                        </span>
+                        <span class="text-gray-500">{post.fileType}</span>
+                      </div>
+                      <span class="font-mono text-xs text-gray-600">
+                        {post.date}
+                      </span>
+                    </div>
+
+                    <h2 class="text-3xl font-bold text-white mb-4 group-hover:text-[#00D9A3] transition-colors">
+                      {post.title}
+                    </h2>
+
+                    <p class="text-gray-400 text-lg leading-relaxed mb-6 border-l-2 border-gray-800 pl-4">
+                      {post.excerpt}
+                    </p>
+                  </div>
+
+                  <div class="flex items-center justify-between pt-6 border-t border-gray-800 mt-4 text-xs font-mono text-gray-500">
+                    <div class="flex gap-4">
+                      <span>{post.permissions}</span>
+                      <span>{post.size}</span>
+                      <span class="text-gray-300">root:root</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-white group-hover:translate-x-1 transition-transform">
+                      ./read_more.sh
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        class="text-[#00D9A3] flex-shrink-0"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))
+        }
+
+        {
+          posts
+            .filter((p) => !p.isFeatured)
+            .map((post) => (
+              <a
+                href={`/blog/${post.slug}`}
+                class="relative group bg-[#0d1117] border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-all flex flex-col justify-between h-full hover:bg-[#161b22] block"
+              >
+                <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-[#00D9A3]/10 to-transparent rounded-tr-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                <div>
+                  <div class="flex items-center justify-between text-xs font-mono text-gray-500 mb-4">
+                    <span class="text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded">
+                      {post.category}
+                    </span>
+                    <span>{post.readTime}</span>
+                  </div>
+
+                  <h3 class="text-lg font-bold text-white mb-3 group-hover:text-[#00D9A3] transition-colors">
+                    {post.title}
+                  </h3>
+
+                  <p class="text-sm text-gray-400 leading-relaxed line-clamp-3">
+                    {post.excerpt}
+                  </p>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-gray-800 flex justify-between items-center font-mono text-xs">
+                  <span class="text-gray-600">
+                    {post.fileType} • {post.size}
+                  </span>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="text-gray-600 group-hover:text-[#00D9A3] transition-colors flex-shrink-0"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </div>
+              </a>
+            ))
+        }
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>

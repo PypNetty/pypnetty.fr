@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import TerminalFooter from "../components/TerminalFooter.astro";
+import Footer from "../components/Footer.astro";
 import SEO from "../components/SEO.astro";
 
 interface Props {
@@ -38,61 +38,66 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       rel="stylesheet"
     />
   </head>
-  <body class="bg-[#1E1E2E] text-zinc-100 font-sans antialiased">
-    <!-- Navigation -->
-    <nav
-      id="navbar"
-      class="fixed top-0 left-0 right-0 z-50 bg-[#1E1E2E]/0 backdrop-blur-sm border-b border-transparent transition-all duration-300"
-    >
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <a
-            href="/"
-            class="flex items-center gap-3 hover:opacity-80 transition-opacity"
-          >
-            <span class="text-xl font-bold" style="color: #10B981;"
-              >PypNetty</span
-            >
-            <span
-              class="text-xs text-zinc-400 font-medium px-2.5 py-1 bg-zinc-900/50 border border-zinc-700 rounded"
-              >Platform Engineer & Resilience Architect</span
-            >
-          </a>
-          <div
-            class="flex gap-0 bg-zinc-900/50 border border-zinc-800 rounded overflow-hidden"
-          >
+  <body
+    class="bg-[#0b0d11] text-white selection:bg-[#00D9A3] selection:text-black font-sans antialiased relative overflow-x-hidden"
+  >
+    <div class="fixed inset-0 z-0 pointer-events-none">
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
+      >
+      </div>
+      <div
+        class="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-[#00D9A3] opacity-20 blur-[100px]"
+      >
+      </div>
+    </div>
+
+    <div class="relative z-10">
+      <!-- Navigation -->
+      <nav
+        id="navbar"
+        class="fixed w-full z-50 border-b border-gray-800/50 bg-[#050608]/80 backdrop-blur-md"
+      >
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="flex justify-between items-center h-16">
             <a
               href="/"
-              class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm"
-              >accueil</a
+              class="font-bold text-xl tracking-tight flex items-center gap-2 group"
             >
-            <a
-              href="/projects"
-              class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm"
-              >projets</a
-            >
-            <a
-              href="/blog"
-              class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm"
-              >blog</a
-            >
-            <a
-              href="/about"
-              class="px-4 py-2 hover:bg-zinc-800/50 transition-all text-sm"
-              >à propos</a
-            >
+              <div
+                class="w-8 h-8 bg-[#00D9A3] group-hover:bg-white transition-colors rounded-sm flex items-center justify-center text-black font-mono font-bold"
+              >
+                P
+              </div>
+              <span
+                class="text-[#00D9A3] group-hover:text-white transition-colors"
+                >Pypnetty</span
+              >
+            </a>
+            <div class="flex gap-6 text-xs font-mono text-gray-400">
+              <a href="/" class="hover:text-white transition-colors">[~] Home</a
+              >
+              <span class="text-[#00D9A3] pointer-events-none">[*] Projets</span
+              >
+              <a href="/blog" class="hover:text-white transition-colors"
+                >[~/] Blog</a
+              >
+              <a href="/about" class="hover:text-white transition-colors"
+                >[?] À propos</a
+              >
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
 
-    <!-- Main content -->
-    <main class="pt-16">
-      <slot />
-    </main>
+      <!-- Main content -->
+      <main class="pt-16">
+        <slot />
+      </main>
 
-    <!-- Footer -->
-    <TerminalFooter />
+      <!-- Footer -->
+      <Footer />
+    </div>
 
     <script>
       const navbar = document.getElementById("navbar");

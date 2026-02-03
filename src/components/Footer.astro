@@ -1,0 +1,274 @@
+---
+// Footer component with terminal theme
+---
+
+<footer
+  class="border-t border-gray-800 bg-[#020305] pt-16 pb-8 relative overflow-hidden"
+>
+  <div
+    class="absolute inset-0 opacity-20 pointer-events-none bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:20px_20px]"
+  >
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
+      <div class="md:col-span-5 space-y-4">
+        <div class="flex items-center gap-2">
+          <div
+            class="w-6 h-6 bg-[#00D9A3] rounded-sm flex items-center justify-center text-black font-mono font-bold text-xs"
+          >
+            P
+          </div>
+          <span class="font-bold text-xl text-white tracking-tight"
+            >Pypnetty</span
+          >
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
+          Architecting resilience for the chaotic web. <br />
+          Infrastructure as Code, Kubernetes Operators & Bare Metal adventures.
+        </p>
+
+        <div
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-green-500/5 border border-green-500/20 text-green-500 text-xs font-mono mt-4"
+        >
+          <span class="relative flex h-2 w-2">
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+            ></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"
+            ></span>
+          </span>
+          ALL SYSTEMS OPERATIONAL
+        </div>
+      </div>
+
+      <div class="md:col-span-2">
+        <h4
+          class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-6"
+        >
+          Navigation
+        </h4>
+        <ul class="space-y-3 text-sm font-mono text-gray-400">
+          <li>
+            <a
+              href="/"
+              class="hover:text-[#00D9A3] transition-colors flex items-center gap-2"
+              >~/home</a>
+          </li>
+          <li>
+            <a
+              href="/projects"
+              class="hover:text-[#00D9A3] transition-colors flex items-center gap-2"
+              >./projects</a>
+          </li>
+          <li>
+            <a
+              href="/blog"
+              class="hover:text-[#00D9A3] transition-colors flex items-center gap-2"
+              >./logs</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-3">
+        <h4
+          class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-6"
+        >
+          Network Uplinks
+        </h4>
+        <div class="flex flex-col gap-3">
+          <a
+            href="https://github.com/pypnetty"
+            target="_blank"
+            class="group flex items-center justify-between px-4 py-2 bg-[#0d1117] border border-gray-800 rounded hover:border-[#00D9A3] transition-all"
+          >
+            <span class="text-sm text-gray-300 flex items-center gap-2">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+                ></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg
+              >
+              GitHub
+            </span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-gray-600 group-hover:text-[#00D9A3] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform"
+              ><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg
+            >
+          </a>
+          <a
+            href="https://linkedin.com/in/pypnetty"
+            target="_blank"
+            class="group flex items-center justify-between px-4 py-2 bg-[#0d1117] border border-gray-800 rounded hover:border-[#00D9A3] transition-all"
+          >
+            <span class="text-sm text-gray-300 flex items-center gap-2">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path
+                  d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                ></path><rect width="4" height="12" x="2" y="9"></rect><circle
+                  cx="4"
+                  cy="4"
+                  r="2"></circle></svg
+              >
+              LinkedIn
+            </span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-gray-600 group-hover:text-[#00D9A3] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform"
+              ><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg
+            >
+          </a>
+          <a
+            href="mailto:contact@pypnetty.dev"
+            class="group flex items-center justify-between px-4 py-2 bg-[#0d1117] border border-gray-800 rounded hover:border-[#00D9A3] transition-all"
+          >
+            <span class="text-sm text-gray-300 flex items-center gap-2">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><rect width="20" height="16" x="2" y="4" rx="2"></rect><path
+                  d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg
+              >
+              Email
+            </span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-gray-600 group-hover:text-[#00D9A3] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform"
+              ><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg
+            >
+          </a>
+        </div>
+      </div>
+
+      <div class="md:col-span-2">
+        <h4
+          class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-6"
+        >
+          Telemetry
+        </h4>
+        <ul class="space-y-4 text-xs font-mono text-gray-500">
+          <li
+            class="flex items-center justify-between border-b border-gray-800 pb-2"
+          >
+            <span class="flex items-center gap-2">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><circle cx="12" cy="12" r="10"></circle><path
+                  d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                ></path><path d="M2 12h20"></path></svg
+              >
+              Region
+            </span>
+            <span class="text-gray-300">eu-west</span>
+          </li>
+          <li
+            class="flex items-center justify-between border-b border-gray-800 pb-2"
+          >
+            <span class="flex items-center gap-2">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg
+              >
+              Latency
+            </span>
+            <span class="text-[#00D9A3]">24ms</span>
+          </li>
+          <li
+            class="flex items-center justify-between border-b border-gray-800 pb-2"
+          >
+            <span class="flex items-center gap-2">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><circle cx="12" cy="12" r="3"></circle><line
+                  x1="3"
+                  x2="9"
+                  y1="12"
+                  y2="12"></line><line x1="15" x2="21" y1="12" y2="12"
+                ></line></svg
+              >
+              Version
+            </span>
+            <span class="text-gray-300">v2.4.0</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 font-mono"
+    >
+      <p>© 2026 Pypnetty. Built with Astro & Talos.</p>
+      <div class="flex items-center gap-6">
+        <span>Last deploy: {new Date().toLocaleDateString()}</span>
+        <span class="hidden md:inline text-gray-800">|</span>
+        <span class="flex items-center gap-1"
+          ><span class="w-1.5 h-1.5 bg-[#00D9A3] rounded-full"></span> Runner: Online</span
+        >
+      </div>
+    </div>
+  </div>
+</footer>

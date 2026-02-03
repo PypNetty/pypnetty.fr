@@ -1,159 +1,388 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+
+const experience = [
+  {
+    role: "Platform Engineer",
+    company: "Freelance / Stealth",
+    period: "2024 - Present",
+    desc: "Construction de plateformes IDP (Internal Developer Platforms) basées sur Kubernetes. Focus sur l'expérience développeur (DevEx) et l'automatisation GitOps.",
+    current: true,
+  },
+  {
+    role: "SysAdmin & DevOps",
+    company: "Tech Corp Inc.",
+    period: "2021 - 2024",
+    desc: "Migration d'infrastructures legacy vers le Cloud. Mise en place de pipelines CI/CD et conteneurisation des monolithes.",
+    current: false,
+  },
+  {
+    role: "Linux Administrator",
+    company: "Hébergement Web",
+    period: "2019 - 2021",
+    desc: "Gestion de parcs serveurs Linux (Debian/CentOS). Scripting Bash/Python et gestion d'incidents critiques.",
+    current: false,
+  },
+];
+
+const philosophy = [
+  {
+    title: "Automation First",
+    desc: "Si je dois le faire deux fois, je l'automatise. Le travail manuel est une dette technique.",
+  },
+  {
+    title: "Security by Design",
+    desc: "La sécurité n'est pas une étape finale, c'est une contrainte initiale. Moindre privilège par défaut.",
+  },
+  {
+    title: "Keep It Simple",
+    desc: "La complexité est l'ennemi de la fiabilité. Je préfère une solution ennuyeuse qui marche à une solution 'hype' qui casse.",
+  },
+];
 ---
 
-<Layout
-  title="À propos - PypNetty"
-  description="Platform Engineer et Resilience Architect. Construction d'infrastructure Kubernetes Bare Metal et systèmes cloud-native."
->
-  <article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <!-- Header -->
-    <div class="mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
-        <h1 class="text-4xl sm:text-5xl font-bold">À propos</h1>
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Operator Profile | Pypnetty</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    class="bg-[#0b0d11] text-white selection:bg-[#00D9A3] selection:text-black font-sans antialiased relative overflow-x-hidden"
+  >
+    <div class="fixed inset-0 z-0 pointer-events-none">
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px]"
+      >
       </div>
-      <p class="text-xl text-zinc-400 max-w-3xl">
-        Platform Engineer obsédé par la résilience et le contrôle total de
-        l'infrastructure. Du métal nu au cluster Kubernetes.
-      </p>
-      <div class="h-1 w-16 bg-emerald-500 mt-4"></div>
+      <div
+        class="absolute left-0 top-0 -z-10 h-[500px] w-[500px] rounded-full bg-blue-600 opacity-10 blur-[120px]"
+      >
+      </div>
     </div>
 
-    <!-- Introduction -->
-    <section class="mb-16">
+    <nav
+      class="fixed w-full z-50 border-b border-gray-800/50 bg-[#0b0d11]/80 backdrop-blur-md"
+    >
       <div
-        class="prose prose-invert prose-zinc prose-lg max-w-none
-      prose-headings:font-bold prose-headings:text-zinc-100
-      prose-a:text-accent prose-a:no-underline hover:prose-a:underline
-      prose-strong:text-zinc-100"
+        class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between"
       >
-        <p>
-          Je suis <strong>PypNetty</strong>, ingénieur DevOps basé à Orléans.
-          Mon terrain de jeu : Kubernetes sur Bare Metal, Go, et
-          l'automatisation d'infrastructure résiliente. Je construis des
-          systèmes qui ne tombent pas.
-        </p>
+        <a
+          href="/"
+          class="font-bold text-xl tracking-tight flex items-center gap-2 group"
+        >
+          <div
+            class="w-8 h-8 bg-[#00D9A3] group-hover:bg-white transition-colors rounded-sm flex items-center justify-center text-black font-mono font-bold"
+          >
+            P
+          </div>
+          <span class="text-[#00D9A3] group-hover:text-white transition-colors"
+            >Pypnetty</span
+          >
+        </a>
+        <div class="flex gap-6 text-xs font-mono text-gray-400">
+          <a href="/" class="hover:text-white transition-colors">[~] Home</a>
+          <a href="/projects" class="hover:text-white transition-colors"
+            >[./] Projets</a
+          >
+          <a href="/blog" class="hover:text-white transition-colors"
+            >[~/] Logs</a
+          >
+          <span class="text-[#00D9A3] pointer-events-none">[?] Profile</span>
+        </div>
       </div>
-    </section>
+    </nav>
 
-    <!-- Journey & Philosophy -->
-    <section class="mb-16">
-      <div
-        class="prose prose-invert prose-zinc prose-lg max-w-none
-      prose-headings:font-bold prose-headings:text-zinc-100
-      prose-a:text-accent prose-a:no-underline hover:prose-a:underline
-      prose-strong:text-zinc-100"
-      >
-        <h2>Ma philosophie</h2>
+    <main class="relative z-10 pt-32 pb-20 max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20 items-start">
+        <div class="lg:col-span-1 relative group">
+          <div
+            class="absolute -inset-1 bg-gradient-to-br from-[#00D9A3] to-blue-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"
+          >
+          </div>
+          <div
+            class="relative bg-[#12161c] border border-gray-800 rounded-xl p-2 aspect-square flex items-center justify-center overflow-hidden"
+          >
+            <div
+              class="w-full h-full bg-[#0d1117] rounded-lg flex flex-col items-center justify-center text-gray-600"
+            >
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-[#00D9A3] mb-4"
+              >
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span class="font-mono text-xs">/home/pypnetty/avatar.jpg</span>
+            </div>
+          </div>
 
-        <p>
-          Dans un monde qui s'empile sur des couches de virtualisation, je
-          choisis le <strong>Bare Metal</strong>. L'abstraction a un coût :
-          latence imprévisible, dépendance à des tiers, perte de contrôle. Je
-          refuse de payer ce prix.
-        </p>
+          <div class="mt-4 grid grid-cols-2 gap-2">
+            <div
+              class="bg-[#12161c] border border-gray-800 p-3 rounded flex items-center gap-3"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-[#00D9A3] flex-shrink-0"
+              >
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <div class="flex flex-col">
+                <span class="text-[10px] text-gray-500 uppercase">Location</span
+                >
+                <span class="text-xs font-bold">Orléans, FR</span>
+              </div>
+            </div>
+            <div
+              class="bg-[#12161c] border border-gray-800 p-3 rounded flex items-center gap-3"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-yellow-500 flex-shrink-0"
+              >
+                <path
+                  d="M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"
+                ></path>
+                <line x1="6" x2="6" y1="2" y2="4"></line>
+                <line x1="10" x2="10" y1="2" y2="4"></line>
+                <line x1="14" x2="14" y1="2" y2="4"></line>
+              </svg>
+              <div class="flex flex-col">
+                <span class="text-[10px] text-gray-500 uppercase">Fuel</span>
+                <span class="text-xs font-bold">Caffeine</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <p>
-          Mon approche : <strong>Cattle, not Pets</strong>. Chaque node est
-          remplaçable, reconstruit en moins de 15 minutes via MaaS/Terraform. Si
-          un serveur faillit, il est exterminé et recréé. C'est ça, la vraie
-          résilience.
-        </p>
+        <div class="lg:col-span-2">
+          <div
+            class="flex items-center gap-2 text-[#00D9A3] mb-4 font-mono text-sm"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="4 17 10 11 4 5"></polyline>
+              <line x1="12" x2="20" y1="19" y2="19"></line>
+            </svg>
+            <span>$ whoami --verbose</span>
+          </div>
 
-        <h2>Stack technique</h2>
+          <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">
+            L'Humain derrière <br />
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-[#00D9A3] to-blue-600"
+              >l'Infrastructure.</span
+            >
+          </h1>
 
-        <p>
-          Mon langage de prédilection : <strong>Go</strong>. Performance,
-          efficacité mémoire, single binary, concurrence native. Le choix
-          évident pour l'infrastructure cloud-native.
-        </p>
+          <div
+            class="prose prose-invert prose-lg text-gray-400 leading-relaxed space-y-4"
+          >
+            <p>
+              Salut, je suis <strong class="text-white">Pypnetty</strong>. Je ne
+              suis pas né en sachant configurer Kubernetes. Mon parcours a
+              commencé par curiosité : démonter des vieux PC pour comprendre
+              comment ils pensent.
+            </p>
+            <p>
+              Aujourd'hui, je suis <strong class="text-white"
+                >Platform Engineer</strong
+              >. Mon rôle n'est plus de réparer des serveurs, mais de construire
+              les systèmes qui les réparent eux-mêmes.
+            </p>
+            <p>
+              Je crois fermement que la complexité doit être gérée par le
+              logiciel, pas par les humains. Mon objectif est de rendre
+              l'infrastructure invisible pour les développeurs, tout en la
+              rendant indestructible pour le business.
+            </p>
+          </div>
 
-        <p>Pour le reste :</p>
-        <ul>
-          <li>
-            <strong>Infrastructure</strong> : Talos Linux, Kubernetes, MaaS, Terraform
-          </li>
-          <li>
-            <strong>Networking</strong> : Cilium (eBPF), BGP, MikroTik RouterOS
-          </li>
-          <li>
-            <strong>Storage</strong> : Longhorn, Ceph, MinIO (S3)
-          </li>
-          <li>
-            <strong>Monitoring</strong> : Prometheus, Grafana, VictoriaMetrics
-          </li>
-          <li>
-            <strong>Frontend</strong> : React, Astro, TypeScript
-          </li>
-        </ul>
-
-        <h2>Mes projets</h2>
-
-        <h3>The Metal Farm</h3>
-        <p>
-          Cluster Kubernetes industriel sur hardware physique. Zéro hyperviseur,
-          latence &lt; 2ms, provisionnement automatisé. Infrastructure traitée
-          comme du bétail avec reconstruction complète en &lt; 15min.
-        </p>
-
-        <h3>Kytena Security Orchestrator</h3>
-        <p>
-          Plateforme de sécurité Kubernetes qui automatise l'analyse de
-          vulnérabilités et la documentation des risques. Concept "KnownRisk"
-          pour tracer les décisions de remédiation ou d'acceptation.
-        </p>
-
-        <h2>Build in public</h2>
-
-        <p>
-          Je documente publiquement la construction de ces systèmes. Pas de
-          marketing, juste la réalité : architecture, métriques, incidents,
-          décisions techniques. Le processus réel, sans filtre.
-        </p>
-
-        <h2>Au-delà du code</h2>
-
-        <p>Quand je ne suis pas devant un terminal :</p>
-        <ul>
-          <li>🔭 Observation astronomique (passionné depuis l'enfance)</li>
-          <li>🎸 Guitare et metal progressif (Gojira, Meshuggah, Tool)</li>
-          <li>📚 Physique quantique et astrophysique</li>
-          <li>🏃 Trail running (déconnexion totale)</li>
-        </ul>
-
-        <h2>Contact</h2>
-
-        <p>Connectons-nous :</p>
-        <ul>
-          <li>
+          <div class="mt-8 flex flex-wrap gap-4">
             <a
-              href="https://github.com/pypnetty"
-              target="_blank"
-              rel="noopener noreferrer">GitHub</a
-            > - Code et projets open-source
-          </li>
-          <li>
+              href="mailto:contact@pypnetty.dev"
+              class="px-6 py-3 bg-[#00D9A3] text-black font-bold rounded hover:bg-white transition-colors flex items-center gap-2"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+              Me contacter
+            </a>
             <a
-              href="https://twitter.com/pypnetty"
-              target="_blank"
-              rel="noopener noreferrer">Twitter</a
-            > - Updates techniques et réflexions
-          </li>
-          <li>
-            <a
-              href="https://linkedin.com/in/pypnetty"
-              target="_blank"
-              rel="noopener noreferrer">LinkedIn</a
-            > - Réseau professionnel
-          </li>
-        </ul>
-
-        <p>
-          N'hésite pas à me contacter pour discuter Kubernetes Bare Metal, Go,
-          résilience d'infrastructure, ou simplement échanger sur nos parcours.
-        </p>
+              href="/blog"
+              class="px-6 py-3 border border-gray-700 rounded hover:border-[#00D9A3] hover:text-[#00D9A3] transition-colors"
+            >
+              Lire ma philosophie
+            </a>
+          </div>
+        </div>
       </div>
-    </section>
-  </article>
-</Layout>
+
+      <div class="mb-20">
+        <h2
+          class="text-2xl font-bold mb-8 flex items-center gap-3 border-b border-gray-800 pb-4"
+        >
+          <span class="text-[#00D9A3]">#</span> Operator Manual
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {
+            philosophy.map((item, idx) => (
+              <div class="bg-[#12161c] border border-gray-800 p-6 rounded-xl hover:border-[#00D9A3]/50 transition-colors group">
+                <div class="w-10 h-10 bg-[#00D9A3]/10 rounded flex items-center justify-center mb-4 text-[#00D9A3] group-hover:scale-110 transition-transform">
+                  {idx === 0 && (
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                  )}
+                  {idx === 1 && (
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+                    </svg>
+                  )}
+                  {idx === 2 && (
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <polyline points="4 17 10 11 4 5" />
+                      <line x1="12" x2="20" y1="19" y2="19" />
+                    </svg>
+                  )}
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">{item.title}</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="max-w-3xl mx-auto">
+        <h2
+          class="text-2xl font-bold mb-8 flex items-center gap-3 border-b border-gray-800 pb-4"
+        >
+          <span class="text-[#00D9A3]">$</span> git log --oneline --graph
+        </h2>
+
+        <div
+          class="relative border-l-2 border-gray-800 ml-3 space-y-12 pl-8 py-2"
+        >
+          {
+            experience.map((exp, idx) => (
+              <div class="relative group">
+                <span
+                  class={`
+                            absolute -left-[41px] top-1 w-5 h-5 rounded-full border-4 border-[#0b0d11] transition-colors
+                            ${exp.current ? "bg-[#00D9A3] animate-pulse" : "bg-gray-700 group-hover:bg-[#00D9A3]"}
+                        `}
+                />
+
+                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between mb-1">
+                  <h3 class="text-xl font-bold text-white group-hover:text-[#00D9A3] transition-colors">
+                    {exp.role}
+                  </h3>
+                  <span class="font-mono text-xs text-gray-500 bg-gray-900 px-2 py-1 rounded border border-gray-800">
+                    {exp.period}
+                  </span>
+                </div>
+
+                <div class="text-sm font-mono text-[#00D9A3] mb-3">
+                  {exp.company}
+                </div>
+
+                <p class="text-gray-400 text-sm leading-relaxed max-w-xl">
+                  {exp.desc}
+                </p>
+              </div>
+            ))
+          }
+
+          <div class="relative">
+            <span
+              class="absolute -left-[41px] top-1 w-5 h-5 rounded-full border-4 border-[#0b0d11] bg-gray-800"
+            ></span>
+            <div class="text-gray-600 font-mono text-xs pt-1">
+              Initial Commit (Hello World)
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>
