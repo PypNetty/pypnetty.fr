@@ -1,28 +1,170 @@
 ---
 import { getCollection } from "astro:content";
-import type { GetStaticPaths } from "astro";
-import BlogPost from "../../layouts/BlogPost.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/global.css";
 
-export const getStaticPaths = (async () => {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
+// 1. Génère les pages pour chaque article
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("blog", ({ data }) => {
+    if (import.meta.env.DEV) return true;
+    if (data.draft === true) return false;
+    if (new Date(data.date) > new Date()) return false;
+    return true;
+  });
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
   }));
-}) satisfies GetStaticPaths;
+}
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+// 2. Récupère les données
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// Métadonnées pour le style "Fichier"
+const date = entry.data.date;
+const categorySlug = (entry.data.category || "general")
+  .toLowerCase()
+  .replace(" ", "-");
 ---
 
-<BlogPost
-  title={post.data.title}
-  description={post.data.description}
-  pubDate={post.data.pubDate}
-  updatedDate={post.data.updatedDate}
-  tags={post.data.tags}
-  readingTime={post.data.readingTime}
-  slug={post.slug}
->
-  <Content />
-</BlogPost>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{entry.data.title} | Pypnetty</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    class="bg-[#050608] text-white selection:bg-[#00D9A3] selection:text-black font-sans antialiased relative overflow-x-hidden"
+  >
+    <div class="fixed inset-0 z-0 pointer-events-none">
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px]"
+      >
+      </div>
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_top,transparent_0%,#050608_100%)]"
+      >
+      </div>
+    </div>
+
+    <nav
+      class="fixed w-full z-50 border-b border-gray-800/50 bg-[#050608]/90 backdrop-blur-md"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between"
+      >
+        <a
+          href="/"
+          class="font-bold text-xl tracking-tight flex items-center gap-2 group"
+        >
+          <div
+            class="w-8 h-8 bg-[#00D9A3] group-hover:bg-white transition-colors rounded-sm flex items-center justify-center text-black font-mono font-bold"
+          >
+            P
+          </div>
+          <span class="text-[#00D9A3] group-hover:text-white transition-colors"
+            >Pypnetty</span
+          >
+        </a>
+
+        <div class="hidden md:flex gap-2 text-xs font-mono text-gray-500">
+          <a href="/" class="hover:text-white transition-colors">~</a>
+          <span>/</span>
+          <a href="/blog" class="hover:text-white transition-colors">var/logs</a
+          >
+          <span>/</span>
+          <span class="text-[#00D9A3]">{entry.slug}.md</span>
+        </div>
+
+        <div class="flex gap-6 text-xs font-mono text-gray-400">
+          <a
+            href="/blog"
+            class="hover:text-white transition-colors flex items-center gap-2"
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              ><line x1="19" y1="12" x2="5" y2="12"></line><polyline
+                points="12 19 5 12 12 5"></polyline></svg
+            >
+            cd ..
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="relative z-10 pt-32 pb-20 max-w-4xl mx-auto px-4">
+      <header class="mb-16 border-b border-gray-800/50 pb-12">
+        <div class="flex flex-wrap gap-4 mb-6 font-mono text-xs text-gray-500">
+          <div
+            class="flex items-center gap-2 px-3 py-1 bg-[#161b22] rounded border border-gray-800"
+          >
+            <span class="text-[#00D9A3]">USER:</span> root
+          </div>
+          <div
+            class="flex items-center gap-2 px-3 py-1 bg-[#161b22] rounded border border-gray-800"
+          >
+            <span class="text-blue-400">PERM:</span> -r--r--r--
+          </div>
+          <div
+            class="flex items-center gap-2 px-3 py-1 bg-[#161b22] rounded border border-gray-800"
+          >
+            <span class="text-purple-400">DATE:</span>
+            {date}
+          </div>
+          <div
+            class="flex items-center gap-2 px-3 py-1 bg-[#161b22] rounded border border-gray-800"
+          >
+            <span class="text-yellow-400">TAG:</span>
+            {categorySlug}
+          </div>
+        </div>
+
+        <h1
+          class="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-white leading-tight"
+        >
+          {entry.data.title}
+        </h1>
+
+        <p
+          class="text-xl text-gray-400 leading-relaxed border-l-2 border-[#00D9A3] pl-6 italic"
+        >
+          {entry.data.excerpt}
+        </p>
+      </header>
+
+      <article
+        class="prose prose-invert prose-lg max-w-none
+            prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white
+            prose-a:text-[#00D9A3] prose-a:no-underline hover:prose-a:underline
+            prose-code:text-[#00D9A3] prose-code:bg-[#161b22] prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+            prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-gray-800
+            prose-blockquote:border-l-blue-500 prose-blockquote:text-gray-400 prose-blockquote:bg-blue-500/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r"
+      >
+        <Content />
+      </article>
+
+      <div
+        class="mt-20 pt-10 border-t border-gray-800/50 text-center font-mono text-xs text-gray-600"
+      >
+        <span class="bg-[#050608] px-4 py-1 relative -top-[52px]"
+          >END OF FILE (EOF)</span
+        >
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>

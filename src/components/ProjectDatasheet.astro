@@ -63,7 +63,7 @@ const statusConfig = {
   },
 };
 
-const statusInfo = statusConfig[status] || statusConfig.Production;
+const statusInfo = statusConfig[status as keyof typeof statusConfig] || statusConfig.Production;
 ---
 
 <section class="mb-12">

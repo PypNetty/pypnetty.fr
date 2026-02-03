@@ -25,9 +25,4 @@ export const siteConfig = {
       },
     },
   },
-  site: {
-    title: "PypNetty",
-    description: "Ingénieur DevOps et créateur de SaaS",
-    url: "https://pypnetty.com",
-  },
 };

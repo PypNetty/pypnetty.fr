@@ -1,0 +1,102 @@
+<div
+  class="w-full max-w-lg mx-auto bg-[#0d1117] border border-gray-800 rounded-lg overflow-hidden font-mono text-xs shadow-2xl my-8"
+>
+  <div
+    class="bg-[#161b22] px-4 py-2 flex items-center gap-2 border-b border-gray-800"
+  >
+    <div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+    <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
+    <div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+    <div class="ml-2 text-gray-500 font-sans">zsh — pypctl events</div>
+  </div>
+
+  <div class="p-4 h-64 overflow-y-auto bg-[#0d1117]" id="live-terminal-body">
+    <div class="flex items-center gap-2 text-gray-500">
+      <span>Initializing pypctl daemon...</span>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  // On définit la séquence
+  const sequence = [
+    {
+      text: "$ pypctl check --node core-02 --watch",
+      type: "command",
+      delay: 800,
+    },
+    {
+      text: "[OK] Traefik Ingress: Routing converged",
+      type: "success",
+      delay: 500,
+    },
+    { text: "[OK] Cilium: eBPF Maps loaded", type: "success", delay: 500 },
+    { text: "...", type: "wait", delay: 1500 },
+    {
+      text: "[CRIT] Node-02: DiskPressure detected (> 92%)",
+      type: "error",
+      delay: 1000,
+    },
+    {
+      text: "[INFO] Kubelet: GC Triggered (Threshold > 85%)",
+      type: "info",
+      delay: 800,
+    },
+    { text: "[INFO] Evicting BestEffort pods...", type: "info", delay: 1200 },
+    {
+      text: "[AUTO] Recovery successful (-4.2GB released)",
+      type: "magic",
+      delay: 1000,
+    },
+    { text: "_ System stable.", type: "success", delay: 500 },
+  ];
+
+  // Fonction principale
+  async function startTerminal() {
+    const terminal = document.getElementById("live-terminal-body");
+
+    if (!terminal) {
+      console.error("❌ Terminal introuvable dans le DOM");
+      return;
+    }
+
+    console.log("🚀 Démarrage du terminal...");
+    terminal.innerHTML = ""; // ON VIDE TOUT AVANT DE COMMENCER
+
+    // Boucle d'écriture
+    for (const item of sequence) {
+      await new Promise((r) => setTimeout(r, item.delay));
+
+      const div = document.createElement("div");
+      div.className = "mb-2 font-mono tracking-tight"; // Base style
+
+      // Styling conditionnel
+      if (item.type === "command") {
+        div.innerHTML = `<span class="text-[#00D9A3] mr-2">➜</span><span class="text-white">${item.text}</span>`;
+      } else if (item.type === "success") {
+        div.innerHTML = `<span class="text-green-500 font-bold mr-2">✓</span><span class="text-green-400">${item.text}</span>`;
+      } else if (item.type === "error") {
+        div.innerHTML = `<span class="text-red-500 font-bold mr-2">✗</span><span class="text-red-500 font-bold animate-pulse">${item.text}</span>`;
+      } else if (item.type === "info") {
+        div.innerHTML = `<span class="text-blue-400 font-bold mr-2">ℹ</span><span class="text-blue-300">${item.text}</span>`;
+      } else if (item.type === "magic") {
+        div.innerHTML = `<span class="text-purple-400 font-bold mr-2">⚡</span><span class="text-purple-400">${item.text}</span>`;
+      } else if (item.type === "wait") {
+        div.innerHTML = `<span class="text-gray-600 animate-pulse">... scanning metrics ...</span>`;
+      }
+
+      terminal.appendChild(div);
+      terminal.scrollTop = terminal.scrollHeight; // Auto-scroll vers le bas
+    }
+
+    // Curseur final
+    const cursor = document.createElement("div");
+    cursor.innerHTML = `<span class="text-[#00D9A3] mr-2">➜</span><span class="text-white inline-block w-2 h-4 bg-gray-500 align-middle animate-pulse"></span>`;
+    terminal.appendChild(cursor);
+  }
+
+  // Lancement au chargement de la page
+  startTerminal();
+  // Sécurité : on relance si Astro fait une navigation côté client (ViewTransitions)
+  document.addEventListener("astro:page-load", startTerminal);
+</script>
