@@ -3,11 +3,77 @@
 
 @theme {
   /* Colors */
-  --color-accent: #10b981;
+  --color-accent: #2DD4BF;
   
   /* Fonts */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+}
+
+:root {
+  --accent: #2DD4BF;
+  --accent-dark: #0D9488;
+  --accent-light: #5EEAD4;
+}
+
+::selection {
+  background-color: var(--accent-light);
+  color: #000000;
+}
+
+.prose a {
+  color: var(--accent) !important;
+  text-decoration-color: var(--accent-dark) !important;
+}
+
+.prose a:hover {
+  color: var(--accent-light) !important;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  color: white;
+}
+
+.prose blockquote {
+  border-left-color: var(--accent);
+}
+
+.prose code {
+  color: var(--accent-light) !important;
+  background-color: #111827;
+  border: 1px solid #1F2937;
+}
+
+.prose img {
+  border-radius: 0.75rem;
+  border: 1px solid #1F2937;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.terminal-figure {
+  margin: 3rem 0;
+  background: #0d1117;
+  border: 1px solid #1f2937;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  padding: 0.5rem;
+}
+
+.terminal-figure img {
+  width: 100%;
+  border: none;
+  margin: 0;
+  border-radius: 0.5rem;
+}
+
+.terminal-figure figcaption {
+  text-align: center;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: #6b7280;
+  margin-top: 0.5rem;
 }
 
 /* Line clamp utility (fallback pour compatibilité) */
@@ -16,4 +82,14 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Animation d'apparition pour le terminal de fin */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

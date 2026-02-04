@@ -1,16 +1,196 @@
 ---
-title: "Kuberia : Prélude - Le Grand Changement"
+title: "Kuberia : Les Origines d'une Révolution"
 type: "saga"
 series: "Kuberia Chronicles"
 order: 1
 date: "2026-02-05"
-excerpt: "Année 2157. Aria Chang, experte Legacy, fait face à un choix : rester dans le confort des serveurs Windows ou franchir le pas vers l'inconnu de Kuberia."
-image: "/images/blog/kuberia-prelude.jpg"
+category: "Storytelling"
+draft: true
+excerpt: "Année 2157. Aria Chang, experte Legacy, fait face à un choix : rester dans le confort des serveurs ou franchir le pas vers l'inconnu de Kuberia."
+image: "/images/blog/Kuberia_Prelude.webp"
 tags: ["Fiction", "Carrière"]
 ---
 
-# Station Orbitale Terra-Dev, Section Legacy, Année 2157
+## Prélude : Le Grand Changement
 
-Le ronronnement familier des serveurs Windows résonnait...
+*Station Orbitale Terra-Dev, Section Legacy, Année 2157*
 
-*(Colle ici tout ton texte du Prélude jusqu'à "O, tapa-t-elle finalement.")*
+Le ronronnement familier des serveurs Windows résonnait dans la salle des opérations de la section Legacy. Aria Chang, assise devant son poste de travail, regardait sans enthousiasme les multiples écrans de monitoring qui couvraient le mur devant elle. Chacun affichait les métriques d'une partie différente de l'infrastructure héritée : services Active Directory, fermes SharePoint, clusters SQL Server...
+
+"Incident #4576 résolu," murmura-t-elle en fermant un ticket. Encore un service qui avait mystérieusement cessé de fonctionner et qu'il avait fallu redémarrer manuellement. La routine habituelle.
+
+Sept ans. Elle avait passé sept ans de sa vie à maintenir ces systèmes, à jongler avec des technologies qui, même si elles avaient été modernisées, restaient fondamentalement ancrées dans une philosophie du passé. Une époque où les applications étaient liées à des serveurs spécifiques, où les mises à jour nécessitaient des fenêtres de maintenance nocturnes, où chaque déploiement était une source de stress.
+
+<div class="my-8 border border-gray-800 rounded-lg bg-[#0d1117] overflow-hidden font-mono text-xs shadow-xl opacity-80 hover:opacity-100 transition-opacity">
+<div class="bg-[#161b22] px-4 py-2 border-b border-gray-800 text-gray-400 font-bold flex justify-between items-center">
+<span>INCIDENT_HISTORY.LOG</span>
+<span class="text-yellow-500 text-[10px] border border-yellow-500/30 px-2 py-0.5 rounded bg-yellow-500/10">LEGACY_ARCHIVE</span>
+</div>
+<div class="p-4 space-y-2">
+<div class="flex gap-4 border-b border-gray-800/50 pb-2 mb-2 text-gray-500 uppercase text-[10px] tracking-widest">
+<span class="w-16">ID</span>
+<span class="flex-1">Description</span>
+<span class="w-16 text-right">Status</span>
+</div>
+<div class="flex gap-4 items-center opacity-60">
+<span class="text-blue-400 w-16">#4576</span>
+<span class="text-gray-400 flex-1">Service arrêté (W3SVC)</span>
+<span class="text-green-500 w-16 text-right font-bold">[FIXED]</span>
+</div>
+<div class="flex gap-4 items-center opacity-50">
+<span class="text-blue-400 w-16">#4575</span>
+<span class="text-gray-400 flex-1">Espace disque critique (C:\Logs)</span>
+<span class="text-green-500 w-16 text-right font-bold">[FIXED]</span>
+</div>
+<div class="flex gap-4 items-center opacity-40">
+<span class="text-blue-400 w-16">#4574</span>
+<span class="text-gray-400 flex-1">Timeout SQL (Deadlock detected)</span>
+<span class="text-green-500 w-16 text-right font-bold">[FIXED]</span>
+</div>
+<div class="flex gap-4 items-center mt-4 text-gray-600 italic">
+<span class="w-16">...</span>
+<span class="flex-1">et ainsi de suite, jour après jour...</span>
+</div>
+</div>
+</div>
+
+Aria se souvenait encore du moment où elle avait choisi cette voie. À l'époque, c'était le choix logique. Les systèmes Windows dominaient encore une grande partie de l'infrastructure d'entreprise, et les postes étaient stables, bien payés. Mais quelque chose manquait.
+
+<div class="my-8 border border-gray-800 rounded-lg bg-[#0d1117] overflow-hidden font-mono text-xs shadow-xl opacity-80 hover:opacity-100 transition-opacity">
+<div class="bg-[#161b22] px-4 py-2 border-b border-gray-800 text-gray-400 font-bold flex justify-between items-center">
+<span>SYSTEM_HISTORY.LOG</span>
+<span class="text-[var(--accent)] text-[10px] border border-[var(--accent)]/30 px-2 py-0.5 rounded bg-[var(--accent)]/10">READ_ONLY</span>
+</div>
+<div class="p-5 space-y-4">
+<div class="flex gap-4 opacity-40">
+<span class="text-gray-500 w-24 shrink-0">[2100-2130]</span>
+<span class="text-gray-400">Windows Dominance / Serveurs Dédiés</span>
+<span class="ml-auto text-green-900 font-bold">[DONE]</span>
+</div>
+<div class="flex gap-4 opacity-60">
+<span class="text-gray-500 w-24 shrink-0">[2120-2140]</span>
+<span class="text-gray-300">Virtualisation Massive</span>
+<span class="ml-auto text-green-700 font-bold">[DONE]</span>
+</div>
+<div class="flex gap-4 border-l-2 border-[var(--accent)] pl-3 bg-[var(--accent)]/5 py-2 -ml-3 pr-2 rounded-r">
+<span class="text-[var(--accent)] w-24 shrink-0 font-bold">[2145-2157]</span>
+<span class="text-white font-bold">Kuberia Emergence</span>
+<span class="ml-auto text-[var(--accent)] animate-pulse font-bold tracking-widest">[ACTIVE]</span>
+</div>
+<div class="flex gap-4 text-red-400/80 mt-2 pt-2 border-t border-white/5">
+<span class="w-24 shrink-0">[2150-????]</span>
+<span>Legacy Maintenance</span>
+<span class="ml-auto text-red-500 font-bold">[CRIT]</span>
+</div>
+</div>
+</div>
+
+Ce n'était pas que les systèmes hérités étaient mauvais - ils avaient servi fidèlement pendant des décennies. Mais le monde avait changé. Les applications modernes nécessitaient une agilité, une flexibilité que ces systèmes n'avaient jamais été conçus pour offrir.
+
+Aria le voyait chaque jour depuis sa fenêtre. De l'autre côté de la station spatiale, la nouvelle section Kuberia grandissait. Ses dômes transparents laissaient entrevoir une activité frénétique.
+
+Un soir, alors qu'elle terminait tard, sa curiosité avait pris le dessus. Elle avait commencé à explorer les technologies open-source. C'était comme découvrir un nouveau monde.
+
+"Tu devrais postuler," lui avait dit Lin, une amie qui travaillait dans la section Kuberia. "Ils recherchent des gens qui comprennent les deux mondes. Nous avons besoin de ponts."
+
+Cette conversation résonnait encore dans son esprit quand son terminal émit une alerte sonore distincte. L'écran principal s'assombrit, remplacé par une notification prioritaire aux bordures bleu cyan.
+
+<div class="my-12 border-2 border-[var(--accent)]/50 rounded-lg bg-[#0d1117] overflow-hidden font-mono text-sm shadow-[0_0_30px_rgba(var(--accent-rgb),0.15)] relative z-10">
+<div class="bg-[var(--accent)]/10 px-4 py-3 border-b border-[var(--accent)]/30 text-[var(--accent)] font-bold flex justify-between items-center animate-pulse">
+<span class="flex items-center gap-2">▶ INCOMING TRANSMISSION // PRIORITY_MESSAGE.MSG</span>
+<span class="text-[10px] border border-[var(--accent)] px-2 py-1 rounded bg-[var(--accent)] text-[#0d1117] font-bold tracking-widest">ACTION REQUIRED</span>
+</div>
+<div class="p-6 space-y-6 text-gray-300">
+<div>
+<h3 class="text-[var(--accent)] font-bold mb-2 uppercase tracking-wider border-b border-[var(--accent)]/20 pb-1 inline-block">Opportunité de Transfert</h3>
+<div class="grid grid-cols-3 gap-2 mt-4 text-xs">
+<span class="text-gray-500 uppercase">Division :</span> <span class="col-span-2 text-white font-bold">Kuberia</span>
+<span class="text-gray-500 uppercase">Projet :</span> <span class="col-span-2 text-white">Initiative Pont</span>
+<span class="text-gray-500 uppercase">Rôle :</span> <span class="col-span-2 text-[var(--accent)] font-bold">Architecte de Transition</span>
+</div>
+</div>
+<div class="bg-[#161b22] p-4 rounded border-l-2 border-[var(--accent)]">
+<p class="mb-4">La Division Kuberia lance une initiative majeure pour faciliter la migration des systèmes critiques vers le nouvel écosystème. Nous recherchons des ingénieurs ayant une double compétence :</p>
+<ul class="list-none space-y-1 pl-4">
+<li><span class="text-[var(--accent)]">></span> Expertise des systèmes hérités</li>
+<li><span class="text-[var(--accent)]">></span> Passion pour l'innovation</li>
+</ul>
+</div>
+<div>
+<span class="block text-gray-500 uppercase text-xs mb-2">Mission Profile :</span>
+<ul class="list-none space-y-2 text-gray-300">
+<li class="flex gap-2"><span class="text-[var(--accent)]">[✓]</span> Analyser les systèmes existants</li>
+<li class="flex gap-2"><span class="text-[var(--accent)]">[✓]</span> Concevoir les chemins de migration</li>
+<li class="flex gap-2"><span class="text-[var(--accent)]">[✓]</span> Former les équipes aux deux paradigmes</li>
+</ul>
+</div>
+<div class="border-t border-[var(--accent)]/20 pt-6 mt-6 text-lg font-bold text-white">
+<span class="mr-2">></span> Souhaitez-vous en savoir plus ? <span class="text-[var(--accent)] animate-pulse">[O/N]</span><span class="animate-ping">_</span>
+</div>
+</div>
+</div>
+
+Le cœur d'Aria s'accéléra. Ce n'était pas qu'un simple transfert - c'était l'opportunité de devenir un pont entre deux mondes. Ses doigts survolèrent le clavier, hésitants une fraction de seconde, avant de frapper la touche avec détermination.
+
+Elle appuya sur "O".
+
+L'écran scintilla brièvement, traitant la réponse, avant d'afficher immédiatement les détails de la mission.
+
+<div class="my-8 border border-green-500/30 rounded-lg bg-[#0d1117] overflow-hidden font-mono text-sm shadow-xl relative z-10">
+<div class="bg-green-500/10 px-4 py-2 border-b border-green-500/20 text-green-400 font-bold flex justify-between items-center">
+<span>▶ SYSTEM_RESPONSE.ACK // MISSION_DETAILS</span>
+<span class="text-[10px] text-green-400 tracking-widest">CONFIRMED</span>
+</div>
+<div class="p-6 space-y-6 text-gray-300">
+<div class="flex gap-6">
+<div class="flex-1">
+<h4 class="text-white font-bold mb-3 uppercase text-xs tracking-wider text-green-400">Programme d'intégration</h4>
+<ul class="space-y-2 text-xs">
+<li class="flex items-center gap-2"><span class="text-green-500">01.</span> Formation intensive Kuberia (3 mois)</li>
+<li class="flex items-center gap-2"><span class="text-green-500">02.</span> Accès au laboratoire d'innovation</li>
+<li class="flex items-center gap-2"><span class="text-green-500">03.</span> Attribution d'une interface K.U.B.E</li>
+</ul>
+</div>
+<div class="flex-1 border-l border-gray-800 pl-6">
+<h4 class="text-white font-bold mb-3 uppercase text-xs tracking-wider text-green-400">Objectif 2157</h4>
+<p class="text-2xl font-bold text-white">Migration de <span class="text-green-400">30%</span></p>
+<p class="text-xs text-gray-500">des applications critiques vers l'écosystème Kuberia.</p>
+</div>
+</div>
+<div class="bg-[#161b22]/50 p-4 rounded">
+<span class="block text-gray-500 uppercase text-xs mb-2">Défis identifiés :</span>
+<div class="grid grid-cols-2 gap-2 text-xs">
+<span class="flex items-center gap-1"><span class="text-red-400/70">!</span> Dépendances complexes</span>
+<span class="flex items-center gap-1"><span class="text-red-400/70">!</span> Données historiques</span>
+<span class="flex items-center gap-1"><span class="text-red-400/70">!</span> Processus métier critiques</span>
+<span class="flex items-center gap-1"><span class="text-red-400/70">!</span> Résistance au changement</span>
+</div>
+</div>
+<div class="border-t border-green-500/20 pt-6 mt-6 text-lg font-bold text-white">
+<span class="mr-2">></span> Acceptez-vous cette mission ? <span class="text-green-400 animate-pulse">[O/N]</span><span class="animate-ping">_</span>
+</div>
+</div>
+</div>
+
+Cette fois, Aria prit un moment pour réfléchir. Ce n'était pas une décision à prendre à la légère. Elle regarda autour d'elle, observant la salle des opérations Legacy. Ces systèmes avaient été ses compagnons pendant sept ans.
+
+Mais elle savait aussi que le futur appartenait à Kuberia. Pas parce que c'était nouveau ou à la mode, mais parce que c'était la prochaine étape logique dans l'évolution des systèmes distribués.
+
+"O", tapa-t-elle finalement.
+
+<div class="mt-8 p-4 border border-gray-800 rounded bg-black font-mono text-sm shadow-2xl">
+  <div class="text-gray-400 mb-2">AUTH_REQUEST: CONFIRM_TRANSFER [Y/N]</div>
+  <div class="flex items-center gap-2">
+    <span class="text-green-500">root@legacy-term:~$</span>
+    <span class="text-white typing-effect">O</span><span class="w-2 h-4 bg-green-500 animate-pulse"></span>
+  </div>
+  <div class="mt-2 text-[10px] text-gray-500 opacity-0 animate-[fadeIn_2s_ease-in_forwards]">
+    PROCESSING REQUEST... <span class="text-green-500">AUTHORIZED</span>.
+  </div>
+</div>
+
+<div class="mt-16 flex justify-center">
+  <div class="px-4 py-2 bg-[var(--accent)]/5 border border-[var(--accent)]/20 rounded-full text-[var(--accent)] text-xs font-mono tracking-[0.2em] uppercase">
+    Initialisation de la séquence...
+  </div>
+</div>

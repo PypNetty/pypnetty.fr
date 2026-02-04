@@ -2,6 +2,7 @@
 title: "Deep Dive: L'Anatomie Kernel d'un Pod"
 type: "deep-dive"
 date: "2026-02-12"
+category: "Kernel"
 excerpt: "Oubliez la magie de Kuberia. Voici la vérité : `pause` containers, `network namespaces` et isolation cgroups. On dissèque un Pod."
 tags: ["Kernel", "Linux", "Container Runtime"]
 ---

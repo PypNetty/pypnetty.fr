@@ -36,18 +36,68 @@ const formattedRealPosts = realPosts.map((post) => ({
 // 3. Données Fictives (Pour l'exemple) - à retirer quand vous aurez assez d'articles réels
 const dummyPosts = [
   {
-    title: "Post-Mortem: L'incident DNS",
-    slug: "dns-incident",
-    type: "deep-dive",
-    date: "2025-12-14",
-    readTime: "8 min",
-    category: "Resilience",
+    title: "C'est quoi un Pod en réalité ?",
+    slug: "kezako-pod",
+    type: "kezako",
+    date: "2026-02-12",
+    readTime: "5 min",
+    category: "Kubernetes 101",
     excerpt:
-      "Analyse technique d'une panne en cascade causée par une mauvaise configuration CoreDNS sur Talos.",
+      "On confond souvent Conteneur et Pod. Démystification de l'unité atomique de K8s : pourquoi partager le localhost et les namespaces est vital.",
     isFeatured: false,
-    fileType: ".err",
-    permissions: "-rw-r--r--",
-    size: "48kb",
+    fileType: ".md",
+    size: "4kb",
+    order: undefined,
+    series: undefined,
+    image: undefined,
+  },
+  {
+    title: "Deep Dive: Talos Boot Sequence",
+    slug: "talos-boot-analysis",
+    type: "deep-dive",
+    date: "2026-01-28",
+    readTime: "25 min",
+    category: "OS Architecture",
+    excerpt:
+      "Analyse kernel de la séquence de démarrage d'un nœud Talos. Du chargement de l'image initramfs en RAM jusqu'au premier appel API gRPC.",
+    isFeatured: false,
+    fileType: ".log",
+    size: "128kb",
+    order: undefined,
+    series: undefined,
+    image: undefined,
+  },
+  {
+    title: "GitOps : Arrêtez de cliquer sur 'Apply'",
+    slug: "kezako-gitops",
+    type: "kezako",
+    date: "2026-01-15",
+    readTime: "7 min",
+    category: "Methodology",
+    excerpt:
+      "Pourquoi kubectl apply est une dette technique. Comprendre la boucle de réconciliation de FluxCD et pourquoi Git doit être la seule vérité.",
+    isFeatured: false,
+    fileType: ".txt",
+    size: "6kb",
+    order: undefined,
+    series: undefined,
+    image: undefined,
+  },
+  {
+    title: "Network : eBPF vs Iptables",
+    slug: "deep-dive-ebpf",
+    type: "deep-dive",
+    date: "2025-12-10",
+    readTime: "18 min",
+    category: "Kernel Networking",
+    excerpt:
+      "Pourquoi Cilium remplace le proxy-mode. Regardons comment eBPF attache des programmes directement aux hooks du noyau pour router les paquets sans contexte switch.",
+    isFeatured: false,
+    fileType: ".o",
+    size: "52kb",
+    order: undefined,
+    series: undefined,
+    image: undefined,
   },
 ];
 
@@ -325,11 +375,11 @@ const categories = ["/all", "/kernel", "/os", "/iac", "/resilience"];
                   {/* --- IMAGE DE COUVERTURE POUR LES SAGAS --- */}
                   {isSaga && coverImage && (
                     <div class="h-48 w-full relative overflow-hidden border-b border-gray-800 group-hover:border-[#00D9A3]/30 transition-colors">
-                      <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] to-transparent z-10" />
+                      <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117]/80 to-transparent z-10 opacity-40" />
                       <img
                         src={coverImage}
                         alt={post.title}
-                        class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
+                        class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-100"
                       />
 
                       <div class="absolute top-4 left-4 z-20">

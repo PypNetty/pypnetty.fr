@@ -4,6 +4,7 @@ type: "saga"
 series: "Kuberia Chronicles"
 order: 2
 date: "2026-02-12"
+category: "Storytelling"
 excerpt: "Aria découvre le Lab 42 et sa première alerte critique. Elle apprend qu'un cluster n'est pas juste des machines, mais un organisme vivant."
 image: "/images/blog/kuberia-chap1.jpg"
 tags: ["Fiction", "Onboarding"]
