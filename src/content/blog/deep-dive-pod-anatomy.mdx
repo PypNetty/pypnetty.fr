@@ -3,6 +3,7 @@ title: "Deep Dive: L'Anatomie Kernel d'un Pod"
 type: "deep-dive"
 date: "2026-02-12"
 category: "Kernel"
+draft: true
 excerpt: "Oubliez la magie de Kuberia. Voici la vérité : `pause` containers, `network namespaces` et isolation cgroups. On dissèque un Pod."
 tags: ["Kernel", "Linux", "Container Runtime"]
 ---
@@ -15,6 +16,7 @@ Mais en tant que Platform Engineer, nous devons savoir ce qui se passe vraiment 
 ## Le mythe du "Conteneur"
 
 Un conteneur n'existe pas dans le noyau Linux. C'est une combinaison de :
+
 1.  **Namespaces** (Isolation de la vue)
 2.  **Cgroups** (Isolation des ressources)
 
