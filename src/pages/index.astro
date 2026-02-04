@@ -69,8 +69,18 @@ const stack = [
   </head>
 
   <body
-    class="bg-[#111111] text-white selection:bg-[#00D9A3] selection:text-black font-sans antialiased"
+    class="bg-[#050608] text-white selection:bg-[#00D9A3] selection:text-black font-sans antialiased relative overflow-x-hidden"
   >
+    <div class="fixed inset-0 z-0 pointer-events-none">
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px]"
+      >
+      </div>
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050608_100%)]"
+      >
+      </div>
+    </div>
     <nav
       class="fixed w-full z-50 border-b border-gray-800/50 bg-[#050608]/80 backdrop-blur-md"
     >
@@ -106,7 +116,7 @@ const stack = [
       </div>
     </nav>
 
-    <section class="py-20 md:py-32 px-4 max-w-7xl mx-auto">
+    <section class="relative z-10 py-20 md:py-32 px-4 max-w-7xl mx-auto">
       <div class="max-w-3xl">
         <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">
           Platform Engineer.<br />
