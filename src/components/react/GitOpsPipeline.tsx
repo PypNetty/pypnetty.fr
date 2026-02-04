@@ -4,7 +4,6 @@ import {
   Activity,
   Server,
   ShieldCheck,
-  ArrowRight,
 } from "lucide-react";
 
 export default function GitOpsPipeline() {
