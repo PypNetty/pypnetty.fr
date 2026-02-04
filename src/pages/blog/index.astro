@@ -33,6 +33,7 @@ const formattedRealPosts = realPosts.map((post) => ({
   size: post.data.size || "4kb",
   permissions: "-rw-r--r--",
   isFeatured: post.data.isFeatured || false,
+  tags: post.data.tags || [],
 }));
 
 // 3. Données Fictives (Pour l'exemple) - à retirer quand vous aurez assez d'articles réels
@@ -52,6 +53,7 @@ const dummyPosts = [
     order: undefined,
     series: undefined,
     image: undefined,
+    tags: [],
   },
   {
     title: "Deep Dive: Talos Boot Sequence",
@@ -68,6 +70,7 @@ const dummyPosts = [
     order: undefined,
     series: undefined,
     image: undefined,
+    tags: [],
   },
   {
     title: "GitOps : Arrêtez de cliquer sur 'Apply'",
@@ -84,6 +87,7 @@ const dummyPosts = [
     order: undefined,
     series: undefined,
     image: undefined,
+    tags: [],
   },
   {
     title: "Network : eBPF vs Iptables",
@@ -100,6 +104,7 @@ const dummyPosts = [
     order: undefined,
     series: undefined,
     image: undefined,
+    tags: [],
   },
 ];
 
@@ -470,7 +475,7 @@ const kezakos = techPosts.filter((post) => post.type === "kezako");
                           {post.title}
                         </h4>
                         <div class="flex flex-wrap gap-2">
-                          {post.tags?.slice(0, 2).map((tag) => (
+                          {post.tags?.slice(0, 2).map((tag: string) => (
                             <span class="text-[10px] text-gray-500 font-mono">
                               #{tag}
                             </span>

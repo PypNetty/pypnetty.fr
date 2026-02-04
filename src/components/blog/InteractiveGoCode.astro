@@ -1,0 +1,360 @@
+---
+interface Props {
+  title?: string;
+  defaultHostname?: string;
+}
+
+const { title = "main.go", defaultHostname = "kuberia-legacy-01" } =
+  Astro.props;
+---
+
+<div
+  class="interactive-go-code my-8 group relative rounded-lg bg-[#0d1117] border border-gray-800 shadow-2xl overflow-hidden"
+>
+  <div
+    class="absolute -inset-0.5 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition duration-500 blur-sm pointer-events-none"
+  >
+  </div>
+
+  <div
+    class="relative bg-[#161b22] px-4 py-2 border-b border-gray-800 flex justify-between items-center z-10"
+  >
+    <div class="flex gap-2">
+      <div class="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50">
+      </div>
+      <div
+        class="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50"
+      >
+      </div>
+      <div
+        class="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/50"
+      >
+      </div>
+    </div>
+    <div
+      class="absolute left-1/2 -translate-x-1/2 text-xs font-mono text-gray-400 font-bold flex items-center gap-2"
+    >
+      <svg
+        class="w-4 h-4 text-cyan-500"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+        ></path>
+      </svg>
+      {title}
+    </div>
+    <div class="flex items-center gap-2">
+      <div
+        class="text-[10px] font-bold text-gray-500 uppercase tracking-wider border border-gray-700 px-2 rounded"
+      >
+        GO
+      </div>
+      <button
+        class="execute-btn text-xs bg-green-500/10 border border-green-500/30 text-green-400 px-3 py-1 rounded hover:bg-green-500/20 transition-all flex items-center gap-1"
+      >
+        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 16 16">
+          <path
+            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+          ></path>
+          <path
+            d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"
+          ></path>
+        </svg>
+        EXÉCUTER
+      </button>
+    </div>
+  </div>
+
+  <div class="relative z-10 overflow-hidden bg-[#0d1117]">
+    <div class="p-6 font-mono text-sm">
+      <div class="space-y-1 text-gray-300">
+        <div><span class="text-purple-400">package</span> main</div>
+        <div class="h-3"></div>
+        <div><span class="text-purple-400">import</span> (</div>
+        <div class="pl-4"><span class="text-green-400">"fmt"</span></div>
+        <div class="pl-4"><span class="text-green-400">"os"</span></div>
+        <div class="pl-4"><span class="text-green-400">"os/exec"</span></div>
+        <div class="pl-4"><span class="text-green-400">"syscall"</span></div>
+        <div>)</div>
+        <div class="h-3"></div>
+
+        <div>
+          <span class="text-blue-400">func</span>
+          <span class="text-yellow-400">run</span>() {}
+          <div class="pl-4">
+            fmt.<span class="text-yellow-400">Printf</span>(<span
+              class="text-green-400">"Running as PID %d\n"</span
+            >, os.<span class="text-yellow-400">Getpid</span>())
+          </div>
+          <div class="h-2"></div>
+          <div class="pl-4">
+            <span class="text-gray-500"
+              >// Change hostname (UTS namespace effect)</span
+            >
+          </div>
+          <div class="pl-4">
+            syscall.<span class="text-yellow-400">Sethostname</span>([]<span
+              class="text-purple-400">byte</span
+            >(<span class="text-green-400"
+              >"<span
+                class='\"hostname-in-code'
+                text-yellow-400
+                font-bold\"
+                data-default={defaultHostname}>{defaultHostname}</span
+              >"</span
+            >))
+          </div>
+          <div class="h-2"></div>
+          <div class="pl-4">
+            <span class="text-gray-500">// Mount proc filesystem</span>
+          </div>
+          <div class="pl-4">
+            syscall.<span class="text-yellow-400">Mount</span>(<span
+              class="text-green-400">"proc"</span
+            >, <span class="text-green-400">"/proc"</span>, <span
+              class="text-green-400">"proc"</span
+            >, <span class="text-orange-400">0</span>, <span
+              class="text-green-400">""</span
+            >)
+          </div>
+          <div class="h-2"></div>
+          <div class="pl-4">
+            <span class="text-gray-500">// Execute shell</span>
+          </div>
+          <div class="pl-4">
+            cmd := exec.<span class="text-yellow-400">Command</span>(<span
+              class="text-green-400">"/bin/bash"</span
+            >)
+          </div>
+          <div class="pl-4">cmd.Stdin = os.Stdin</div>
+          <div class="pl-4">cmd.Stdout = os.Stdout</div>
+          <div class="pl-4">cmd.Stderr = os.Stderr</div>
+          <div class="pl-4">cmd.<span class="text-yellow-400">Run</span>()</div>
+          <div></div>
+        </div>
+        <div class="h-3"></div>
+
+        <div>
+          <span class="text-blue-400">func</span>
+          <span class="text-yellow-400">main</span>() {}
+          <div class="pl-4">
+            <span class="text-blue-400">switch</span> os.Args[<span
+              class="text-orange-400">1</span
+            >] {}
+            <div class="pl-4">
+              <span class="text-blue-400">case</span>
+              <span class="text-green-400">"child"</span>:
+            </div>
+            <div class="pl-8"><span class="text-yellow-400">run</span>()</div>
+            <div class="pl-4"><span class="text-blue-400">default</span>:</div>
+            <div class="pl-8">
+              cmd := exec.<span class="text-yellow-400">Command</span>(<span
+                class="text-green-400">"/proc/self/exe"</span
+              >, <span class="text-green-400">"child"</span>)
+            </div>
+            <div class="pl-8">cmd.Stdin = os.Stdin</div>
+            <div class="pl-8">cmd.Stdout = os.Stdout</div>
+            <div class="pl-8">cmd.Stderr = os.Stderr</div>
+            <div class="pl-8">
+              cmd.SysProcAttr = &syscall.SysProcAttr{}
+              <div class="pl-12">Cloneflags: syscall.CLONE_NEWUTS |</div>
+              <div class="pl-20">syscall.CLONE_NEWPID |</div>
+              <div class="pl-20">syscall.CLONE_NEWNS,</div>
+              <div class="pl-8"></div>
+            </div>
+            <div class="pl-8">
+              cmd.<span class="text-yellow-400">Run</span>()
+            </div>
+            <div class="pl-4"></div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="execution-panel hidden border-t border-gray-800 bg-[#0a0a0a] p-4"
+    >
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+        <span class="text-xs text-gray-500 uppercase tracking-wider font-bold"
+          >Compilation & Exécution</span
+        >
+      </div>
+
+      <div class="mb-4 flex items-center gap-2">
+        <span class="text-xs text-gray-400">Hostname du conteneur:</span>
+        <input
+          type="text"
+          class="hostname-input bg-gray-900 border border-gray-700 px-3 py-1 rounded text-sm text-yellow-400 font-mono focus:outline-none focus:border-cyan-500 transition-colors"
+          value={defaultHostname}
+          maxlength="63"
+          pattern="[a-z0-9-]+"
+          placeholder="kuberia-pod-01"
+        />
+        <span class="char-count text-xs text-gray-600">0/63</span>
+        <button
+          class="run-btn text-xs bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 px-3 py-1 rounded hover:bg-cyan-500/20 transition-all"
+        >
+          RUN SYSCALLS
+        </button>
+      </div>
+
+      <div
+        class="output-area bg-black/50 border border-gray-800 rounded p-3 font-mono text-xs space-y-1 min-h-[200px]"
+      >
+        <div class="text-gray-600">// Waiting for execution...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function sanitizeHostname(input: string) {
+    return input
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, "")
+      .slice(0, 63)
+      .replace(/^-+|-+$/g, "")
+      .replace(/--+/g, "-");
+  }
+
+  document.querySelectorAll(".interactive-go-code").forEach((widget) => {
+    const executeBtn = widget.querySelector(
+      ".execute-btn",
+    ) as HTMLButtonElement | null;
+    const executionPanel = widget.querySelector(".execution-panel");
+    const hostnameInput = widget.querySelector(
+      ".hostname-input",
+    ) as HTMLInputElement | null;
+    const hostnameInCode = widget.querySelector(".hostname-in-code");
+    const runBtn = widget.querySelector(".run-btn") as HTMLButtonElement | null;
+    const outputArea = widget.querySelector(".output-area");
+    const charCount = widget.querySelector(".char-count");
+
+    if (
+      !executionPanel ||
+      !hostnameInput ||
+      !hostnameInCode ||
+      !runBtn ||
+      !outputArea
+    ) {
+      return;
+    }
+
+    const updateCount = (value: string | any[]) => {
+      if (!charCount) return;
+      charCount.textContent = `${value.length}/63`;
+      charCount.className =
+        value.length > 50
+          ? "char-count text-xs text-orange-400"
+          : "char-count text-xs text-gray-600";
+    };
+
+    executeBtn?.addEventListener("click", () => {
+      executionPanel.classList.toggle("hidden");
+    });
+
+    const defaultValue =
+      hostnameInCode.getAttribute("data-default") || "container";
+    updateCount(defaultValue);
+
+    hostnameInput!.addEventListener("input", () => {
+      const sanitized = sanitizeHostname(hostnameInput!.value || "");
+
+      if (hostnameInput!.value !== sanitized) {
+        const cursorPos = hostnameInput!.selectionStart || 0;
+        hostnameInput!.value = sanitized;
+        hostnameInput!.setSelectionRange(cursorPos, cursorPos);
+      }
+
+      hostnameInCode.textContent = sanitized || defaultValue;
+      updateCount(sanitized || defaultValue);
+    });
+
+    hostnameInput!.addEventListener("blur", () => {
+      if (!hostnameInput!.value.trim()) {
+        hostnameInput!.value = defaultValue;
+        hostnameInCode.textContent = defaultValue;
+        updateCount(defaultValue);
+      }
+    });
+
+    const wait = (ms: number | undefined) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    async function runSimulation() {
+      const hostname =
+        sanitizeHostname(hostnameInput!.value || "") || defaultValue;
+
+      if (!outputArea || !runBtn) return;
+      outputArea.innerHTML = "";
+      runBtn.disabled = true;
+      runBtn.textContent = "EXECUTING...";
+      runBtn.classList.add("opacity-50", "cursor-not-allowed");
+
+      const log = (
+        text: string | null,
+        colorClass: string = "text-gray-400",
+      ) => {
+        const div = document.createElement("div");
+        div.className = `${colorClass} leading-tight`;
+        div.textContent = text;
+        outputArea?.appendChild(div);
+        if (outputArea) outputArea.scrollTop = outputArea.scrollHeight;
+      };
+
+      await wait(300);
+      log("$ go build -o container main.go", "text-gray-500");
+      await wait(800);
+      log("$ ./container run", "text-gray-300");
+      await wait(400);
+
+      log("", "text-gray-600");
+      log("[kernel] Parent PID=12450 calling clone()", "text-blue-400");
+      await wait(500);
+      log(
+        "[kernel] Flags: CLONE_NEWUTS | CLONE_NEWPID | CLONE_NEWNS",
+        "text-purple-400",
+      );
+      await wait(600);
+      log(
+        "[kernel] ✓ Child created with PID=1 in new namespace",
+        "text-green-500",
+      );
+      await wait(300);
+
+      log("", "text-gray-600");
+      log("--- ENTERING CONTAINER NAMESPACE ---", "text-gray-600 text-[10px]");
+      await wait(400);
+
+      log("", "text-gray-600");
+      log("Running as PID 1", "text-white");
+      await wait(300);
+      log(`syscall.Sethostname(\"${hostname}\")`, "text-yellow-400");
+      await wait(400);
+      log("syscall.Mount(proc → /proc)", "text-cyan-400");
+      await wait(500);
+      log("exec.Command(/bin/bash)", "text-white");
+      await wait(300);
+
+      log("", "text-gray-600");
+      log(`root@${hostname}:/# █`, "text-green-400 font-bold animate-pulse");
+
+      runBtn.disabled = false;
+      runBtn.textContent = "RUN AGAIN";
+      runBtn.classList.remove("opacity-50", "cursor-not-allowed");
+    }
+
+    runBtn.addEventListener("click", runSimulation);
+    hostnameInput!.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") runSimulation();
+    });
+  });
+</script>

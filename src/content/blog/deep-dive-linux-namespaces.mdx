@@ -1,0 +1,100 @@
+---
+title: "Deep Dive: L'Anatomie Kernel d'un Pod"
+type: "deep-dive"
+date: "2026-02-05"
+category: "Kernel Internals"
+draft: false
+excerpt: "Un conteneur n'existe pas dans le noyau Linux. C'est une illusion créée par les Namespaces et les Cgroups. Plongée en apnée dans les syscalls avec une démo interactive."
+tags: ["Kernel", "Go", "Syscalls", "Docker"]
+fileType: ".go"
+size: "4KB"
+---
+
+import TerminalBlock from "../../components/blog/TerminalBlock.astro";
+import InteractiveTerminal from "../../components/blog/InteractiveTerminal.astro";
+import InteractiveGoCode from "../../components/blog/InteractiveGoCode.astro";
+
+# Il n'y a pas de cuillère
+
+Si vous ouvrez le code source du noyau Linux (les millions de lignes de C qui font tourner le monde), et que vous cherchez `struct Container`, vous ne trouverez **rien**. Zéro. Nada.
+
+Ce que nous appelons "Conteneur" (et par extension, un Pod Kubernetes) est un mensonge confortable. C'est une abstraction utilisateur.
+
+Au niveau du noyau, un conteneur est simplement un processus standard (comme Firefox ou Vim) à qui on a passé des drapeaux (`flags`) très spécifiques lors de sa création. Ces drapeaux activent deux fonctionnalités magiques :
+
+1. **Namespaces (Espaces de noms)** : ce que je peux _voir_.
+2. **Cgroups (Control Groups)** : ce que je peux _utiliser_.
+
+Aujourd'hui, nous allons coder notre propre "Mini-Docker" en Go pour comprendre cette magie.
+
+---
+
+## 1. Les Namespaces : L'Art de l'Isolation
+
+L'isolation commence par l'appel système `clone()`. C'est comme `fork()`, mais en plus granulaire.
+
+### Le problème
+
+Par défaut, si je lance un processus, il voit tout :
+
+- Il voit tous les autres processus (via `/proc`).
+- Il voit tout le système de fichiers.
+- Il partage le même `hostname`.
+
+### La solution : `CLONE_NEW...`
+
+Pour isoler notre processus, nous devons lui mentir. Voici les principaux mensonges :
+
+| Namespace Flag   | L'illusion créée                                              |
+| :--------------- | :------------------------------------------------------------ |
+| **CLONE_NEWUTS** | "Je suis seul sur ma propre machine (nouveau Hostname)."      |
+| **CLONE_NEWPID** | "Je suis le premier processus du monde (PID 1)."              |
+| **CLONE_NEWNS**  | "Je vois des points de montage que les autres ne voient pas." |
+| **CLONE_NEWNET** | "J'ai ma propre carte réseau (eth0)."                         |
+
+---
+
+## 2. Le Code : Docker en 50 lignes
+
+Voici le code Go minimal pour créer un conteneur. Notez l'utilisation de `SysProcAttr` qui passe les flags au Kernel.
+
+<InteractiveGoCode title="main.go" defaultHostname="kuberia-legacy-01" />
+
+---
+
+## 3. Simulation Interactive
+
+Assez de théorie. Voyons ce qui se passe réellement quand on exécute ce code.
+
+Dans le terminal ci-dessous, vous êtes sur le point de lancer notre programme Go.
+
+1. Choisissez un nom pour votre conteneur (le **Hostname**).
+2. Cliquez sur **RUN SYSCALLS**.
+3. Observez les logs : le processus parent va créer un enfant isolé.
+
+<InteractiveTerminal defaultHostname="kuberia-legacy-01" />
+
+**Ce que vous venez de voir :**
+
+1. Le programme compile.
+2. Il appelle le Kernel avec `CLONE_NEWUTS`.
+3. Une fois à l'intérieur, il change le nom de la machine sans affecter votre "vrai" ordinateur.
+4. Il devient **PID 1**, le roi de son petit royaume.
+
+C'est exactement ce que fait Docker quand vous tapez `docker run --hostname`.
+
+---
+
+## Conclusion
+
+Un **Pod Kubernetes**, ce n'est rien de plus qu'un groupe de namespaces partagés.
+
+Quand vous mettez deux conteneurs dans un Pod (ex: une app + un sidecar), Kubernetes dit simplement au Kernel :
+
+> "Crée deux processus, mais assure-toi qu'ils partagent le même **Network Namespace** (pour qu'ils puissent se parler sur localhost) et le même **UTS Namespace**."
+
+La prochaine fois que vous verrez un Pod, ne voyez pas une boîte. Voyez des étiquettes collées sur des processus standards.
+
+---
+
+> **Pour aller plus loin :** Nous n'avons parlé que de l'isolation (Namespaces). Pour comprendre la limitation de ressources (CPU/RAM), il faut regarder du côté des **Cgroups v2**. Mais c'est une histoire pour un autre jour.

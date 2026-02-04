@@ -1,0 +1,159 @@
+---
+interface Props {
+  defaultHostname?: string;
+}
+
+const { defaultHostname = "kuberia-pod-01" } = Astro.props;
+---
+
+<div
+  class="my-12 border border-gray-800 bg-[#0c0c0c] font-mono text-sm relative group selection:bg-cyan-500/30 selection:text-cyan-200"
+>
+  <div
+    class="bg-[#1a1a1a] px-4 py-2 border-b border-gray-800 flex justify-between items-center text-[10px] uppercase tracking-widest text-gray-500"
+  >
+    <div>/// KERNEL_SYSCALL_SIMULATOR v1.2.4</div>
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+      READY
+    </div>
+  </div>
+
+  <div
+    class="p-4 min-h-[300px] text-gray-300 space-y-1 overflow-y-auto overflow-x-hidden"
+    id="terminalBody"
+  >
+    <div class="text-gray-600 mb-4">
+      <div>root@host:~$ loading kernel modules... done.</div>
+      <div>root@host:~$ initializing go runtime... done.</div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 items-center mb-2" id="inputLine">
+      <span class="text-green-500 font-bold shrink-0">root@host:~/demo#</span>
+      <div class="flex-1 relative flex items-center">
+        <span class="text-gray-300 shrink-0 mr-2"
+          >go run main.go -hostname=</span
+        >
+
+        <input
+          type="text"
+          id="hostnameInput"
+          value={defaultHostname}
+          class="bg-transparent border-none outline-none text-yellow-400 font-bold p-0 m-0 w-full focus:ring-0"
+          spellcheck="false"
+        />
+      </div>
+      <button
+        id="runBtn"
+        class="shrink-0 text-cyan-500 text-xs border border-cyan-500/30 px-2 py-1 hover:bg-cyan-500/10 transition-colors group-focus-within:animate-pulse"
+      >
+        [ENTER] TO EXECUTE
+      </button>
+    </div>
+
+    <div
+      id="outputArea"
+      class="space-y-1 pl-2 border-l border-gray-800/50 ml-2 mt-4 hidden"
+    >
+    </div>
+
+    <div class="hidden mt-4 pt-2 border-t border-gray-800" id="finalPrompt">
+      <span class="text-red-400 font-bold"
+        >root@<span id="promptHostname">container</span>:/#</span
+      >
+      <span
+        class="w-2 h-4 bg-gray-200 inline-block animate-[blink_1s_step-end_infinite] align-middle ml-1"
+      ></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const input = document.getElementById(
+    "hostnameInput",
+  ) as HTMLInputElement | null;
+  const runBtn = document.getElementById("runBtn") as HTMLButtonElement | null;
+  const outputArea = document.getElementById("outputArea");
+  const finalPrompt = document.getElementById("finalPrompt");
+  const promptHostname = document.getElementById("promptHostname");
+  const inputLine = document.getElementById("inputLine");
+
+  const wait = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
+  async function runSimulation() {
+    if (!outputArea || !finalPrompt || !runBtn || !inputLine || !input) return;
+
+    const hostname = input.value || "unknown-pod";
+
+    outputArea.innerHTML = "";
+    outputArea.classList.remove("hidden");
+    finalPrompt.classList.add("hidden");
+    input.disabled = true;
+    runBtn.disabled = true;
+    runBtn.innerText = "[EXECUTING...]";
+    runBtn.classList.add("text-gray-500", "border-gray-700");
+    runBtn.classList.remove(
+      "text-cyan-500",
+      "border-cyan-500/30",
+      "group-focus-within:animate-pulse",
+    );
+
+    const log = (text: string, colorClass = "text-gray-400") => {
+      const div = document.createElement("div");
+      div.className = `${colorClass} font-mono text-xs leading-tight`;
+      div.innerHTML = text;
+      outputArea.appendChild(div);
+      outputArea.scrollTop = outputArea.scrollHeight;
+    };
+
+    await wait(200);
+    log("> go build -o container-demo main.go", "text-gray-500");
+    await wait(600);
+    log("> ./container-demo child", "text-gray-300");
+
+    await wait(300);
+    log("[kernel] parent_pid=24500 requesting clone()", "text-blue-400");
+
+    await wait(400);
+    log(
+      "[kernel] flags=CLONE_NEWUTS|CLONE_NEWPID|CLONE_NEWNS",
+      "text-purple-400",
+    );
+
+    await wait(500);
+    log("[kernel] OK. new_pid=1 created in new namespace.", "text-green-500");
+
+    await wait(200);
+    log("--- NAMESPACE BOUNDARY ---", "text-gray-600 text-[10px] my-2");
+
+    await wait(300);
+    log(`[pid:1] syscall.Sethostname(\"${hostname}\")`, "text-yellow-400");
+    await wait(200);
+    log("[pid:1] mounting procfs to /proc...", "text-gray-400");
+    await wait(400);
+    log('[pid:1] exec("/bin/bash")...', "text-white");
+
+    await wait(200);
+    if (promptHostname) promptHostname.innerText = hostname;
+    finalPrompt.classList.remove("hidden");
+    inputLine.classList.add("opacity-50", "pointer-events-none");
+  }
+
+  runBtn?.addEventListener("click", runSimulation);
+  input?.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") runSimulation();
+  });
+</script>
+
+<style>
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+</style>
