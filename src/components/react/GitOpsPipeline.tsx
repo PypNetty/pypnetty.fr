@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  GitCommit,
-  Activity,
-  Server,
-  ShieldCheck,
-} from "lucide-react";
+import { GitCommit, Activity, Server, ShieldCheck } from "lucide-react";
 
 export default function GitOpsPipeline() {
   const [activeStep, setActiveStep] = useState(0);
