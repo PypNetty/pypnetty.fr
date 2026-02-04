@@ -1,0 +1,78 @@
+---
+interface Props {
+  title?: string;
+  target?: string;
+  status?: string;
+  fs?: string;
+  network?: string;
+  pid?: string;
+  type?: "kuberia" | "kernel";
+}
+
+const {
+  title = "K.U.B.E_VISUALIZER // INSPECT_MODE",
+  target = "nginx-container-01",
+  status = "[RUNNING]",
+  fs = "Isolated (RootFS)",
+  network = "Isolated (10.244.0.5)",
+  pid = "PID 1 (Virtual)",
+  type = "kuberia",
+} = Astro.props;
+
+const theme =
+  type === "kuberia"
+    ? {
+        border: "border-cyan-500/30",
+        bg: "bg-cyan-900/20",
+        text: "text-cyan-400",
+        glow: "shadow-[0_0_15px_rgba(6,182,212,0.1)]",
+        badgeBg: "bg-cyan-500/10",
+      }
+    : {
+        border: "border-purple-500/30",
+        bg: "bg-purple-900/20",
+        text: "text-purple-400",
+        glow: "shadow-xl",
+        badgeBg: "bg-purple-500/10",
+      };
+---
+
+<div
+  class={`my-8 border ${theme.border} rounded-lg bg-[#0d1117] overflow-hidden font-mono text-xs ${theme.glow}`}
+>
+  <div
+    class={`${theme.bg} px-4 py-2 border-b ${theme.border} ${theme.text} font-bold flex justify-between items-center`}
+  >
+    <span>▶ {title}</span>
+    <span class="text-[10px] tracking-widest animate-pulse">SCANNING...</span>
+  </div>
+
+  <div class="p-6 text-gray-300 space-y-4">
+    <div class="flex items-center gap-4">
+      <span class={`${theme.text} font-bold w-24`}>TARGET:</span>
+      <span class={`${theme.badgeBg} px-2 py-1 rounded text-white`}>
+        {target}
+      </span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <span class="text-gray-500 w-24">STATUS:</span>
+      <span class="text-green-400">{status}</span>
+    </div>
+
+    <div class={`mt-4 border-l-2 ${theme.border} pl-4`}>
+      <div class="text-gray-500 text-[10px] mb-1">LAYER 1 ANALYSIS:</div>
+      <div class="text-white">
+        File System: <span class="text-yellow-400">{fs}</span>
+      </div>
+      <div class="text-white">
+        Network: <span class="text-yellow-400">{network}</span>
+      </div>
+      <div class="text-white">
+        Process ID: <span class="text-yellow-400">{pid}</span>
+      </div>
+    </div>
+
+    <slot />
+  </div>
+</div>

@@ -1,0 +1,110 @@
+---
+title: "Kuberia II : L'Illusion du Conteneur"
+type: "saga"
+series: "Kuberia Chronicles"
+order: 3
+date: "2026-02-04"
+category: "Storytelling"
+draft: false
+excerpt: "Premier jour d'entraînement. Marcus demande à Aria d'ouvrir un Conteneur pour voir ce qu'il y a dedans. La réponse va ébranler toutes ses certitudes d'ingénieure Legacy."
+image: "/images/blog/Kuberia_Ch_2.webp"
+tags: ["Fiction", "Kernel", "Linux"]
+---
+
+import TerminalBlock from "../../components/blog/TerminalBlock.astro";
+
+## Chapitre 2 : Derrière le miroir
+
+_Centre d'Innovation Kuberia, Lab de Simulation, 09h00_
+
+L'interface K.U.B.E. à son poignet vibra doucement, s'initialisant pour la première session d'entraînement technique. Aria se tenait au centre d'une pièce vide, tapissée de capteurs haptiques.
+
+Devant elle, Marcus Wong, son mentor, fit un geste fluide de la main. Un cube bleu translucide, parfaitement lisse et hermétique, se matérialisa dans l'air, flottant à hauteur d'yeux. Il émettait un bourdonnement léger.
+
+"Bienvenue dans la simulation, Aria," dit Marcus d'une voix calme. "Voici l'unité de base de notre monde : un **Pod**. À l'intérieur, un Conteneur standard. Ta mission est simple : ouvre-le et dis-moi ce que tu vois."
+
+Aria sourit. C'était un exercice facile. Elle avait manipulé des milliers de VMs (Machines Virtuelles) dans sa carrière Legacy. Un conteneur, c'était juste une petite VM légère, non ? Une boîte dans une boîte.
+
+Elle leva la main, utilisant l'interface gestuelle pour "scanner" le cube holographique.
+
+<TerminalBlock
+  title="K.U.B.E_VISUALIZER // INSPECT_MODE"
+  target="nginx-container-01"
+  type="kuberia"
+/>
+
+"Je vois un système complet," décrivit Aria avec assurance. "Il y a un système de fichiers, une interface réseau dédiée, et un processus qui tourne en PID 1. C'est comme un mini-serveur."
+
+Marcus secoua la tête, un sourire énigmatique aux lèvres. "Regarde mieux. Regarde _à travers_. Oublie ce que tes yeux Legacy te disent."
+
+Il claqua des doigts.
+
+L'environnement visuel changea brutalement. Le cube bleu disparut. Les murs du laboratoire s'effacèrent pour révéler une immense grille de lumière blanche qui s'étendait à l'infini sous leurs pieds : le **Kernel Host**.
+
+"Le cube n'existe pas, Aria," murmura Marcus. "Le conteneur est un mensonge."
+
+Aria cligna des yeux, déstabilisée. Devant elle, là où se trouvait la boîte bleue quelques secondes plus tôt, il n'y avait plus qu'un simple fil lumineux, un processus standard, flottant parmi des milliers d'autres processus du système hôte.
+
+<TerminalBlock
+  title="KERNEL_VIEW // REALITY_LAYER"
+  target="14593 (Host PID)"
+  status="[RUNNING UNBOXED]"
+  type="kernel"
+  fs="Shared (Overlay View)"
+  network="Shared (Veth Pair)"
+  pid="14593 (Real PID)"
+>
+  <div class="mt-4 p-3 bg-purple-500/5 rounded border border-purple-500/20 text-[10px]">
+    <span class="text-purple-400 font-bold">KERNEL_ALERT:</span> Process 14593
+    is NOT inside a box. It is simply wearing{" "}
+    <span class="text-white font-bold">Namespace Goggles</span>.
+  </div>
+</TerminalBlock>
+
+"Tu vois ?" demanda Marcus en pointant le flux de données. "Ce que tu appelais 'Conteneur', ce n'est qu'un processus standard, le PID 14593. Il tourne sur la même machine que tout le reste. Il partage le même noyau Linux."
+
+"Mais... je ne pouvais pas voir les autres processus quand j'étais dedans !" balbutia Aria. "Il était isolé !"
+
+"Nous lui avons mis des œillères," corrigea Marcus. "Nous appelons ça des **Namespaces**.
+
+- Le **PID Namespace** lui fait croire qu'il est seul au monde (PID 1).
+- Le **Mount Namespace** lui montre un disque dur qui n'est qu'un dossier.
+- Le **Network Namespace** lui donne une carte réseau imaginaire."
+
+Il fit un autre geste, et des barrières translucides apparurent autour du processus, comme un plafond de verre qui l'empêchait de grandir trop vite.
+
+"Et ces murs invisibles ?" demanda Aria.
+
+"Les **Cgroups**," répondit Marcus. "Ils ne cachent rien, ils limitent. Ils empêchent ce processus de manger toute la mémoire du vaisseau. Si PID 14593 devient trop gourmand, le Kernel l'éliminera sans pitié."
+
+Aria regarda le flux de données avec une nouvelle compréhension. Kuberia n'était pas magique. C'était une illusion d'optique savamment orchestrée par le noyau Linux.
+
+"Dans l'ancien monde," conclut Marcus, "tu gérais des serveurs. Ici, tu gères des hallucinations partagées. Si tu comprends ça, tu peux tout réparer. Si tu crois encore à la 'boîte', tu seras impuissante face aux problèmes réels."
+
+---
+
+<div class="mt-12 p-6 bg-[#1e1e2e] border-l-4 border-purple-500 rounded-r-lg shadow-lg">
+  <h3 class="text-purple-400 font-bold mb-3 flex items-center gap-2 text-lg">
+    <span>⚡</span> Note de l'Ingénieur
+  </h3>
+  <p class="text-gray-300 text-sm mb-4 leading-relaxed">
+    La métaphore de Marcus est techniquement exacte. Docker n'est qu'une
+    interface. Pour voir comment créer ces "hallucinations" manuellement avec la
+    commande <code>unshare</code>, consultez l'analyse technique :
+  </p>
+  <ul class="space-y-3 text-sm font-mono">
+    <li>
+      <a
+        href="/blog/deep-dive-linux-namespaces"
+        class="group flex items-center gap-3 text-gray-400 hover:text-white transition-colors"
+      >
+        <span class="text-purple-500 bg-purple-500/10 p-1 rounded group-hover:bg-purple-500 group-hover:text-white transition-all">
+          🧠
+        </span>
+        <span class="border-b border-transparent group-hover:border-purple-400">
+          Deep Dive : Créer un conteneur sans Docker (Namespaces)
+        </span>
+      </a>
+    </li>
+  </ul>
+</div>

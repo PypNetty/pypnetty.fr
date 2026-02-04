@@ -9,7 +9,9 @@ import { BookOpen, Cpu, ArrowRight, Projector } from "lucide-react";
 const realPosts = await getCollection("blog", ({ data }) => {
   if (import.meta.env.DEV) return true;
   if (data.draft === true) return false;
-  if (new Date(data.date) > new Date()) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  if (new Date(data.date) > today) return false;
   return true;
 });
 
@@ -104,7 +106,21 @@ const dummyPosts = [
 // Fusion : Vrais articles + Faux
 const posts = [...formattedRealPosts, ...dummyPosts];
 
-const categories = ["/all", "/kernel", "/os", "/iac", "/resilience"];
+const sagaPosts = posts
+  .filter((post) => post.type === "saga")
+  .sort(
+    (a, b) =>
+      (a.order ?? Number.MAX_SAFE_INTEGER) -
+      (b.order ?? Number.MAX_SAFE_INTEGER),
+  );
+
+const techPosts = posts
+  .filter((post) => post.type !== "saga")
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const deepDivePosts = techPosts.filter((post) => post.type === "deep-dive");
+const knowledgePosts = techPosts.filter((post) => post.type !== "deep-dive");
+const kezakos = techPosts.filter((post) => post.type === "kezako");
 ---
 
 <html lang="fr" class="scroll-smooth">
@@ -264,292 +280,233 @@ const categories = ["/all", "/kernel", "/os", "/iac", "/resilience"];
         </div>
       </div>
 
-      <div
-        class="flex flex-col md:flex-row gap-6 mb-12 items-start md:items-center justify-between sticky top-20 z-40 py-4 bg-[#050608]/90 backdrop-blur transition-all"
-      >
-        <div class="flex flex-wrap gap-2 overflow-x-auto no-scrollbar">
-          {
-            categories.map((cat, idx) => (
-              <button
-                data-category={cat}
-                class={`filter-btn px-3 py-1.5 text-xs font-mono border rounded transition-all whitespace-nowrap ${idx === 0 ? "bg-[#00D9A3]/10 border-[#00D9A3] text-[#00D9A3] active" : "bg-[#161b22] border-gray-800 text-gray-400 hover:text-white"}`}
-              >
-                {cat}
-              </button>
-            ))
-          }
-        </div>
-        <div class="relative w-full md:w-auto">
-          <div
-            class="absolute inset-y-0 left-3 flex items-center pointer-events-none"
+      <section class="mb-20">
+        <div class="flex items-center justify-between mb-6 px-4">
+          <h2
+            class="text-2xl font-bold text-white tracking-tight flex items-center gap-3"
           >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              class="text-[#00D9A3]"
-              ><polyline points="4 17 10 11 4 5"></polyline><line
-                x1="12"
-                y1="19"
-                x2="20"
-                y2="19"></line></svg
-            >
+            <span class="text-cyan-400 animate-pulse">●</span>
+            KUBERIA_CHRONICLES
+          </h2>
+          <div class="flex gap-2">
+            <div class="h-2 w-2 rounded-full bg-cyan-500"></div>
+            <div class="h-2 w-2 rounded-full bg-cyan-900"></div>
+            <div class="h-2 w-2 rounded-full bg-cyan-900"></div>
           </div>
-          <input
-            type="text"
-            id="search-input"
-            placeholder="find . -name 'query'"
-            class="w-full md:w-72 bg-[#0d1117] border border-gray-800 rounded py-2 pl-9 pr-4 text-sm font-mono text-gray-300 focus:border-[#00D9A3] outline-none"
-          />
         </div>
-      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {
-          posts.map((post) => {
-            // 1. DÉTECTION DU TYPE & THÈME COULEUR
-            const isDeepDive = post.type === "deep-dive";
-            const isSaga = post.type === "saga";
-            const isFeatured = post.isFeatured;
+        <div
+          class="flex overflow-x-auto pb-8 gap-6 px-4 snap-x snap-mandatory custom-scrollbar scroll-smooth"
+        >
+          {
+            sagaPosts.map((post) => (
+              <div class="snap-center shrink-0 w-[85vw] md:w-[600px] relative group transition-all duration-500 hover:scale-[1.01]">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl opacity-0 group-hover:opacity-50 blur transition duration-500" />
 
-            // Configuration du style (Saga > Deep Dive > Kézako)
-            const theme = isSaga
-              ? {
-                  color: "text-[#00D9A3]",
-                  borderColor: "group-hover:border-[#00D9A3]/50",
-                  glow: "from-[#00D9A3] to-blue-500",
-                  badgeBg: "bg-[#00D9A3]/10 border-[#00D9A3]/20 text-[#00D9A3]",
-                  icon: Projector,
-                  label: "Saga",
-                }
-              : isDeepDive
-                ? {
-                    color: "text-purple-400",
-                    borderColor: "group-hover:border-purple-500/50",
-                    glow: "from-purple-600 to-blue-600",
-                    badgeBg:
-                      "bg-purple-400/10 border-purple-400/20 text-purple-400",
-                    icon: Cpu,
-                    label: "Deep Dive",
-                  }
-                : {
-                    color: "text-yellow-400",
-                    borderColor: "group-hover:border-yellow-500/50",
-                    glow: "from-yellow-400 to-orange-500",
-                    badgeBg:
-                      "bg-yellow-400/10 border-yellow-400/20 text-yellow-400",
-                    icon: BookOpen,
-                    label: "Kézako",
-                  };
-
-            const TypeIcon = theme.icon;
-            const coverImage = post.image;
-
-            return (
-              <a
-                href={`/blog/${post.slug}`}
-                data-category={post.category.toLowerCase()}
-                data-title={post.title.toLowerCase()}
-                data-excerpt={post.excerpt.toLowerCase()}
-                class={`
-                ${isFeatured ? "md:col-span-2" : ""} 
-                relative group block h-full flex flex-col justify-between
-                bg-[#0d1117] border border-gray-800 rounded-xl 
-                transition-all duration-300 overflow-hidden
-                hover:bg-[#161b22]
-                ${theme.borderColor}
-                article-card
-              `}
-              >
-                {/* 2. GLOW : UNIQUEMENT POUR L'ARTICLE FEATURED */}
-                {isFeatured && (
-                  <div
-                    class={`absolute -inset-0.5 bg-gradient-to-r ${theme.glow} rounded-xl blur opacity-20 group-hover:opacity-50 transition duration-500`}
-                  />
-                )}
-
-                <div class="relative z-10 h-full flex flex-col justify-between overflow-hidden rounded-xl">
-                  {/* --- IMAGE DE COUVERTURE POUR LES SAGAS --- */}
-                  {isSaga && coverImage && (
-                    <div class="h-48 w-full relative overflow-hidden border-b border-gray-800 group-hover:border-[#00D9A3]/30 transition-colors">
-                      <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117]/80 to-transparent z-10 opacity-40" />
+                <div class="relative h-full bg-[#0d1117] border border-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row">
+                  <div class="absolute inset-0 md:relative md:w-2/3 h-64 md:h-auto">
+                    {post.image ? (
                       <img
-                        src={coverImage}
+                        src={post.image}
                         alt={post.title}
-                        class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-100"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition duration-700"
                       />
-
-                      <div class="absolute top-4 left-4 z-20">
-                        <div
-                          class={`flex items-center gap-2 px-2 py-1 rounded border ${theme.badgeBg} backdrop-blur-md text-[10px] font-mono font-bold uppercase tracking-wider shadow-lg`}
-                        >
-                          <TypeIcon size={12} />
-                          {theme.label}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  <div class={`${isSaga && coverImage ? "p-6 pt-4" : "p-6"}`}>
-                    {/* HEADER : BADGE + TEMPS */}
-                    {(!isSaga || !coverImage) && (
-                      <div class="flex items-center justify-between mb-4">
-                        <div
-                          class={`flex items-center gap-2 px-2 py-1 rounded border ${theme.badgeBg} text-[10px] font-mono font-bold uppercase tracking-wider`}
-                        >
-                          <TypeIcon size={12} />
-                          {theme.label}
-                        </div>
-                        <span class="text-xs font-mono text-gray-600">
-                          {post.readTime}
-                        </span>
-                      </div>
+                    ) : (
+                      <div class="w-full h-full bg-gradient-to-br from-[#0d1117] via-[#0b0f14] to-[#050608]" />
                     )}
-
-                    {/* TITRE : S'ALLUME AU SURVOL */}
-                    <h2
-                      class={`
-                        font-bold text-white mb-3 transition-colors duration-300
-                        ${isFeatured ? "text-3xl" : "text-lg"}
-                        group-hover:${theme.color}
-                    `}
-                    >
-                      {post.title}
-                    </h2>
-
-                    {/* EXCERPT */}
-                    <p
-                      class={`text-gray-400 leading-relaxed ${isFeatured ? "text-lg mb-6 border-l-2 border-gray-800 pl-4" : "text-sm line-clamp-3"}`}
-                    >
-                      {post.excerpt}
-                    </p>
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#0d1117]" />
                   </div>
 
-                  {/* FOOTER : METADATA + FLÈCHE */}
-                  <div class="mt-6 pt-4 border-t border-gray-800 flex justify-between items-center font-mono text-xs mx-6 mb-6">
-                    <div class="flex gap-3 text-gray-500">
-                      {isSaga ? (
-                        <>
-                          <span>{`EPISODE ${post.order ?? "?"}`}</span>
-                          <span class="opacity-30">|</span>
-                          <span>{post.series || "Kuberia"}</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>{post.fileType}</span>
-                          <span class="opacity-30">|</span>
-                          <span>{post.size}</span>
-                          {isFeatured && (
-                            <span class="hidden sm:inline">
-                              <span class="opacity-30">|</span> root:root
-                            </span>
-                          )}
-                        </>
-                      )}
+                  <div class="relative z-10 p-6 flex flex-col justify-end md:justify-center md:w-1/3 bg-gradient-to-t from-[#0d1117] via-[#0d1117]/80 to-transparent md:bg-none">
+                    <div class="text-[10px] font-mono text-cyan-500 mb-2 flex items-center gap-2">
+                      <span class="px-1.5 py-0.5 border border-cyan-500/30 rounded bg-cyan-900/10">
+                        EP.{String(post.order ?? 0).padStart(2, "0")}
+                      </span>
+                      <span>{post.date}</span>
                     </div>
 
-                    {/* FLÈCHE ANIMÉE */}
-                    <div
-                      class={`flex items-center gap-2 transition-transform duration-300 group-hover:translate-x-1 ${theme.color}`}
-                    >
-                      {isFeatured && (
-                        <span class="hidden sm:inline">./read.sh</span>
-                      )}
-                      <ArrowRight size={14} />
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-2 leading-tight group-hover:text-cyan-400 transition-colors">
+                      <a href={`/blog/${post.slug}`}>
+                        <span class="absolute inset-0" />
+                        {post.title}
+                      </a>
+                    </h3>
+
+                    <p class="hidden md:block text-gray-400 text-xs line-clamp-3 mb-4 font-mono">
+                      {post.excerpt}
+                    </p>
+
+                    <div class="flex items-center text-xs font-bold text-white mt-auto">
+                      <span class="border-b border-cyan-500 pb-0.5">
+                        LAUNCH_SIMULATION
+                      </span>
+                      <svg
+                        class="w-4 h-4 ml-2 text-cyan-500 group-hover:translate-x-2 transition-transform"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        />
+                      </svg>
                     </div>
                   </div>
                 </div>
-              </a>
-            );
-          })
-        }
-      </div>
+              </div>
+            ))
+          }
+
+          <div
+            class="snap-center shrink-0 w-[200px] flex items-center justify-center border border-dashed border-gray-800 rounded-xl bg-white/5 text-gray-500 font-mono text-xs"
+          >
+            <span>// NEXT_EPISODE_LOADING...</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="relative mt-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <div class="lg:col-span-8 space-y-8">
+            <div
+              class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4"
+            >
+              <span class="text-purple-400 text-xl">⚡</span>
+              <h2
+                class="text-2xl font-bold text-white tracking-tight font-mono"
+              >
+                /CORE/DEEP_DIVES
+              </h2>
+              <span class="text-xs text-gray-500 font-mono mt-1 ml-auto">
+                {deepDivePosts.length} FILES FOUND
+              </span>
+            </div>
+
+            <div class="space-y-6">
+              {
+                deepDivePosts.map((post) => (
+                  <a
+                    href={`/blog/${post.slug}`}
+                    class="group block relative bg-[#0d1117] border border-gray-800 hover:border-purple-500/50 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]"
+                  >
+                    <div class="p-6 md:p-8 flex flex-col md:flex-row gap-6">
+                      <div class="md:w-32 shrink-0 flex flex-col gap-2 font-mono text-xs text-gray-500 border-b md:border-b-0 md:border-r border-gray-800 pb-4 md:pb-0 md:pr-4">
+                        <span class="text-purple-400 font-bold">rw-r--r--</span>
+                        <span>
+                          {new Date(post.date).toLocaleDateString("fr-FR", {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </span>
+                        <span>{post.size || "4KB"}</span>
+                        <span class="mt-auto hidden md:block group-hover:text-purple-400 transition-colors">
+                          ./OPEN
+                        </span>
+                      </div>
+
+                      <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20 uppercase tracking-widest">
+                            Analysis
+                          </span>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-200 group-hover:text-white mb-3 leading-tight">
+                          {post.title}
+                        </h3>
+                        <p class="text-gray-400 text-sm leading-relaxed line-clamp-2">
+                          {post.excerpt}
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="lg:col-span-4">
+            <div class="sticky top-8">
+              <div
+                class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4"
+              >
+                <span class="text-yellow-400 text-xl">💡</span>
+                <h2
+                  class="text-xl font-bold text-white tracking-tight font-mono"
+                >
+                  /VAR/QUICK_TIPS
+                </h2>
+              </div>
+
+              <div
+                class="bg-[#161b22]/50 border border-gray-800 rounded-xl p-1"
+              >
+                {
+                  kezakos.map((post) => (
+                    <a
+                      href={`/blog/${post.slug}`}
+                      class="group flex items-start gap-3 p-4 rounded-lg hover:bg-white/5 transition-colors border-b border-gray-800/50 last:border-0"
+                    >
+                      <div class="mt-1 text-gray-600 group-hover:text-yellow-400 transition-colors">
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                          />
+                        </svg>
+                      </div>
+
+                      <div>
+                        <h4 class="text-sm font-bold text-gray-300 group-hover:text-white transition-colors leading-snug mb-1">
+                          {post.title}
+                        </h4>
+                        <div class="flex flex-wrap gap-2">
+                          {post.tags?.slice(0, 2).map((tag) => (
+                            <span class="text-[10px] text-gray-500 font-mono">
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </a>
+                  ))
+                }
+
+                <a
+                  href="/category/basics"
+                  class="block text-center py-3 text-xs font-mono text-gray-500 hover:text-white border-t border-dashed border-gray-800 hover:bg-white/5 transition-colors rounded-b-lg"
+                >
+                  LOAD_MORE_RECORDS...
+                </a>
+              </div>
+
+              <div
+                class="mt-6 p-4 rounded-lg bg-blue-900/10 border border-blue-500/20 text-xs font-mono text-blue-300"
+              >
+                <div class="flex justify-between mb-2">
+                  <span>SYSTEM_MEMORY</span>
+                  <span>32%</span>
+                </div>
+                <div
+                  class="w-full bg-gray-800 h-1 rounded-full overflow-hidden"
+                >
+                  <div class="bg-blue-500 h-full w-[32%]"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
     <Footer />
-
-    <script>
-      // Recherche
-      const searchInput = document.getElementById(
-        "search-input",
-      ) as HTMLInputElement;
-      const articles = document.querySelectorAll(
-        ".article-card",
-      ) as NodeListOf<HTMLElement>;
-      const filterBtns = document.querySelectorAll(
-        ".filter-btn",
-      ) as NodeListOf<HTMLButtonElement>;
-
-      // Fonction de recherche
-      if (searchInput) {
-        searchInput.addEventListener("input", (e) => {
-          const query = (e.target as HTMLInputElement).value.toLowerCase();
-
-          articles.forEach((article) => {
-            const title = article.dataset.title || "";
-            const excerpt = article.dataset.excerpt || "";
-
-            if (
-              title.includes(query) ||
-              excerpt.includes(query) ||
-              query === ""
-            ) {
-              article.style.display = "";
-            } else {
-              article.style.display = "none";
-            }
-          });
-        });
-      }
-
-      // Fonction de filtrage par catégorie
-      filterBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const selectedCategory = btn.dataset.category || "";
-
-          // Mise à jour des styles des boutons
-          filterBtns.forEach((b) => {
-            b.classList.remove(
-              "active",
-              "bg-[#00D9A3]/10",
-              "border-[#00D9A3]",
-              "text-[#00D9A3]",
-            );
-            b.classList.add("bg-[#161b22]", "border-gray-800", "text-gray-400");
-          });
-
-          btn.classList.add(
-            "active",
-            "bg-[#00D9A3]/10",
-            "border-[#00D9A3]",
-            "text-[#00D9A3]",
-          );
-          btn.classList.remove(
-            "bg-[#161b22]",
-            "border-gray-800",
-            "text-gray-400",
-          );
-
-          // Filtrage des articles
-          articles.forEach((article) => {
-            const articleCategory = article.dataset.category || "";
-
-            if (
-              selectedCategory === "/all" ||
-              articleCategory.includes(selectedCategory.replace("/", ""))
-            ) {
-              article.style.display = "";
-            } else {
-              article.style.display = "none";
-            }
-          });
-
-          // Réinitialiser la recherche
-          if (searchInput) searchInput.value = "";
-        });
-      });
-    </script>
   </body>
 </html>
