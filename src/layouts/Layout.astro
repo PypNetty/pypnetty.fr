@@ -18,6 +18,19 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const pathname = Astro.url.pathname;
+
+const navItems = [
+  { href: "/", label: "Home", prefix: "[~]" },
+  { href: "/projects", label: "Projets", prefix: "[./]" },
+  { href: "/blog", label: "Blog", prefix: "[~/]" },
+  { href: "/about", label: "Profile", prefix: "[?]" },
+];
+
+const isActivePath = (href: string) => {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+};
 ---
 
 <!doctype html>
@@ -75,16 +88,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
               >
             </a>
             <div class="flex gap-6 text-xs font-mono text-gray-400">
-              <a href="/" class="hover:text-white transition-colors">[~] Home</a
-              >
-              <span class="text-[#00D9A3] pointer-events-none">[*] Projets</span
-              >
-              <a href="/blog" class="hover:text-white transition-colors"
-                >[~/] Blog</a
-              >
-              <a href="/about" class="hover:text-white transition-colors"
-                >[?] À propos</a
-              >
+              {
+                navItems.map((item) =>
+                  isActivePath(item.href) ? (
+                    <span class="text-[#00D9A3] pointer-events-none">
+                      [*] {item.label}
+                    </span>
+                  ) : (
+                    <a
+                      href={item.href}
+                      class="hover:text-white transition-colors"
+                    >
+                      {item.prefix} {item.label}
+                    </a>
+                  ),
+                )
+              }
             </div>
           </div>
         </div>
