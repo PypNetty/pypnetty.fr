@@ -9,7 +9,10 @@ const blogCollection = defineCollection({
     category: z.string(),
     excerpt: z.string(),
     tags: z.array(z.string()).optional(),
-    type: z.enum(["kezako", "deep-dive", "saga"]).optional().default("kezako"),
+    type: z
+      .enum(["kezako", "deep-dive", "saga", "series"])
+      .optional()
+      .default("kezako"),
     series: z.string().optional(),
     order: z.number().optional(),
     image: z.string().optional(),
