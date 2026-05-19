@@ -94,6 +94,17 @@ body { min-height: 100vh; }
   --tw-prose-td-borders:    var(--color-edge);
 }
 
+.prose p {
+  margin-top: 0;
+  margin-bottom: 1.5em;
+}
+
+.prose h2,
+.prose h3 {
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+}
+
 .prose pre { border: 1px solid var(--color-edge); border-radius: 4px; }
 
 .prose code:not(pre code) {
