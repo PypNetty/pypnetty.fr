@@ -1,0 +1,108 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const projects = [
+  {
+    name: "pypnetty.fr",
+    description: "Ce site. Astro + Tailwind, déployé sur Cloudflare Pages.",
+    tags: ["Astro", "Tailwind", "Cloudflare"],
+    links: [
+      { label: "github", href: "https://github.com/pypnetty/pypnetty.fr" },
+    ],
+    status: "publié",
+  },
+  {
+    name: "Linux From Scratch",
+    description:
+      "Construction d'un système Linux complet à partir des sources. Toolchain croisée, glibc, noyau — chaque composant compilé et compris avant d'être intégré.",
+    tags: ["Linux", "C", "Toolchain", "Kernel"],
+    links: [
+      { label: "article", href: "/blog/lfs-part-1" },
+      { label: "github", href: "https://github.com/PypNetty/LFS" },
+      { label: "source", href: "https://fr.linuxfromscratch.org" },
+    ],
+    status: "en cours",
+  },
+  {
+    name: "Kyernal-Os-Minimal",
+    description:
+      "Noyau bare-metal en Rust, basé sur les travaux de Philipp Oppermann. Gestion mémoire, interruptions, processus — le bas de la pile, sans filet.",
+    tags: ["Rust", "Bare-metal", "x86_64", "OS"],
+    links: [
+      { label: "github", href: "https://github.com/PypNetty/kyernal-os-mini" },
+      { label: "source", href: "https://os.phil-opp.com/" },
+    ],
+    status: "en cours",
+  },
+];
+---
+
+<Layout
+  title="Projets — PypNetty"
+  description="Projets open-source et expérimentations."
+>
+  <div class="max-w-3xl mx-auto px-6 pt-16 pb-32">
+    <header class="py-12 border-b border-edge mb-12">
+      <p class="font-mono text-xs text-ghost mb-3 tracking-widest uppercase">
+        ~/projects
+      </p>
+      <h1 class="text-3xl font-semibold tracking-tight">Projets</h1>
+    </header>
+
+    <ul class="divide-y divide-edge">
+      {
+        projects.map((project) => (
+          <li class="py-6">
+            <div class="flex items-baseline gap-3 mb-1">
+              <h2 class="text-sm font-medium text-fg">{project.name}</h2>
+              {project.status === "en cours" && (
+                <span class="font-mono text-[10px] text-ghost">en cours</span>
+              )}
+            </div>
+
+            <p class="text-sm text-subtle leading-relaxed mb-3">
+              {project.description}
+            </p>
+
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3">
+              {project.links.map((link) => (
+                <a
+                  href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : "_self"}
+                  rel={
+                    link.href.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
+                  class="font-mono text-[11px] text-subtle hover:text-fg transition-colors"
+                >
+                  {link.label} →
+                </a>
+              ))}
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span class="font-mono text-[10px] text-ghost border border-edge px-1.5 py-0.5">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="font-mono text-xs text-ghost mt-12">
+      D'autres projets arrivent. En attendant :{" "}
+      <a
+        href="https://github.com/pypnetty"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-fg transition-colors"
+      >
+        github.com/pypnetty →
+      </a>
+    </p>
+  </div>
+</Layout>

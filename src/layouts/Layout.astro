@@ -1,0 +1,163 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = "DevOps, Cloud-Native et SRE — par PypNetty.",
+  image,
+  noindex = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteTitle = title.includes("PypNetty") ? title : `${title} — PypNetty`;
+
+const navLinks = [
+  { href: "/blog",     label: "blog"     },
+  { href: "/projects", label: "projects" },
+  { href: "/about",    label: "about"    },
+  { href: "/contact",  label: "contact"  },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <title>{siteTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="alternate" type="application/rss+xml" title="PypNetty" href="/rss.xml" />
+
+    <!-- Prevent flash: read localStorage before first paint -->
+    <script is:inline>
+      (function () {
+        const saved = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = saved ?? (prefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+  </head>
+
+  <body class="bg-base text-fg">
+    <!-- Accent line -->
+    <div class="fixed top-0 inset-x-0 z-[60] h-[2px] bg-accent"></div>
+
+    <!-- Nav -->
+    <header class="fixed top-[2px] inset-x-0 z-50 border-b border-edge bg-base/90 backdrop-blur-sm">
+      <nav class="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
+        <a
+          href="/"
+          class="font-mono text-sm font-medium tracking-tight hover:opacity-60 transition-opacity"
+        >
+          pypnetty
+        </a>
+
+        <div class="flex items-center gap-6">
+          <ul class="flex items-center gap-6">
+            {navLinks.map(({ href, label }) => {
+              const isActive =
+                href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+              return (
+                <li>
+                  <a
+                    href={href}
+                    class={[
+                      "font-mono text-xs transition-colors",
+                      isActive ? "text-fg" : "text-ghost hover:text-fg",
+                    ].join(" ")}
+                  >
+                    {label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+
+          <!-- Theme toggle -->
+          <button
+            id="theme-toggle"
+            aria-label="Changer de thème"
+            class="text-ghost hover:text-fg transition-colors"
+          >
+            <!-- Sun (shown in dark mode) -->
+            <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+            <!-- Moon (shown in light mode) -->
+            <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="pt-[58px]">
+      <slot />
+    </main>
+
+    <footer class="border-t border-edge mt-32">
+      <div class="max-w-3xl mx-auto px-6 py-8 flex items-center justify-between">
+        <span class="font-mono text-xs text-ghost">
+          © {new Date().getFullYear()} PypNetty
+        </span>
+        <div class="flex items-center gap-4">
+          <a href="https://github.com/pypnetty" target="_blank" rel="noopener noreferrer"
+             class="font-mono text-xs text-ghost hover:text-fg transition-colors">github</a>
+          <a href="https://twitter.com/PypNetty0" target="_blank" rel="noopener noreferrer"
+             class="font-mono text-xs text-ghost hover:text-fg transition-colors">twitter</a>
+          <a href="/rss.xml" class="font-mono text-xs text-ghost hover:text-fg transition-colors">rss</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<script>
+  const html    = document.documentElement;
+  const btn     = document.getElementById("theme-toggle")!;
+  const iconSun = document.getElementById("icon-sun")!;
+  const iconMoon = document.getElementById("icon-moon")!;
+
+  function applyTheme(theme: string) {
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    iconSun.style.display  = theme === "dark"  ? "block" : "none";
+    iconMoon.style.display = theme === "light" ? "block" : "none";
+  }
+
+  // Init icon state
+  applyTheme(html.getAttribute("data-theme") ?? "dark");
+
+  btn.addEventListener("click", () => {
+    const current = html.getAttribute("data-theme") ?? "dark";
+    applyTheme(current === "dark" ? "light" : "dark");
+  });
+</script>

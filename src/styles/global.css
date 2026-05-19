@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/* ── Design tokens (dark by default) ─────────────────────── */
+@theme {
+  --color-base:    #090909;
+  --color-surface: #111111;
+  --color-edge:    #1c1c1c;
+  --color-fg:      #e8e5df;
+  --color-fg2:     #c8c5bf;
+  --color-quiet:   #888888;
+  --color-dim:     #666666;
+  --color-subtle:  #555555;
+  --color-ghost:   #333333;
+  --color-accent:  #c9a96e;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ── Light theme override ─────────────────────────────────── */
+[data-theme="light"] {
+  --color-base:    #fafaf8;
+  --color-surface: #f2f0ed;
+  --color-edge:    #e2dfd8;
+  --color-fg:      #1a1918;
+  --color-fg2:     #3d3b38;
+  --color-quiet:   #777777;
+  --color-dim:     #999999;
+  --color-subtle:  #aaaaaa;
+  --color-ghost:   #cccccc;
+  --color-accent:  #a07840;
+}
+
+/* ── System preference fallback ───────────────────────────── */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-base:    #fafaf8;
+    --color-surface: #f2f0ed;
+    --color-edge:    #e2dfd8;
+    --color-fg:      #1a1918;
+    --color-fg2:     #3d3b38;
+    --color-quiet:   #777777;
+    --color-dim:     #999999;
+    --color-subtle:  #aaaaaa;
+    --color-ghost:   #cccccc;
+    --color-accent:  #a07840;
+  }
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+html {
+  background-color: var(--color-base);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body { min-height: 100vh; }
+
+::selection {
+  background: var(--color-fg);
+  color: var(--color-base);
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--color-base); }
+::-webkit-scrollbar-thumb { background: var(--color-edge); border-radius: 2px; }
+
+/* ── Dot-grid background ──────────────────────────────────── */
+.dot-grid {
+  background-image: radial-gradient(circle, var(--color-edge) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ── Prose ────────────────────────────────────────────────── */
+.prose {
+  --tw-prose-body:          var(--color-fg2);
+  --tw-prose-headings:      var(--color-fg);
+  --tw-prose-lead:          var(--color-quiet);
+  --tw-prose-links:         var(--color-fg);
+  --tw-prose-bold:          var(--color-fg);
+  --tw-prose-counters:      var(--color-subtle);
+  --tw-prose-bullets:       var(--color-ghost);
+  --tw-prose-hr:            var(--color-edge);
+  --tw-prose-quotes:        var(--color-fg2);
+  --tw-prose-quote-borders: var(--color-edge);
+  --tw-prose-captions:      var(--color-subtle);
+  --tw-prose-code:          var(--color-fg);
+  --tw-prose-pre-code:      var(--color-fg2);
+  --tw-prose-pre-bg:        var(--color-surface);
+  --tw-prose-th-borders:    var(--color-edge);
+  --tw-prose-td-borders:    var(--color-edge);
+}
+
+.prose pre { border: 1px solid var(--color-edge); border-radius: 4px; }
+
+.prose code:not(pre code) {
+  background: var(--color-surface);
+  border: 1px solid var(--color-edge);
+  border-radius: 3px;
+  padding: 0.1em 0.4em;
+  font-size: 0.875em;
+}
+
+.prose code:not(pre code)::before,
+.prose code:not(pre code)::after { content: none; }
+
+.prose a {
+  text-decoration-color: var(--color-edge);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
+}
+.prose a:hover { text-decoration-color: var(--color-fg); }
+
+.prose blockquote { border-left-color: var(--color-accent); font-style: normal; }
+
+.prose h1, .prose h2, .prose h3 { font-weight: 600; letter-spacing: -0.02em; }

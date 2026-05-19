@@ -1,0 +1,18 @@
+---
+interface Props {
+  title?: string;
+  defaultHostname?: string;
+}
+
+const { title = "main.go" } = Astro.props;
+---
+
+<div class="my-6 border border-edge font-mono text-xs overflow-hidden">
+  <div class="flex items-center justify-between px-4 py-2 bg-surface border-b border-edge">
+    <span class="text-subtle">{title}</span>
+    <span class="text-ghost">go</span>
+  </div>
+  <div class="px-4 py-3 text-ghost italic">
+    — extrait interactif non disponible en mode statique —
+  </div>
+</div>

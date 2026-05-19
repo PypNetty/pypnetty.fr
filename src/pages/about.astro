@@ -1,0 +1,104 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="À propos — PypNetty"
+  description="Qui je suis, ce que je fais, pourquoi j'écris."
+>
+  <div class="max-w-3xl mx-auto px-6 pt-16 pb-32">
+    <header class="py-12 border-b border-edge mb-12">
+      <p class="font-mono text-xs text-ghost mb-3 tracking-widest uppercase">
+        whoami
+      </p>
+      <h1 class="text-3xl font-semibold tracking-tight">À propos</h1>
+    </header>
+
+    <div class="space-y-10 text-quiet leading-relaxed">
+      <section>
+        <p class="text-fg text-lg mb-4">
+          Je suis PypNetty Platform Engineer. Je construis des systèmes bas
+          niveau parce que l'abstraction a un prix que je refuse de payer.
+        </p>
+        <p>
+          En ce moment : un noyau bare-metal en Rust, un système Linux construit
+          à partir des sources, et au bout du chemin, KyernalOs, un noyau custom
+          pour faire tourner mes microVMs avec Kyerkle et Kyctl.
+        </p>
+      </section>
+
+      <section>
+        <p class="font-mono text-xs text-ghost mb-4 tracking-widest uppercase">
+          Ce que je construis
+        </p>
+        <ul class="space-y-2 font-mono text-sm text-dim">
+          <li class="flex gap-3">
+            <span class="text-ghost">→</span> KyernalOs: Noyau minimaliste pour microVMs
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ghost">→</span> Kyerkle: Stockage post-quantique content-addressable
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ghost">→</span> Kyctl : CLI d'orchestration, dans l'esprit
+            de kubectl
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ghost">→</span> Linux From Scratch: Comprendre avant
+            de construire
+          </li>
+          <li class="flex gap-3">
+            <span class="text-ghost">→</span> Infrastructure Proxmox, Netbird, Zitadel:
+            Le métal sous les projets
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <p class="font-mono text-xs text-ghost mb-4 tracking-widest uppercase">
+          Pourquoi ce blog
+        </p>
+        <p class="mb-4">
+          Ce blog est mon carnet de notes public. Je documente mes projets, je
+          partage ce que j'apprends, je construis une trace de mon parcours.
+          Écrire me force aussi à formaliser mes idées, poser les choses noir
+          sur blanc avant de coder clarifie souvent ce que le code devra faire.
+        </p>
+        <p>
+          Les articles suivent mes projets en temps réel, pas des tutoriels
+          réchauffés, pas de contenu générique. Une saga pour les projets longs,
+          des deep-dives quand un concept mérite qu'on s'y arrête, des kezakos
+          pour les explications courtes. Attendez-vous à des brouillons, des
+          digressions, et des idées en cours de formation.
+        </p>
+      </section>
+
+      <section>
+        <p class="font-mono text-xs text-ghost mb-4 tracking-widest uppercase">
+          Contact
+        </p>
+        <div class="flex flex-col gap-2 font-mono text-sm">
+          <a
+            href="https://github.com/pypnetty"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-subtle hover:text-fg transition-colors"
+            >github.com/pypnetty →</a
+          >
+          <a
+            href="https://twitter.com/PypNetty0"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-subtle hover:text-fg transition-colors"
+            >twitter @PypNetty0 →</a
+          >
+          <a
+            href="https://linkedin.com/in/pypnetty"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-subtle hover:text-fg transition-colors">linkedin →</a
+          >
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,20 @@
+---
+interface Props {
+  app?: string;
+  status?: string;
+  cause?: string;
+}
+
+const { app, status, cause } = Astro.props;
+---
+
+<div class="my-6 border border-edge font-mono text-xs">
+  <div class="px-4 py-2 bg-surface border-b border-edge">
+    <span class="text-subtle tracking-widest uppercase">alert</span>
+  </div>
+  <div class="px-4 py-3 space-y-1 text-ghost">
+    {app    && <div>app: <span class="text-dim">{app}</span></div>}
+    {status && <div>status: <span class="text-dim">{status}</span></div>}
+    {cause  && <div>cause: <span class="text-dim">{cause}</span></div>}
+  </div>
+</div>
