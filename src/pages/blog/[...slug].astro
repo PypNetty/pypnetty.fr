@@ -28,58 +28,76 @@ const { Content } = await render(entry);
   image={entry.data.image}
 >
   <div class="max-w-3xl mx-auto px-6 pt-16 pb-32">
-
     <!-- Breadcrumb -->
     <div class="flex items-center gap-2 font-mono text-xs mb-12">
-      <a href="/blog" class="text-accent hover:opacity-70 transition-opacity">blog</a>
+      <a href="/blog" class="text-accent hover:opacity-70 transition-opacity"
+        >blog</a
+      >
       <span class="text-ghost">/</span>
       <span class="text-ghost">{entry.id}</span>
     </div>
 
     <!-- Header -->
     <header class="border-b border-edge pb-12 mb-12">
-      <div class="flex items-center gap-3 font-mono text-[11px] text-ghost mb-6">
+      <div
+        class="flex items-center gap-3 font-mono text-[11px] text-ghost mb-6"
+      >
         <span>{entry.data.date}</span>
-        {entry.data.category && (
-          <>
-            <span>·</span>
-            <span class="border border-edge px-1.5 py-0.5">{entry.data.category}</span>
-          </>
-        )}
-        {entry.data.readTime && (
-          <>
-            <span>·</span>
-            <span>{entry.data.readTime}</span>
-          </>
-        )}
+        {
+          entry.data.category && (
+            <>
+              <span>·</span>
+              <span class="border border-edge px-1.5 py-0.5">
+                {entry.data.category}
+              </span>
+            </>
+          )
+        }
+        {
+          entry.data.readTime && (
+            <>
+              <span>·</span>
+              <span>{entry.data.readTime}</span>
+            </>
+          )
+        }
       </div>
 
-      <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight mb-4">
+      <h1
+        class="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight mb-4"
+      >
         {entry.data.title}
       </h1>
 
       <p class="text-dim leading-relaxed">{entry.data.excerpt}</p>
 
-      {entry.data.image && (
-        <div class="mt-8 border border-edge overflow-hidden">
-          <img
-            src={entry.data.image}
-            alt={`Illustration — ${entry.data.title}`}
-            class="w-full object-cover"
-            loading="lazy"
-          />
-        </div>
-      )}
+      {
+        entry.data.image && (
+          <div class="mt-8 border border-edge overflow-hidden">
+            <img
+              src={entry.data.image}
+              alt={`Illustration — ${entry.data.title}`}
+              class="w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        )
+      }
     </header>
 
     <!-- Content -->
-    <article class="prose prose-invert max-w-none">
+    <article
+      class="prose prose-invert max-w-none prose-p:mb-5 prose-headings:mt-10"
+    >
       <Content />
     </article>
 
     <!-- Footer nav -->
     <div class="mt-20 pt-8 border-t border-edge">
-      <a href="/blog" class="font-mono text-xs text-ghost hover:text-fg transition-colors">
+      <a
+        href="/blog"
+        class="font-mono text-xs text-ghost hover:text-fg transition-colors"
+      >
         ← tous les articles
       </a>
     </div>
