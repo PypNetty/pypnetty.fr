@@ -1,0 +1,143 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("blog", ({ data }) => {
+  if (import.meta.env.DEV) return true;
+  return !data.draft && new Date(data.date) <= new Date();
+});
+
+// Articles de la série principale
+const seriesPosts = allPosts
+  .filter((p) => p.data.type === "series" && p.data.series === "De zéro au noyau")
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+// Étapes futures sans article
+const futureSteps: {
+  title: string;
+  subseries?: string;
+  desc: string;
+  substeps?: string[];
+}[] = [
+  {
+    title: "Linux From Scratch",
+    subseries: "LFS",
+    desc: "Construire un système Linux complet à partir des sources.",
+    substeps: [
+      "Toolchain croisée",
+      "Headers du noyau",
+      "Glibc",
+      "Binutils et GCC",
+      "Système de base",
+      "Configuration du noyau",
+      "Bootloader",
+    ],
+  },
+  {
+    title: "Writing an OS in Rust",
+    desc: "Noyau bare-metal. Gestion mémoire, interruptions, processus.",
+  },
+  {
+    title: "KyernalOs",
+    desc: "Noyau minimaliste pour microVMs.",
+  },
+  {
+    title: "Kyernal — Runtime Selector",
+    desc: "Orchestrateur intelligent du choix de runtime. Firecracker, Cloud Hypervisor, QEMU.",
+  },
+  {
+    title: "Kyerkle",
+    desc: "Stockage post-quantique content-addressable. BLAKE3, FastCDC, ML-DSA.",
+  },
+  {
+    title: "Kyctl",
+    desc: "CLI d'orchestration. Dans l'esprit de kubectl.",
+  },
+];
+
+// On mappe les articles publiés sur les étapes futures par titre
+const publishedTitles = new Set(seriesPosts.map((p) => p.data.subseries ?? p.data.title));
+---
+
+<Layout
+  title="Roadmap — PypNetty"
+  description="L'état d'avancement de la série De zéro au noyau."
+>
+  <div class="max-w-3xl mx-auto px-6 pt-16 pb-32">
+    <header class="py-12 border-b border-edge mb-16">
+      <p class="font-mono text-xs text-ghost mb-3 tracking-widest uppercase">~/roadmap</p>
+      <h1 class="text-3xl font-semibold tracking-tight mb-3">Roadmap</h1>
+      <p class="text-quiet text-sm">
+        Série <span class="font-mono text-accent">De zéro au noyau</span> — mise à jour au fil des articles.
+      </p>
+    </header>
+
+    <!-- Articles publiés -->
+    {seriesPosts.length > 0 && (
+      <section class="mb-16">
+        <ul class="space-y-0">
+          {seriesPosts.map((post) => (
+            <li class="flex gap-6 group">
+              <!-- Timeline -->
+              <div class="flex flex-col items-center">
+                <div class="w-2 h-2 rounded-full bg-accent mt-1.5 shrink-0"></div>
+                <div class="w-px flex-1 bg-edge mt-1"></div>
+              </div>
+              <!-- Content -->
+              <div class="pb-10 min-w-0">
+                <div class="flex items-baseline gap-3 mb-1">
+                  <a
+                    href={`/blog/${post.id}`}
+                    class="text-sm font-medium text-fg hover:text-accent transition-colors"
+                  >
+                    {post.data.title}
+                  </a>
+                  <span class="font-mono text-[10px] text-accent border border-accent/30 px-1.5 py-0.5">
+                    publié
+                  </span>
+                </div>
+                <p class="font-mono text-[11px] text-ghost">{post.data.date}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- Étapes futures -->
+    <section>
+      <ul class="space-y-0">
+        {futureSteps.map((step, i) => {
+          const isLast = i === futureSteps.length - 1;
+          return (
+            <li class="flex gap-6">
+              <div class="flex flex-col items-center">
+                <div class="w-2 h-2 rounded-full bg-edge border border-edge mt-1.5 shrink-0"></div>
+                {!isLast && <div class="w-px flex-1 bg-edge mt-1"></div>}
+              </div>
+              <div class="pb-10 min-w-0">
+                <div class="flex items-baseline gap-3 mb-1">
+                  <span class="text-sm font-medium text-fg2">{step.title}</span>
+                  <span class="font-mono text-[10px] text-ghost border border-edge px-1.5 py-0.5">
+                    à venir
+                  </span>
+                </div>
+                <p class="font-mono text-[11px] text-ghost mb-3">{step.desc}</p>
+                {step.substeps && (
+                  <ul class="space-y-1 pl-3 border-l border-edge">
+                    {step.substeps.map((sub) => (
+                      <li class="font-mono text-[11px] text-ghost flex gap-2">
+                        <span class="text-edge">·</span>
+                        {sub}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  </div>
+</Layout>
