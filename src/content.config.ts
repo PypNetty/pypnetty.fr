@@ -14,7 +14,12 @@ const blogCollection = defineCollection({
       .optional()
       .default("kezako"),
     series: z.string().optional(),
+    subseries: z.string().optional(),
     order: z.number().optional(),
+    status: z
+      .enum(["publié", "en cours", "à venir"])
+      .optional()
+      .default("publié"),
     image: z.string().optional(),
     readTime: z.string().optional(),
     fileType: z.string().optional(),
