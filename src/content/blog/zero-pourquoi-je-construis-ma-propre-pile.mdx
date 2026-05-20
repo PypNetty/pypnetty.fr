@@ -1,0 +1,69 @@
+---
+title: "Pourquoi je construis ma propre pile"
+type: "series"
+series: "De zéro au noyau"
+subseries: "zero"
+order: 0
+date: "2026-05-19"
+category: "Systems"
+draft: false
+status: "publié"
+excerpt: "Tout a commencé avec une CVE. Ce premier article explique pourquoi j'ai décidé de tout construire, de zéro."
+tags: ["Rust", "Linux", "OS", "Philosophie"]
+---
+
+import Term from "../../components/Term.tsx";
+
+Le 29 avril 2026, je tombe sur la <Term client:load def="Common Vulnerabilities and Exposures. Un identifiant unique attribué à une faille de sécurité connue." extHref="https://www.cve.org/CVERecord?id=CVE-2026-31431">CVE-2026-31431</Term>.
+
+Je suis dev de base. Pas chercheur en sécurité, pas spécialiste noyau. Mais je lis les titres, et celui-là me fait cliquer : _"Copy Fail"_. <Term client:load def="Common Vulnerability Scoring System. Une note de 0 à 10 qui mesure la sévérité d'une faille. 7.8 est considéré comme élevé." extHref="https://www.first.org/cvss/">CVSS</Term> 7.8. Escalade de privilèges locale dans le noyau Linux.
+
+Je commence à lire. Je tombe sur des mots que je ne comprends pas. <Term client:load def="Module du noyau Linux qui expose l'interface AEAD (Authenticated Encryption with Associated Data) du crypto API à l'espace utilisateur." extHref="https://www.kernel.org/doc/html/latest/crypto/userspace-if.html">algif_aead</Term>. <Term client:load def="Famille de sockets Linux qui permet aux applications en espace utilisateur d'accéder aux primitives cryptographiques du noyau." extHref="https://www.kernel.org/doc/html/latest/crypto/userspace-if.html">AF_ALG</Term>. <Term client:load def="Structure de données utilisée par le noyau pour décrire des zones mémoire non-contiguës à traiter comme un flux continu, notamment pour les opérations DMA et crypto." extHref="https://www.kernel.org/doc/html/latest/core-api/dma-api.html">scatterlist</Term>. <Term client:load def="Appel système Linux qui transfère des données entre descripteurs de fichiers sans les copier en espace utilisateur, directement dans le page cache." extHref="https://man7.org/linux/man-pages/man2/splice.2.html">splice()</Term>.
+
+Je cherche. Et plus je cherche, plus je descends. Une couche après l'autre.
+
+La faille en elle-même est presque élégante dans sa banalité. En 2017, quelqu'un a introduit une optimisation : placer des pages du <Term client:load def="Zone mémoire gérée par le noyau qui met en cache les données lues depuis le disque pour éviter des accès répétés. Modifier une page du page cache, c'est modifier directement ce que le noyau croit être sur le disque.">page cache</Term> directement dans une <Term client:load def="Structure de données utilisée par le noyau pour décrire des zones mémoire non-contiguës à traiter comme un flux continu, notamment pour les opérations DMA et crypto." extHref="https://www.kernel.org/doc/html/latest/core-api/dma-api.html">scatterlist</Term> en écriture, pour éviter une copie. C'est raisonnable. C'est une micro-optimisation dans un sous-système de cryptographie. Le commit est passé, personne n'a vu de problème.
+
+Neuf ans plus tard, en chaînant une opération <Term client:load def="Famille de sockets Linux qui permet aux applications en espace utilisateur d'accéder aux primitives cryptographiques du noyau." extHref="https://www.kernel.org/doc/html/latest/crypto/userspace-if.html">AF_ALG</Term> avec <Term client:load def="Appel système Linux qui transfère des données entre descripteurs de fichiers sans les copier en espace utilisateur, directement dans le page cache." extHref="https://man7.org/linux/man-pages/man2/splice.2.html">splice()</Term>, un utilisateur non privilégié peut faire un write contrôlé de 4 octets sur n'importe quelle page du <Term client:load def="Zone mémoire gérée par le noyau qui met en cache les données lues depuis le disque pour éviter des accès répétés.">page cache</Term>. En ciblant un binaire <Term client:load def="Binaire dont le bit setuid est activé. Quand il s'exécute, il prend les permissions de son propriétaire (souvent root) plutôt que celles de l'utilisateur qui le lance." extHref="https://man7.org/linux/man-pages/man2/setuid.2.html">setuid</Term> comme `/usr/bin/su`, il obtient un shell root.
+
+Le fix, commité le 11 mai 2026, c'est un revert. Neuf ans d'optimisation, supprimés en un commit.
+
+Ce moment où je réalise que je ne suis pas maître de mon OS.
+
+## La méfiance que j'avais déjà
+
+C'est une position philosophique autant qu'une gêne viscérale. Cette sensation de travailler sur quelque chose qui tient debout par des abstractions de plus en plus hautes, et de ne jamais vraiment savoir ce qu'il y a dessous.
+
+CVE-2026-31431 n'a pas créé cette méfiance. Elle lui a donné un exemple concret, documenté, public.
+
+Ce qui me frappe dans cette faille, c'est qu'elle est banale. Une optimisation locale, raisonnable au moment où elle a été écrite, avec des effets que personne n'avait tracés jusqu'au bout. Le noyau Linux est audité par des milliers de personnes depuis des décennies. Et une décision de 2017 est restée là, silencieuse, jusqu'en 2026.
+
+Je sais aussi que l'IA va accélérer tout ça. On va découvrir des failles tous les jours. Mes projets ne seront jamais aussi solides que ce que font les équipes qui maintiennent le noyau depuis des années. Je n'ai pas d'illusions là-dessus.
+
+Mais ce n'est pas le but.
+
+## Ce que j'ai décidé de faire
+
+Je veux construire. Pas pour faire mieux que Linux. Je n'aurais pas les ressources ni les années d'expérience des milliers de développeurs qui maintiennent le noyau. LFS ne va pas faire de moi un expert en C. Writing an OS in Rust ne va pas me rendre meilleur que les équipes qui font Firecracker ou Cloud Hypervisor.
+Je vais comprendre ce qui se passe en dessous. Et c'est exactement ce que je veux.
+Je veux construire ma propre abstraction, en sachant ce qu'elle cache.
+
+Parce que construire force à prendre des décisions que la documentation ne prend pas pour toi. Pourquoi cette syscall et pas une autre. Pourquoi cette structure mémoire. Pourquoi cette optimisation dans ce sous-système.
+
+La décision s'est posée en trois étapes.
+
+D'abord, <Term client:load def="Projet qui guide la construction d'un système Linux complet à partir des sources, sans distribution de base. Chaque composant est compilé et configuré manuellement." extHref="https://www.linuxfromscratch.org/">Linux From Scratch</Term>. Construire un système Linux complet à partir des sources : toolchain croisée, glibc, noyau, tout. Pas pour avoir un Linux personnalisé. Pour ne plus jamais regarder un système en me demandant ce qui le fait tenir debout.
+
+Ensuite, un noyau bare-metal en Rust. Les travaux de <Term client:load def="Développeur et auteur de la série 'Writing an OS in Rust', une référence pour apprendre le développement d'OS bas niveau en Rust." extHref="https://os.phil-opp.com/">Philipp Oppermann</Term>. Gestion mémoire, interruptions, processus. Le bas de la pile, sans filet.
+
+Et au bout : KyernalOs. Un noyau minimaliste pour faire tourner mes microVMs. Avec <Term client:load def="Système de stockage content-addressable avec signatures post-quantiques (ML-DSA) et chunking adaptatif (FastCDC). Chaque bloc est identifié par son contenu, pas son emplacement." extHref="https://github.com/PypNetty/kyerkle">Kyerkle</Term> pour le stockage, et <Term client:load def="CLI d'orchestration pour KyernalOs, dans l'esprit de kubectl. Permet de gérer les microVMs, les volumes Kyerkle et les ressources de l'écosystème Kyernal.">Kyctl</Term> pour orchestrer le tout.
+
+## Ce que cette série va documenter
+
+Cet article est le premier d'une très longue suite. Une suite qui ne prendra surement jamais fin.
+
+Ce n'est pas un tutoriel. C'est un journal. Chaque épisode documente une étape pendant que je la vis, les décisions, les erreurs, les détours. Je ne sais pas encore tout ce que je vais rencontrer, et c'est exactement pour ça que j'écris.
+
+Si tu cherches une explication propre et linéaire, tu trouveras mieux ailleurs. Si tu veux suivre quelqu'un qui descend dans les profondeurs parce qu'il n'arrive plus à s'en empêcher, tu es au bon endroit.
+
+L'épisode suivant commence avec LFS. Une toolchain croisée, un compilateur qui se compile lui-même, et beaucoup de questions sur ce qu'on prend pour acquis.
