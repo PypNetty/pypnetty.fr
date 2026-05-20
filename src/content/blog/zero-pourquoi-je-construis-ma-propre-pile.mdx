@@ -18,15 +18,21 @@ Le 29 avril 2026, je tombe sur la <Term client:load def="Common Vulnerabilities 
 
 Je suis dev de base. Pas chercheur en sécurité, pas spécialiste noyau. Mais je lis les titres, et celui-là me fait cliquer : _"Copy Fail"_. <Term client:load def="Common Vulnerability Scoring System. Une note de 0 à 10 qui mesure la sévérité d'une faille. 7.8 est considéré comme élevé." extHref="https://www.first.org/cvss/">CVSS</Term> 7.8. Escalade de privilèges locale dans le noyau Linux.
 
-Je commence à lire. Je tombe sur des mots que je ne comprends pas. <Term client:load def="Module du noyau Linux qui expose l'interface AEAD (Authenticated Encryption with Associated Data) du crypto API à l'espace utilisateur." extHref="https://www.kernel.org/doc/html/latest/crypto/userspace-if.html">algif_aead</Term>. <Term client:load def="Famille de sockets Linux qui permet aux applications en espace utilisateur d'accéder aux primitives cryptographiques du noyau." extHref="https://www.kernel.org/doc/html/latest/crypto/userspace-if.html">AF_ALG</Term>. <Term client:load def="Structure de données utilisée par le noyau pour décrire des zones mémoire non-contiguës à traiter comme un flux continu, notamment pour les opérations DMA et crypto." extHref="https://www.kernel.org/doc/html/latest/core-api/dma-api.html">scatterlist</Term>. <Term client:load def="Appel système Linux qui transfère des données entre descripteurs de fichiers sans les copier en espace utilisateur, directement dans le page cache." extHref="https://man7.org/linux/man-pages/man2/splice.2.html">splice()</Term>.
+Je commence à lire et je ne comprends pas la moitié. <Term client:load def="Module du noyau Linux qui expose l'interface AEAD (Authenticated Encryption with Associated Data) du crypto API à l'espace utilisateur." extHref="https://www.kernel.org/doc/html/latest/crypto/userspace-if.html">algif_aead</Term>. <Term client:load def="Famille de sockets Linux qui permet aux applications en espace utilisateur d'accéder aux primitives cryptographiques du noyau." extHref="https://www.kernel.org/doc/html/latest/crypto/userspace-if.html">AF_ALG</Term>. <Term client:load def="Structure de données utilisée par le noyau pour décrire des zones mémoire non-contiguës à traiter comme un flux continu, notamment pour les opérations DMA et crypto." extHref="https://www.kernel.org/doc/html/latest/core-api/dma-api.html">scatterlist</Term>. <Term client:load def="Appel système Linux qui transfère des données entre descripteurs de fichiers sans les copier en espace utilisateur, directement dans le page cache." extHref="https://man7.org/linux/man-pages/man2/splice.2.html">splice()</Term>.
 
-Je cherche. Et plus je cherche, plus je descends. Une couche après l'autre.
+Je cherche et plus je cherche, plus je descends... Une couche après l'autre.
 
-La faille en elle-même est presque élégante dans sa banalité. En 2017, quelqu'un a introduit une optimisation : placer des pages du <Term client:load def="Zone mémoire gérée par le noyau qui met en cache les données lues depuis le disque pour éviter des accès répétés. Modifier une page du page cache, c'est modifier directement ce que le noyau croit être sur le disque.">page cache</Term> directement dans une <Term client:load def="Structure de données utilisée par le noyau pour décrire des zones mémoire non-contiguës à traiter comme un flux continu, notamment pour les opérations DMA et crypto." extHref="https://www.kernel.org/doc/html/latest/core-api/dma-api.html">scatterlist</Term> en écriture, pour éviter une copie. C'est raisonnable. C'est une micro-optimisation dans un sous-système de cryptographie. Le commit est passé, personne n'a vu de problème.
+Ce qui est fascinant, c'est que la faille n'est pas un bug isolé. Trois décisions indépendantes qui, ensemble, créent quelque chose d'exploitable.
 
-Neuf ans plus tard, en chaînant une opération <Term client:load def="Famille de sockets Linux qui permet aux applications en espace utilisateur d'accéder aux primitives cryptographiques du noyau." extHref="https://www.kernel.org/doc/html/latest/crypto/userspace-if.html">AF_ALG</Term> avec <Term client:load def="Appel système Linux qui transfère des données entre descripteurs de fichiers sans les copier en espace utilisateur, directement dans le page cache." extHref="https://man7.org/linux/man-pages/man2/splice.2.html">splice()</Term>, un utilisateur non privilégié peut faire un write contrôlé de 4 octets sur n'importe quelle page du <Term client:load def="Zone mémoire gérée par le noyau qui met en cache les données lues depuis le disque pour éviter des accès répétés.">page cache</Term>. En ciblant un binaire <Term client:load def="Binaire dont le bit setuid est activé. Quand il s'exécute, il prend les permissions de son propriétaire (souvent root) plutôt que celles de l'utilisateur qui le lance." extHref="https://man7.org/linux/man-pages/man2/setuid.2.html">setuid</Term> comme `/usr/bin/su`, il obtient un shell root.
+2011 : un wrapper AEAD est introduit pour <Term client:load def="Protocole qui chiffre chaque paquet réseau individuellement. Très utilisé dans les VPNs pour sécuriser les communications." extHref="https://www.kernel.org/doc/html/latest/networking/ipsec.html">IPsec</Term>. Il déborde de 4 octets en dehors de sa zone mémoire lors du déchiffrement. C'est crade, mais totalement confiné dans le noyau. Aucun risque.
 
-Le fix, commité le 11 mai 2026, c'est un revert. Neuf ans d'optimisation, supprimés en un commit.
+2015 : les sockets <Term client:load def="Famille de sockets Linux qui permet aux applications en espace utilisateur d'accéder aux primitives cryptographiques du noyau." extHref="https://www.kernel.org/doc/html/latest/crypto/userspace-if.html">AF_ALG</Term> arrivent. Désormais, un processus non-privilégié peut accéder au sous-système crypto du noyau, y compris ce wrapper AEAD. On vient d'exposer vers l'extérieur un composant qui avait une petite bizarrerie interne.
+
+2017 : le commit `72548b093ee3`. Une optimisation dans `algif_aead.c`, les buffers d'entrée et de sortie sont fusionnés pour traiter les données en place. Ce débordement de 4 octets qui était inoffensif se retrouve maintenant dans des zones mémoire contrôlables depuis l'espace utilisateur. La faille est en place. Elle restera là, silencieuse, pendant neuf ans.
+
+Un socket <Term client:load def="Famille de sockets Linux qui permet aux applications en espace utilisateur d'accéder aux primitives cryptographiques du noyau." extHref="https://www.kernel.org/doc/html/latest/crypto/userspace-if.html">AF_ALG</Term> AEAD est ouvert. Le binaire `/usr/bin/su` est lu dans le <Term client:load def="Zone mémoire gérée par le noyau qui met en cache les données lues depuis le disque. Global au système, partagé par tous les processus et tous les conteneurs.">page cache</Term>. Grâce au débordement des 4 octets dans `algif_aead.c` et à <Term client:load def="Appel système Linux qui transfère des données entre descripteurs de fichiers sans les copier en espace utilisateur, directement dans le page cache." extHref="https://man7.org/linux/man-pages/man2/splice.2.html">splice()</Term>, l'exploit écrit des données contrôlées dans le page cache, par blocs de 4 octets, à l'offset précis du binaire en mémoire. La copie disque est intacte. Le noyau ne sait pas que le page cache a été altéré. Quand quelqu'un exécute `su`, le noyau sert la version corrompue depuis la RAM. `su` étant <Term client:load def="Bit de permission sur un fichier exécutable. Quand il est activé, le programme s'exécute avec les privilèges de son propriétaire (souvent root), pas ceux de l'utilisateur qui le lance. C'est le 's' dans '-rwsr-xr-x'." extHref="https://man7.org/linux/man-pages/man7/credentials.7.html">setuid</Term> root, le shell se lance en root.
+
+Le correctif principal arrive le 1er avril 2026 dans la branche de développement. Mais au moment de la divulgation publique, le 29 avril, les versions LTS du noyau utilisées par Debian, Red Hat, Ubuntu n'ont pas encore de patch. Les distributions apprennent l'existence de la faille en même temps que tout le monde, avec un PoC qui tourne déjà.
 
 Ce moment où je réalise que je ne suis pas maître de mon OS.
 
@@ -45,8 +51,15 @@ Mais ce n'est pas le but.
 ## Ce que j'ai décidé de faire
 
 Je veux construire. Pas pour faire mieux que Linux. Je n'aurais pas les ressources ni les années d'expérience des milliers de développeurs qui maintiennent le noyau. LFS ne va pas faire de moi un expert en C. Writing an OS in Rust ne va pas me rendre meilleur que les équipes qui font Firecracker ou Cloud Hypervisor.
+
 Je vais comprendre ce qui se passe en dessous. Et c'est exactement ce que je veux.
-Je veux construire ma propre abstraction, en sachant ce qu'elle cache.
+
+<div class="thought">
+  <p>
+    <strong>Je veux construire ma propre abstraction.</strong>
+  </p>
+  <p>En sachant exactement ce qu'elle cache.</p>
+</div>
 
 Parce que construire force à prendre des décisions que la documentation ne prend pas pour toi. Pourquoi cette syscall et pas une autre. Pourquoi cette structure mémoire. Pourquoi cette optimisation dans ce sous-système.
 
@@ -64,6 +77,9 @@ Cet article est le premier d'une très longue suite. Une suite qui ne prendra su
 
 Ce n'est pas un tutoriel. C'est un journal. Chaque épisode documente une étape pendant que je la vis, les décisions, les erreurs, les détours. Je ne sais pas encore tout ce que je vais rencontrer, et c'est exactement pour ça que j'écris.
 
-Si tu cherches une explication propre et linéaire, tu trouveras mieux ailleurs. Si tu veux suivre quelqu'un qui descend dans les profondeurs parce qu'il n'arrive plus à s'en empêcher, tu es au bon endroit.
+<p class="deep-line">
+  Si tu veux suivre quelqu'un qui descend dans les profondeurs parce qu'il
+  n'arrive plus à s'en empêcher, tu es au bon endroit.
+</p>
 
 L'épisode suivant commence avec LFS. Une toolchain croisée, un compilateur qui se compile lui-même, et beaucoup de questions sur ce qu'on prend pour acquis.
