@@ -3,47 +3,70 @@ import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 
+const TYPE_LABEL: Record<string, string> = {
+  kezako: "kezako",
+  "deep-dive": "deep-dive",
+};
+
 interface Props {
   entry: CollectionEntry<"blog">;
+  satellites?: CollectionEntry<"blog">[];
 }
 
 export async function getStaticPaths() {
+  const TYPE_ORDER: Record<string, number> = {
+    kezako: 0,
+    "deep-dive": 1,
+  };
+
+  function sortSatellites(
+    a: CollectionEntry<"blog">,
+    b: CollectionEntry<"blog">,
+  ) {
+    return (
+      (TYPE_ORDER[a.data.type ?? "kezako"] ?? 2) -
+      (TYPE_ORDER[b.data.type ?? "kezako"] ?? 2)
+    );
+  }
+
   const entries = await getCollection("blog", ({ data }) => {
     if (import.meta.env.DEV) return true;
     return !data.draft && new Date(data.date) <= new Date();
   });
-  return entries.map((entry) => ({
-    params: { slug: entry.id },
-    props: { entry },
-  }));
+
+  return await Promise.all(
+    entries.map(async (entry) => {
+      const satellites = entry.data.subseries
+        ? (
+            await getCollection("blog", ({ data }) => {
+              if (!import.meta.env.DEV && data.draft) return false;
+              return (
+                data.subseries === entry.data.subseries &&
+                (data.type === "kezako" || data.type === "deep-dive")
+              );
+            })
+          ).sort(sortSatellites)
+        : [];
+
+      return {
+        params: { slug: entry.id },
+        props: { entry, satellites },
+      };
+    }),
+  );
 }
 
-const { entry } = Astro.props;
+const { entry, satellites = [] } = Astro.props;
 const { Content } = await render(entry);
 
-// Articles satellites : kezakos et deep-dives avec le même subseries
-const satellites = entry.data.subseries
-  ? await getCollection("blog", ({ data }) => {
-      if (import.meta.env.DEV ? false : data.draft) return false;
-      return (
-        data.subseries === entry.data.subseries &&
-        (data.type === "kezako" || data.type === "deep-dive")
-      );
-    }).then((posts) =>
-      posts.sort((a, b) => {
-        const order: Record<string, number> = { kezako: 0, "deep-dive": 1 };
-        return (
-          (order[a.data.type ?? "kezako"] ?? 0) -
-          (order[b.data.type ?? "kezako"] ?? 0)
-        );
-      }),
-    )
-  : [];
-
-const typeLabel: Record<string, string> = {
-  kezako: "kezako",
-  "deep-dive": "deep-dive",
-};
+const sectionTitle =
+  satellites.length > 0
+    ? satellites.every((post) => post.data.type === "kezako")
+      ? "Kezako associés"
+      : satellites.every((post) => post.data.type === "deep-dive")
+        ? "Deep-Dives associés"
+        : "Pour aller plus loin"
+    : null;
 ---
 
 <Layout
@@ -120,6 +143,8 @@ const typeLabel: Record<string, string> = {
               alt={`Illustration — ${entry.data.title}`}
               class="w-full object-cover"
               loading="lazy"
+              width="800"
+              height="400"
             />
           </div>
         )
@@ -135,21 +160,22 @@ const typeLabel: Record<string, string> = {
 
     <!-- Articles satellites -->
     {
-      satellites.length > 0 && (
+      satellites.length > 0 && sectionTitle && (
         <section class="mt-20 pt-8 border-t border-edge">
           <p class="font-mono text-[10px] text-ghost tracking-widest uppercase mb-6">
-            Pour aller plus loin
+            {sectionTitle}
           </p>
           <ul class="divide-y divide-edge">
             {satellites.map((post) => (
               <li>
                 <a
                   href={`/blog/${post.id}`}
+                  aria-label={`Lire l'article "${post.data.title}" (${TYPE_LABEL[post.data.type ?? "kezako"]})`}
                   class="flex items-baseline justify-between gap-4 py-4 group"
                 >
                   <div class="flex items-baseline gap-3 min-w-0">
                     <span class="font-mono text-[10px] text-ghost shrink-0 w-16">
-                      {typeLabel[post.data.type ?? "kezako"]}
+                      {TYPE_LABEL[post.data.type ?? "kezako"]}
                     </span>
                     <span class="text-sm text-fg2 truncate group-hover:text-fg transition-colors">
                       {post.data.title}
